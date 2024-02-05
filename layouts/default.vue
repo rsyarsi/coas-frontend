@@ -12,7 +12,7 @@
       fixed
       app
       floating
-      styles="height: calc(100% - 2rem); top: 0px; max-height: calc(100% - 0px)"
+      styles="height: calc(100% - 2rem); top: 0px; max-height: calc(100% - 0px);"
     >
       <!-- src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&h=987&q=80" -->
       <!-- class="rounded ml-3 mt-4" -->
@@ -121,7 +121,7 @@
       </v-btn> -->
       <!-- <v-toolbar-title v-text="title" /> -->
       <v-spacer />
-      <v-col
+      <v-col class="d-none"
         align-self="center"
         :cols="searchLength ? '7' : '3'"
         :sm="searchLength ? '3' : '2'"
@@ -132,13 +132,13 @@
           :full-width="true"
           :hide-details="true"
           :height="`100%`"
-          :placeholder="searchLength ? 'Search' : ''"
           name="search"
           prepend-inner-icon="mdi-magnify"
-          maxlength="20"
+          maxlength="30"
           dense
-          solo
-          flat
+          outlined
+          single-line
+          density="compact"
           @focus="searchFocus"
           @focusout="searchFocus"
         >
@@ -283,12 +283,12 @@ export default {
             {
               icon: 'mdi-text-box-multiple',
               title: 'Grup Penilaian',
-              to: '#'
+              to: '/master-data/grup_penilaian'
             },
             {
               icon: 'mdi-text',
               title: 'Detail Penilaian',
-              to: '#'
+              to: '/master-data/penilaian'
             },
             {
               icon: 'mdi-doctor',

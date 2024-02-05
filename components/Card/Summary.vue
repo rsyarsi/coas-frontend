@@ -35,28 +35,28 @@ export default {
     return {
       items: [
         {
-          title: 'Users Summary',
+          title: 'Students Summary',
           summary: '5230',
           total: '+23% Up',
           color: 'green',
           icon: 'mdi-account-box-outline'
         },
         {
-          title: 'Sales Summary',
+          title: 'Students Summary',
           summary: '6424',
           total: '-3% Down',
           color: 'warning',
           icon: 'mdi-cart-plus'
         },
         {
-          title: 'Stock Summary',
+          title: 'Lecturers Summary',
           summary: '3920',
           total: '-10% Down',
           color: 'red',
           icon: 'mdi-chart-areaspline'
         },
         {
-          title: 'Views Summary',
+          title: 'Lecturers Summary',
           summary: '4124',
           total: '+50% Up',
           color: 'orange',

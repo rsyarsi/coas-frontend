@@ -6,7 +6,7 @@
         <v-row class="text-left">
           <v-col cols="12" md="6">
             <v-card>
-              <v-card-title tag="h2">Yearly Sales Summary</v-card-title>
+              <v-card-title tag="h2">Yearly Patients Summary</v-card-title>
               <v-card-subtitle>Data samples</v-card-subtitle>
               <v-card-text class="pl-0">
                 <v-row no-gutters>

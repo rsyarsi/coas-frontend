@@ -82,7 +82,17 @@ const DASHBOARD = {
     href: '/masterData/spesialis.vue',
     route: '/master-data/spesialis',
     url: '/master-data/spesialis'
-  }
+  },
+  MASTER_GRUP_PENILAIAN: {
+    href: '/masterData/grup_penilaian.vue',
+    route: '/master-data/grup_penilaian',
+    url: '/master-data/grup_penilaian'
+  },
+  MASTER_PENILAIAN: {
+    href: '/masterData/penilaian.vue',
+    route: '/master-data/penilaian',
+    url: '/master-data/penilaian'
+  },
 }
 
 // const API = {

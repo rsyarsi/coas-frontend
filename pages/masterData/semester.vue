@@ -4,18 +4,35 @@
     :headers="headers"
     :items="datas"
     sort-by="id"
-    class="elevation-1"
+    class="elevation-3"
   >
     <template v-slot:top>
       <v-toolbar flat>
+        <v-toolbar-title class="font-weight-bold">Master Data / Semester</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-spacer></v-spacer>
         <v-text-field
           v-model="search"
-          append-icon="mdi-magnify"
-          label="Pencarian"
+          prepend-inner-icon="mdi-magnify"
           single-line
           hide-details
+          dense
+          outlined
         ></v-text-field>
-        <v-spacer></v-spacer>
+            <v-btn
+              icon
+              color="primary"
+              class="mb-2"
+            >
+              <v-icon>mdi-file-import</v-icon>
+            </v-btn>
+            <v-btn
+              icon
+              color="primary"
+              class="mb-2"
+            >
+              <v-icon>mdi-file-export</v-icon>
+            </v-btn>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
