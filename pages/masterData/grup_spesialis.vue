@@ -41,8 +41,8 @@
                   </v-col>
                   <v-col>
                     <v-text-field
-                      v-model="editedItem.year"
-                      label="Tahun"
+                      v-model="editedItem.name"
+                      label="Nama"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -97,18 +97,18 @@ export default {
     dialogDelete: false,
     headers: [
       { text: 'ID', value: 'id', sortable: true },
-      { text: 'Tahun', value: 'year', sortable: true },
+      { text: 'Nama', value: 'name', sortable: true },
       { text: 'Aksi', value: 'actions', sortable: false }
     ],
     datas: [],
     editedIndex: -1,
     editedItem: {
       id: '',
-      year: 1990,
+      name: "",
     },
     defaultItem: {
       id: '',
-      year: 1990,
+      name: "",
     }
   }),
 
@@ -136,44 +136,12 @@ export default {
       this.datas = [
         {
           id: '3453534',
-          year: 2000,
+          name: "Gigi",
         },
         {
           id: '2342345234',
-          year: 1993,
+          name: "Bedah",
         },
-        {
-          id: '2342342',
-          year: 2010,
-        },
-        {
-          id: '2356161',
-          year: 2020,
-        },
-        {
-          id: '457223',
-          year: 2015,
-        },
-        {
-          id: '34513',
-          year: 2080,
-        },
-        {
-          id: '34161364',
-          year: 2018,
-        },
-        {
-          id: '3146124',
-          year: 2020,
-        },
-        {
-          id: '1235412',
-          year: 2053,
-        },
-        {
-          id: '1235125',
-          year: 2019,
-        }
       ]
     },
 

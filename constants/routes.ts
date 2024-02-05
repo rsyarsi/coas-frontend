@@ -72,6 +72,16 @@ const DASHBOARD = {
     href: '/masterData/semester.vue',
     route: '/master-data/semester',
     url: '/master-data/semester'
+  },
+  MASTER_GRUP_SPESIALIS: {
+    href: '/masterData/grup_spesialis.vue',
+    route: '/master-data/grup_spesialis',
+    url: '/master-data/grup_spesialis'
+  },
+  MASTER_SPESIALIS: {
+    href: '/masterData/spesialis.vue',
+    route: '/master-data/spesialis',
+    url: '/master-data/spesialis'
   }
 }
 

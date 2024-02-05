@@ -273,12 +273,12 @@ export default {
             {
               icon: 'mdi-account-group-outline',
               title: 'Grup Spesialis (ASM)',
-              to: '#'
+              to: '/master-data/grup_spesialis'
             },
             {
               icon: 'mdi-account',
               title: 'Spesialis (POLIKLINIK)',
-              to: '#'
+              to: '/master-data/spesialis'
             },
             {
               icon: 'mdi-text-box-multiple',
