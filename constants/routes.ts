@@ -68,7 +68,32 @@ const DASHBOARD = {
     route: '/master-data/tahun',
     url: '/master-data/tahun'
   },
-  PATIENT_LISTS: {
+  MASTER_SEMESTER: {
+    href: '/masterData/semester.vue',
+    route: '/master-data/semester',
+    url: '/master-data/semester'
+  },
+  MASTER_GRUP_SPESIALIS: {
+    href: '/masterData/grup_spesialis.vue',
+    route: '/master-data/grup_spesialis',
+    url: '/master-data/grup_spesialis'
+  },
+  MASTER_SPESIALIS: {
+    href: '/masterData/spesialis.vue',
+    route: '/master-data/spesialis',
+    url: '/master-data/spesialis'
+  },
+  MASTER_GRUP_PENILAIAN: {
+    href: '/masterData/grup_penilaian.vue',
+    route: '/master-data/grup_penilaian',
+    url: '/master-data/grup_penilaian'
+  },
+  MASTER_PENILAIAN: {
+    href: '/masterData/penilaian.vue',
+    route: '/master-data/penilaian',
+    url: '/master-data/penilaian'
+  },
+   PATIENT_LISTS: {
     href: '/transaction/students/patientlists.vue',
     route: '/transaction/patientlists',
     url: '/transaction/patientlists'

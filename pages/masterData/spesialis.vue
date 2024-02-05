@@ -8,7 +8,7 @@
   >
     <template v-slot:top>
       <v-toolbar flat>
-        <v-toolbar-title class="font-weight-bold">Master Data / Tahun</v-toolbar-title>
+        <v-toolbar-title class="font-weight-bold">Master Data / Spesialis</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
         <v-text-field
@@ -58,9 +58,24 @@
                   </v-col>
                   <v-col>
                     <v-text-field
-                      v-model="editedItem.year"
-                      label="Tahun"
+                      v-model="editedItem.spesialis"
+                      label="Nama"
                     ></v-text-field>
+                  </v-col>
+                  <v-col>
+                    <v-select
+                      v-model="editedItem.grup_spesialis"
+                      :items="['Gigi', 'Bedah']"
+                      label="Grup"
+                    ></v-select>
+                  </v-col>
+                  </v-row>
+                  <v-row>
+                  <v-col>
+                    <v-radio-group label="Status?" v-model="editedItem.status">
+                      <v-radio name="active" label="Tidak Aktif" :value="0"></v-radio>
+                      <v-radio name="active" label="Aktif" :value="1"></v-radio>                
+                  </v-radio-group>
                   </v-col>
                 </v-row>
               </v-container>
@@ -91,7 +106,10 @@
           </v-card>
         </v-dialog>
       </v-toolbar>
-    </template>
+    </template> 
+    <template v-slot:item.status="{ value }">
+        {{ value ? 'Aktif' : 'Tidak Aktif' }}
+    </template>  
     <template v-slot:item.actions="{ item }">
       <v-icon small color="success" class="mr-2" @click="editItem(item)"
         >mdi-pencil</v-icon
@@ -114,18 +132,24 @@ export default {
     dialogDelete: false,
     headers: [
       { text: 'ID', value: 'id', sortable: true },
-      { text: 'Tahun', value: 'year', sortable: true },
+      { text: 'Nama', value: 'spesialis', sortable: true },
+      { text: 'Grup', value: 'grup_spesialis', sortable: true },
+      { text: 'Status', value: 'status', sortable: true },
       { text: 'Aksi', value: 'actions', sortable: false }
     ],
     datas: [],
     editedIndex: -1,
     editedItem: {
       id: '',
-      year: 1990,
+      spesialis: "",
+      grup_spesialis: "",
+      status: 0,
     },
     defaultItem: {
       id: '',
-      year: 1990,
+      spesialis: "",
+      grup_spesialis: "",
+      status: 0,
     }
   }),
 
@@ -153,43 +177,63 @@ export default {
       this.datas = [
         {
           id: '3453534',
-          year: 2000,
+          spesialis: "Orthodonsia",
+          grup_spesialis: "Gigi",
+          status: 1,
         },
         {
           id: '2342345234',
-          year: 1993,
+          spesialis: "Pedodontia",
+          grup_spesialis: "Bedah",
+          status: 0,
         },
         {
           id: '2342342',
-          year: 2010,
+          spesialis: "Konservasi",
+          grup_spesialis: "Gigi",
+          status: 1,
         },
         {
           id: '2356161',
-          year: 2020,
+          spesialis: "Periodonsia",
+          grup_spesialis: "Bedah",
+          status: 1,
         },
         {
           id: '457223',
-          year: 2015,
+          spesialis: "Prosthodonsia",
+          grup_spesialis: "Gigi",
+          status: 0,
         },
         {
           id: '34513',
-          year: 2080,
+          spesialis: "Prosthodonsia",
+          grup_spesialis: "Gigi",
+          status: 0,
         },
         {
           id: '34161364',
-          year: 2018,
+          spesialis: "Periodonsia",
+          grup_spesialis: "Gigi",
+          status: 0,
         },
         {
           id: '3146124',
-          year: 2020,
+          spesialis: "Prosthodonsia",
+          grup_spesialis: "Bedah",
+          status: 1,
         },
         {
           id: '1235412',
-          year: 2053,
+          spesialis: "Pedodontia",
+          grup_spesialis: "Bedah",
+          status: 1,
         },
         {
           id: '1235125',
-          year: 2019,
+          spesialis: "Pedodontia",
+          grup_spesialis: "Gigi",
+          status: 1,
         }
       ]
     },

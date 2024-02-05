@@ -190,7 +190,7 @@
                 </v-card-text>
                 <v-divider class="mt-12"></v-divider>
                 <v-card-actions>
-                  <v-btn text> Cancel </v-btn>
+                  <v-btn text> Batal </v-btn>
                   <v-spacer></v-spacer>
                   <v-slide-x-reverse-transition>
                     <v-tooltip v-if="formHasErrors" left>
@@ -312,7 +312,7 @@
                 </v-card-text>
                 <v-divider class="mt-12"></v-divider>
                 <v-card-actions>
-                  <v-btn text> Cancel </v-btn>
+                  <v-btn text> Batal </v-btn>
                   <v-spacer></v-spacer>
                   <v-slide-x-reverse-transition>
                     <v-tooltip v-if="formHasErrors" left>

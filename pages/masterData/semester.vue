@@ -8,7 +8,7 @@
   >
     <template v-slot:top>
       <v-toolbar flat>
-        <v-toolbar-title class="font-weight-bold">Master Data / Tahun</v-toolbar-title>
+        <v-toolbar-title class="font-weight-bold">Master Data / Semester</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
         <v-text-field
@@ -58,9 +58,17 @@
                   </v-col>
                   <v-col>
                     <v-text-field
-                      v-model="editedItem.year"
-                      label="Tahun"
+                      v-model="editedItem.value"
+                      label="Semester"
                     ></v-text-field>
+                  </v-col>
+                  </v-row>
+                  <v-row>
+                  <v-col>
+                  <v-radio-group label="Status?" v-model="editedItem.status">
+                    <v-radio name="active" label="Tidak Aktif" :value="0"></v-radio>
+                    <v-radio name="active" label="Aktif" :value="1"></v-radio>                
+                  </v-radio-group>
                   </v-col>
                 </v-row>
               </v-container>
@@ -92,6 +100,9 @@
         </v-dialog>
       </v-toolbar>
     </template>
+    <template v-slot:item.status="{ value }">
+        {{ value ? 'Aktif' : 'Tidak Aktif' }}
+    </template>    
     <template v-slot:item.actions="{ item }">
       <v-icon small color="success" class="mr-2" @click="editItem(item)"
         >mdi-pencil</v-icon
@@ -114,18 +125,21 @@ export default {
     dialogDelete: false,
     headers: [
       { text: 'ID', value: 'id', sortable: true },
-      { text: 'Tahun', value: 'year', sortable: true },
+      { text: 'Semester', value: 'value', sortable: true },
+      { text: 'Status', value: 'status', sortable: true },
       { text: 'Aksi', value: 'actions', sortable: false }
     ],
     datas: [],
     editedIndex: -1,
     editedItem: {
       id: '',
-      year: 1990,
+      value: 1,
+      status: 0,
     },
     defaultItem: {
       id: '',
-      year: 1990,
+      value: 1,
+      status: 0,
     }
   }),
 
@@ -153,43 +167,53 @@ export default {
       this.datas = [
         {
           id: '3453534',
-          year: 2000,
+          value: 1,
+          status: 1,
         },
         {
           id: '2342345234',
-          year: 1993,
+          value: 3,
+          status: 0,
         },
         {
           id: '2342342',
-          year: 2010,
+          value: 4,
+          status: 1,
         },
         {
           id: '2356161',
-          year: 2020,
+          value: 8,
+          status: 1,
         },
         {
           id: '457223',
-          year: 2015,
+          value: 1,
+          status: 0,
         },
         {
           id: '34513',
-          year: 2080,
+          value: 9,
+          status: 0,
         },
         {
           id: '34161364',
-          year: 2018,
+          value: 14,
+          status: 0,
         },
         {
           id: '3146124',
-          year: 2020,
+          value: 12,
+          status: 1,
         },
         {
           id: '1235412',
-          year: 2053,
+          value: 2,
+          status: 1,
         },
         {
           id: '1235125',
-          year: 2019,
+          value: 5,
+          status: 1,
         }
       ]
     },

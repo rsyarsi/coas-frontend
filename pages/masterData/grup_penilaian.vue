@@ -8,7 +8,7 @@
   >
     <template v-slot:top>
       <v-toolbar flat>
-        <v-toolbar-title class="font-weight-bold">Master Data / Tahun</v-toolbar-title>
+        <v-toolbar-title class="font-weight-bold">Master Data / Grup Penilaian</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
         <v-text-field
@@ -58,9 +58,24 @@
                   </v-col>
                   <v-col>
                     <v-text-field
-                      v-model="editedItem.year"
-                      label="Tahun"
+                      v-model="editedItem.name"
+                      label="Nama"
                     ></v-text-field>
+                  </v-col>
+                  <v-col>
+                    <v-select
+                      v-model="editedItem.spesialis"
+                      :items="['Konservasi', 'Prosthodonsia', 'Pedodontia', 'Periodonsia', 'Orthodonsia']"
+                      label="Grup"
+                    ></v-select>
+                  </v-col>
+                </v-row>
+                  <v-row>
+                  <v-col>
+                    <v-radio-group label="Status?" v-model="editedItem.status">
+                      <v-radio name="active" label="Tidak Aktif" :value="0"></v-radio>
+                      <v-radio name="active" label="Aktif" :value="1"></v-radio>                
+                  </v-radio-group>
                   </v-col>
                 </v-row>
               </v-container>
@@ -92,6 +107,9 @@
         </v-dialog>
       </v-toolbar>
     </template>
+    <template v-slot:item.status="{ value }">
+        {{ value ? 'Aktif' : 'Tidak Aktif' }}
+    </template>  
     <template v-slot:item.actions="{ item }">
       <v-icon small color="success" class="mr-2" @click="editItem(item)"
         >mdi-pencil</v-icon
@@ -114,18 +132,24 @@ export default {
     dialogDelete: false,
     headers: [
       { text: 'ID', value: 'id', sortable: true },
-      { text: 'Tahun', value: 'year', sortable: true },
+      { text: 'Nama', value: 'name', sortable: true },
+      { text: 'Spesialis', value: 'spesialis', sortable: true },
+      { text: 'Status', value: 'status', sortable: true },
       { text: 'Aksi', value: 'actions', sortable: false }
     ],
     datas: [],
     editedIndex: -1,
     editedItem: {
       id: '',
-      year: 1990,
+      name: "",
+      spesialis: "",
+      status: 0,
     },
     defaultItem: {
       id: '',
-      year: 1990,
+      name: "",
+      spesialis: "",
+      status: 0,
     }
   }),
 
@@ -152,45 +176,41 @@ export default {
     initialize() {
       this.datas = [
         {
-          id: '3453534',
-          year: 2000,
+          id: '3423253533',
+          name: "Tumpatan Komposit Klas I",
+          spesialis: "Konservasi",
+          status: 0,
         },
         {
           id: '2342345234',
-          year: 1993,
+          name: "Tumpatan Komposit Klas II",
+          spesialis: "Prosthodonsia",
+          status: 12,
         },
         {
-          id: '2342342',
-          year: 2010,
+          id: '2342345235',
+          name: "Tumpatan Komposit Klas III",
+          spesialis: "Pedodontia",
+          status: 0,
         },
         {
-          id: '2356161',
-          year: 2020,
+          id: '2342345236',
+          name: "Tumpatan Komposit Klas IV",
+          spesialis: "Konservasi",
+          status: 1,
         },
         {
-          id: '457223',
-          year: 2015,
+          id: '2342345237',
+          name: "Tumpatan GIC Klas V",
+          spesialis: "Orthodonsia",
+          status: 1,
         },
         {
-          id: '34513',
-          year: 2080,
+          id: '2342345238',
+          name: "Rekapitulasi Nilai Akhir Konservasi Gigi",
+          spesialis: "Orthodonsia",
+          status: 1,
         },
-        {
-          id: '34161364',
-          year: 2018,
-        },
-        {
-          id: '3146124',
-          year: 2020,
-        },
-        {
-          id: '1235412',
-          year: 2053,
-        },
-        {
-          id: '1235125',
-          year: 2019,
-        }
       ]
     },
 

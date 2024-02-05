@@ -6,7 +6,7 @@
         <v-row>
           <v-col cols="12" lg="4">
             <v-card height="100%">
-              <v-card-title>Sales by brand</v-card-title>
+              <v-card-title>Patients by demography</v-card-title>
               <v-card-text>
                 <p>
                   Our daily corporate brand sales summaries in wholesale. This
@@ -38,7 +38,7 @@
           </v-col>
           <v-col cols="12" lg="8">
             <v-card height="100%" light>
-              <v-card-title>Person sales by month</v-card-title>
+              <v-card-title>Patients by geography</v-card-title>
               <v-card-text>
                 <p>
                   The sales summary is done by our company on salesperson
@@ -138,7 +138,7 @@
                           natus nemo
                         </div>
                         <cite class="font-weight-thin"
-                          >- Carol Violas. Sales Representative</cite
+                          >- Carol Violas. Patients Representative</cite
                         >
                       </blockquote>
                     </v-col>
@@ -176,7 +176,7 @@
                             natus nemo
                           </div>
                           <cite class="font-weight-thin"
-                            >- Carol Violas. Sales Representative</cite
+                            >- Carol Violas. Patients Representative</cite
                           >
                         </blockquote>
                       </v-col>
@@ -214,7 +214,7 @@
                             natus nemo
                           </div>
                           <cite class="font-weight-thin"
-                            >- Carol Violas. Sales Representative</cite
+                            >- Carol Violas. Patients Representative</cite
                           >
                         </blockquote>
                       </v-col>

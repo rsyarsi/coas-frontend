@@ -8,7 +8,7 @@
   >
     <template v-slot:top>
       <v-toolbar flat>
-        <v-toolbar-title class="font-weight-bold">Master Data / Tahun</v-toolbar-title>
+        <v-toolbar-title class="font-weight-bold">Master Data / Penilaian</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
         <v-text-field
@@ -57,10 +57,41 @@
                     ></v-text-field>
                   </v-col>
                   <v-col>
+                    <v-select
+                      v-model="editedItem.grup_penilaian"
+                      :items="['Tumpatan Komposit Klas II', 'Tumpatan Komposit Klas III', '	Tumpatan Komposit Klas IV', 'Tumpatan GIC Klas V', 'Rekapitulasi Nilai Akhir Konservasi Gigi']"
+                      label="Grup"
+                    ></v-select>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-textarea dense
+                      v-model="editedItem.description"
+                      label="Deskipsi"
+                    ></v-textarea>
+                  </v-col>
+                </v-row>
+                  <v-row>
+                  <v-col>
                     <v-text-field
-                      v-model="editedItem.year"
-                      label="Tahun"
+                      v-model="editedItem.skala_minimal"
+                      label="Skala Minimal"
                     ></v-text-field>
+                  </v-col>
+                  <v-col>
+                    <v-text-field
+                      v-model="editedItem.skala_maksimal"
+                      label="Skala Minimal"
+                    ></v-text-field>
+                  </v-col>
+                  </v-row>
+                  <v-row>
+                  <v-col>
+                    <v-radio-group label="Status?" v-model="editedItem.status">
+                      <v-radio name="active" label="Tidak Aktif" :value="0"></v-radio>
+                      <v-radio name="active" label="Aktif" :value="1"></v-radio>                
+                  </v-radio-group>
                   </v-col>
                 </v-row>
               </v-container>
@@ -92,6 +123,9 @@
         </v-dialog>
       </v-toolbar>
     </template>
+    <template v-slot:item.status="{ value }">
+        {{ value ? 'Aktif' : 'Tidak Aktif' }}
+    </template>  
     <template v-slot:item.actions="{ item }">
       <v-icon small color="success" class="mr-2" @click="editItem(item)"
         >mdi-pencil</v-icon
@@ -114,18 +148,30 @@ export default {
     dialogDelete: false,
     headers: [
       { text: 'ID', value: 'id', sortable: true },
-      { text: 'Tahun', value: 'year', sortable: true },
+      { text: 'Deskipsi', value: 'description', sortable: true },
+      { text: 'Grup', value: 'grup_penilaian', sortable: true },
+      { text: 'Skala Minimal', value: 'skala_minimal', sortable: true },
+      { text: 'Skala Minimal', value: 'skala_maksimal', sortable: true },
+      { text: 'Status', value: 'status', sortable: true },
       { text: 'Aksi', value: 'actions', sortable: false }
     ],
     datas: [],
     editedIndex: -1,
     editedItem: {
       id: '',
-      year: 1990,
+      description: "",
+      grup_penilaian: "",
+      skala_minimal: 0,
+      skala_maksimal: 10,
+      status: 0,
     },
     defaultItem: {
       id: '',
-      year: 1990,
+      description: "",
+      grup_penilaian: "",
+      skala_minimal: 0,
+      skala_maksimal: 10,
+      status: 0,
     }
   }),
 
@@ -152,45 +198,53 @@ export default {
     initialize() {
       this.datas = [
         {
-          id: '3453534',
-          year: 2000,
+          id: '3423253533',
+          description: "Indikasi",
+          grup_penilaian: "Rekapitulasi Nilai Akhir Konservasi Gigi",
+          skala_minimal: 0,
+          skala_maksimal: 10,
+          status: 0,
         },
         {
           id: '2342345234',
-          year: 1993,
+          description: "Preparasi",
+          grup_penilaian: "Tumpatan Komposit Klas IV",
+          skala_minimal: 0,
+          skala_maksimal: 10,
+          status: 12,
         },
         {
-          id: '2342342',
-          year: 2010,
+          id: '2342345235',
+          description: "Isolasi daerah kerja",
+          grup_penilaian: "Tumpatan Komposit Klas IV",
+          skala_minimal: 0,
+          skala_maksimal: 10,
+          status: 0,
         },
         {
-          id: '2356161',
-          year: 2020,
+          id: '2342345236',
+          description: "Pemasangan matriks",
+          grup_penilaian: "Tumpatan GIC Klas V",
+          skala_minimal: 0,
+          skala_maksimal: 10,
+          status: 1,
         },
         {
-          id: '457223',
-          year: 2015,
+          id: '2342345237',
+          description: "Liner, Etsa dan Bonding",
+          grup_penilaian: "Tumpatan Komposit Klas II",
+          skala_minimal: 0,
+          skala_maksimal: 10,
+          status: 1,
         },
         {
-          id: '34513',
-          year: 2080,
+          id: '2342345238',
+          description: "Penumpatan komposit",
+          grup_penilaian: "Tumpatan Komposit Klas II",
+          skala_minimal: 0,
+          skala_maksimal: 10,
+          status: 1,
         },
-        {
-          id: '34161364',
-          year: 2018,
-        },
-        {
-          id: '3146124',
-          year: 2020,
-        },
-        {
-          id: '1235412',
-          year: 2053,
-        },
-        {
-          id: '1235125',
-          year: 2019,
-        }
       ]
     },
 
