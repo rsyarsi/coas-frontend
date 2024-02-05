@@ -4,11 +4,6 @@ const AUTH = {
     route: '/sign-in',
     url: '/sign-in'
   },
-  SIGNUP: {
-    href: '/auth/signUp.vue',
-    route: '/sign-up',
-    url: '/sign-up'
-  },
   FORGOTPASSWORD: {
     href: '/auth/forgotPassword.vue',
     route: '/forgot-password',

@@ -305,8 +305,8 @@ export default {
   },
   head() {
     return {
-      title: 'Cards - Nuxtify Admin Dashboard Template by dykraf.com',
-      description: 'A Collection of Cards in Nuxtify Admin Template Dashboard'
+      title: 'Cards - Coas',
+      description: 'A Collection of Cards in Coas'
     }
   },
   computed: {

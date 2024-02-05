@@ -17,7 +17,7 @@ const { company, title, description, image, url, lang } = GLOBAL
 const BASEURL =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:3000'
-    : 'https://nuxtjs-vuetify-dashboard.netlify.app'
+    : 'https://localhost'
 
 export default {
   name: 'SeoHead',

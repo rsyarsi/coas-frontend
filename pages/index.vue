@@ -2,7 +2,6 @@
   <v-container fluid>
     <v-row>
       <v-col cols="12" md="12">
-        <h1 class="title-page">Hi, Welcome to Nuxtify</h1>
         <CardSummary />
         <v-row>
           <v-col cols="12" lg="4">
@@ -325,9 +324,8 @@ export default {
   },
   head() {
     return {
-      title: 'Homepage - Nuxtify Admin Dashboard Template by dykraf.com',
-      description:
-        'A Collection of Templates in Nuxtify Admin Template Dashboard by dykraf.com'
+      title: 'Homepage - Coas by Yarsi',
+      description: 'Coas by Yarsi'
     }
   }
 }

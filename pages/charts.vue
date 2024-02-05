@@ -398,7 +398,7 @@ export default {
   },
   head() {
     return {
-      title: 'Charts Page - Nuxtify',
+      title: 'Charts Page - Coas',
       description: ' A Collection of Charts in Nuxtify Admin Template Dashboard'
     }
   },

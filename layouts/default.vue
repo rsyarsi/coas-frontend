@@ -183,7 +183,7 @@
               <v-icon>mdi-cog-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title> {{ title }} Setting </v-list-item-title>
+              <v-list-item-title>Setting </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -243,7 +243,7 @@ export default {
   components: { SeoHead },
   data() {
     return {
-      title: 'Nuxtify',
+      title: 'Coas',
       company: global.company,
       // clipped: false,
       // fixed: false,
@@ -256,94 +256,102 @@ export default {
           to: '/'
         },
         {
-          icon: 'mdi-chart-bar',
-          title: 'Charts',
-          to: '/charts'
-        },
-        {
-          icon: 'mdi-table-large',
-          title: 'Tables',
-          to: '/tables'
-        },
-        {
-          icon: 'mdi-format-list-bulleted',
-          title: 'Tabs',
-          to: '/tabs'
-        },
-        {
-          icon: 'mdi-message-bulleted',
-          title: 'Forms',
-          to: '/forms'
-        },
-        {
-          icon: 'mdi-cards',
-          title: 'Cards',
-          to: '/cards'
-        },
-        {
-          icon: 'mdi-account-card',
-          title: 'Authentication',
+          icon: 'mdi-database',
+          title: 'Master Data',
           to: null,
           items: [
             {
-              icon: 'mdi-login-variant',
-              title: 'Sign In',
-              to: '/sign-in'
+              icon: 'mdi-calendar',
+              title: 'Tahun',
+              to: '#'
+            },
+            {
+              icon: 'mdi-text-box',
+              title: 'Semester',
+              to: '#'
+            },
+            {
+              icon: 'mdi-account-group-outline',
+              title: 'Grup Spesialis (ASM)',
+              to: '#'
             },
             {
               icon: 'mdi-account',
-              title: 'Profile',
-              to: '/profile'
+              title: 'Spesialis (POLIKLINIK)',
+              to: '#'
             },
             {
-              icon: 'mdi-account-plus',
-              title: 'Sign Up',
-              to: '/sign-up'
+              icon: 'mdi-text-box-multiple',
+              title: 'Grup Penilaian',
+              to: '#'
             },
             {
-              icon: 'mdi-account-key',
-              title: 'Forgot Password',
-              to: '/forgot-password'
+              icon: 'mdi-text',
+              title: 'Detail Penilaian',
+              to: '#'
+            },
+            {
+              icon: 'mdi-doctor',
+              title: 'Dosen',
+              to: '#'
+            },
+            {
+              icon: 'mdi-account-school-outline',
+              title: 'Koas / Mahasiswa/i',
+              to: '#'
             }
           ]
         },
         {
-          icon: 'mdi-flag',
-          title: 'Filters',
-          to: '/filters'
-        },
-        {
-          icon: 'mdi-material-ui',
-          title: 'Icons',
-          to: '/icons'
-        },
-        {
-          icon: 'mdi-pencil-box',
-          title: 'Typography',
-          // to: '/typography',
+          icon: 'mdi-account-group',
+          title: 'Master User',
           to: null,
           items: [
             {
-              icon: 'mdi-pencil-lock',
-              title: 'Paragraph',
-              to: '/paragraph'
+              icon: 'mdi-import',
+              title: 'Input Data',
+              to: '#'
             },
             {
-              icon: 'mdi-pencil',
-              title: 'Headings',
-              to: '/headings'
-            },
-            {
-              icon: 'mdi-grease-pencil',
-              title: 'Typographies',
-              to: '/typography'
+              icon: 'mdi-export',
+              title: 'Export Data',
+              to: '#'
             }
           ]
         },
         {
-          icon: 'mdi-book-multiple',
-          title: 'Landing',
-          to: '/landing'
+          icon: 'mdi-account-school-outline',
+          title: 'Mahasiswa/i',
+          to: null,
+          items: [
+            {
+              icon: 'mdi-import',
+              title: 'Input Assesment',
+              to: '#'
+            },
+            {
+              icon: 'mdi-export',
+              title: 'Export Assesment',
+              to: '#'
+            }
+          ]
+        },
+        {
+          icon: 'mdi-doctor',
+          title: 'Dosen',
+          to: null,
+          items: [
+            {
+              icon: 'mdi-import',
+              title: 'Input Penilaian',
+              to: '#'
+            },
+            {
+              icon: 'mdi-export',
+              title: 'Export Penilaian',
+              to: '#'
+            }
+          ]
         }
       ],
       miniVariant: false,

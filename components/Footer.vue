@@ -23,7 +23,7 @@ import global from '~/constants/global'
 export default {
   name: 'FooterComponent',
   data() {
-    return { title: 'Nuxtify', company: global.company }
+    return { title: 'Yarsi', company: global.company }
   },
   computed: {
     ...mapState({ isDark: (state) => state.core.theme.isDark })

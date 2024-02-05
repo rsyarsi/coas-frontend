@@ -1,10 +1,10 @@
 export default {
-  title: 'Nuxtify Admin Dashboard Template',
-  description: 'Nuxtify Admin Dashboard Template for Web Application Project',
-  company: 'Dykraf',
+  title: 'Coas',
+  description: 'Coas',
+  company: 'Yarsi',
   image: '/logo@2x.png',
   url: process.env.BASE_URL,
   lang: 'en',
-  slogan: 'Web Development',
-  copyright: '&copy; All right Reserved by Dykraf'
+  slogan: 'Information Communication Technology',
+  copyright: '&copy; All right Reserved by Yarsi'
 }

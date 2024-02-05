@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex justify-center align-center min-h-100vh">
     <v-flex lg6>
-      <v-card elevation="2" light class="bg-wave">
+      <v-card>
         <v-card-title> Forgot Password </v-card-title>
         <v-form v-model="valid" name="form-login" @submit="onSubmit()">
           <v-container>
@@ -15,12 +15,7 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
-                <v-btn type="submit" color="primary">Login</v-btn>
-              </v-col>
-              <v-col cols="12" md="6" class="text-right">
-                <nuxt-link to="/sign-up">Sign Up</nuxt-link>
-                or
-                <nuxt-link to="/sign-in">Sign In</nuxt-link>
+                <v-btn type="submit" color="primary">Send</v-btn>
               </v-col>
             </v-row>
           </v-container>
