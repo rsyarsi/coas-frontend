@@ -327,7 +327,7 @@ export default {
             {
               icon: 'mdi-import',
               title: 'Input Assesment',
-              to: '#'
+              to: '/transaction/patientlists'
             },
             {
               icon: 'mdi-export',
@@ -344,12 +344,22 @@ export default {
             {
               icon: 'mdi-import',
               title: 'Input Penilaian',
-              to: '#'
+              to: '/transaction/lectures/patientlists'
             },
             {
               icon: 'mdi-export',
-              title: 'Export Penilaian',
-              to: '#'
+              title: 'Penillaian Pilih Semester',
+              to: '/transaction/lectures/assesment/selectsemesteryear'
+            },
+            {
+              icon: 'mdi-export',
+              title: 'Penillaian Group',
+              to: '/transaction/lectures/assesment/selectgroup'
+            },
+            {
+              icon: 'mdi-export',
+              title: 'Penillaian Detail',
+              to: '/transaction/lectures/assesment/selectdetail'
             }
           ]
         }

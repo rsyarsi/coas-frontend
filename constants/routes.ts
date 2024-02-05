@@ -67,6 +67,31 @@ const DASHBOARD = {
     href: '/masterData/tahun.vue',
     route: '/master-data/tahun',
     url: '/master-data/tahun'
+  },
+  PATIENT_LISTS: {
+    href: '/transaction/students/patientlists.vue',
+    route: '/transaction/patientlists',
+    url: '/transaction/patientlists'
+  },
+  PATIENT_LISTS_LECTURES: {
+    href: '/transaction/lectures/patientlists.vue',
+    route: '/transaction/lectures/patientlists',
+    url: '/transaction/lectures/patientlists'
+  },
+  LECTURES_ASSEMENT_SELECT_SEMESTER: {
+    href: '/transaction/lectures/assesmentselectsemester.vue',
+    route: '/transaction/lectures/assesment/selectsemesteryear',
+    url: '/transaction/lectures/assesment/selectsemesteryear'
+  },
+  LECTURES_SELECT_ASSEMENT_GROUP: {
+    href: '/transaction/lectures/assesmentselectgroup.vue',
+    route: '/transaction/lectures/assesment/selectgroup',
+    url: '/transaction/lectures/assesment/selectgroup'
+  },
+  LECTURES_SELECT_ASSEMENT_DETAIL: {
+    href: '/transaction/lectures/assesmentselectdetail.vue',
+    route: '/transaction/lectures/assesment/selectdetail',
+    url: '/transaction/lectures/assesment/selectdetail'
   }
 }
 
