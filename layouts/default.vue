@@ -263,7 +263,7 @@ export default {
             {
               icon: 'mdi-calendar',
               title: 'Tahun',
-              to: '#'
+              to: '/master-data/tahun'
             },
             {
               icon: 'mdi-text-box',

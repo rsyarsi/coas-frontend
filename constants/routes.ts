@@ -61,7 +61,13 @@ const DASHBOARD = {
   ICON: { href: '/icons.vue', route: '/icons', url: '/icons' },
   LANDING: { href: '/landing.vue', route: '/landing', url: '/landing' },
   PARAGRAPH: { href: '/paragraph.vue', route: '/paragraph', url: '/paragraph' },
-  HEADING: { href: '/headings.vue', route: '/headings', url: '/headings' }
+  HEADING: { href: '/headings.vue', route: '/headings', url: '/headings' },
+
+  MASTER_TAHUN: {
+    href: '/masterData/tahun.vue',
+    route: '/master-data/tahun',
+    url: '/master-data/tahun'
+  }
 }
 
 // const API = {
