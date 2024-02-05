@@ -67,6 +67,11 @@ const DASHBOARD = {
     href: '/masterData/tahun.vue',
     route: '/master-data/tahun',
     url: '/master-data/tahun'
+  },
+  MASTER_SEMESTER: {
+    href: '/masterData/semester.vue',
+    route: '/master-data/semester',
+    url: '/master-data/semester'
   }
 }
 

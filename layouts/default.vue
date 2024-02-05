@@ -268,7 +268,7 @@ export default {
             {
               icon: 'mdi-text-box',
               title: 'Semester',
-              to: '#'
+              to: '/master-data/semester'
             },
             {
               icon: 'mdi-account-group-outline',
