@@ -1,6 +1,17 @@
 {
     "common": {
 
-        "welcome": "Welcome..."
+        "welcome": "Selamat Datang..."
+    },
+
+    "action": {
+
+        "state": "Status",
+
+        "button": {
+
+            "save": "Simpan",
+            "close": "Batal"
+        }
     }
 }

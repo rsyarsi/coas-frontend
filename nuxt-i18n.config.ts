@@ -9,7 +9,7 @@ const i18nConfig = {
 
         {
             code: "en",
-            files: [ "en/_default.json", "en/common.json", ],
+            files: [ "en/_default.json", "en/common.json", "en/auth.json", ],
         },
         {
             code: "id",

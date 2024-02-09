@@ -6,7 +6,7 @@ const seoConfig = {
 
         head: {
 
-            titleTemplate: 'Vue | %s',
+            titleTemplate: 'Yarsi | SIFKGM | %s',
         },
     },
 

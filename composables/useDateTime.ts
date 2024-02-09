@@ -1,15 +1,20 @@
 "use strict";
 
-import moment from "moment";
+import type { RuntimeConfig, } from "nuxt/schema";
+import pkg from "moment";
 
-export default () =>
+export default (datetime: null|number|string = null, format: null|string = null): any =>
 {
-    const configuration = useRuntimeConfig ();
+    const configuration: RuntimeConfig = useRuntimeConfig ();
 
-    const instance = moment ();
+    const ins: pkg.Moment = datetime ? pkg (datetime) : pkg ();
 
-    instance.locale (configuration.public.language);
-    instance.format ('DD-MM-YYYYY hh:mm:ss');
+    pkg.locale (configuration.public.language);
+    if (format) ins.format (format);
 
-    return instance;
+    return {
+
+        ins,
+        pkg,
+    };
 };
