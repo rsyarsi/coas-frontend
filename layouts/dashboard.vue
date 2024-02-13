@@ -106,29 +106,29 @@ const dashboardSidebar = reactive (
                     to: "/master/coas/assessment",
                 },
                 {
+                    title: "Emrortodonsi",
+                    icon: "",
+                    to: "/master/coas/emrortodonsi",
+                },
+                {
+                    title: "Emrpedodonsi",
+                    icon: "",
+                    to: "/master/coas/emrpedodonsi",
+                },
+                {
+                    title: "Emrperiodonsi",
+                    icon: "",
+                    to: "/master/coas/emrperiodonsi",
+                },
+                {
                     title: "Prostodonsia",
                     icon: "",
                     to: "/master/coas/prostodonsia",
                 },
                 {
-                    title: "Orthodonsia",
-                    icon: "",
-                    to: "/master/coas/orthodonsia",
-                },
-                {
-                    title: "Pedodontia",
-                    icon: "",
-                    to: "/master/coas/pedodontia",
-                },
-                {
                     title: "Konservasi",
                     icon: "",
                     to: "/master/coas/konservasi",
-                },
-                {
-                    title: "Periodonsia",
-                    icon: "",
-                    to: "/master/coas/periodonsia",
                 },
             ],
         },
