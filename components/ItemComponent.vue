@@ -16,7 +16,7 @@ const datatableBody = reactive (
 
     search: "",
 
-    icon: "mdi-tooth-outline",
+    icon: "mdi-hospital-building",
 
     headers: props.header,
 
@@ -158,7 +158,7 @@ onMounted (async () =>
     <v-layout v-if="datatableBody.isLoaded">
         <v-data-table-server item-value="id" @update:options="getItems" :headers="datatableBody.headers" :items="datatableBody.items" :items-length="datatableBody.itemsLength" v-model:items-per-page="datatableBody.itemPerPage" :loading="datatableBody.itemsIsLoading">
             <template v-slot:top>
-                <v-toolbar color="#D3D3D3">
+                <v-toolbar color="light-blue">
                     <v-breadcrumbs :items="badge">
                         <template v-slot:prepend>
                             <v-icon :icon="datatableBody.icon"></v-icon>

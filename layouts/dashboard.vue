@@ -15,7 +15,14 @@ const dashboardSidebar = reactive (
     isToggle: true,
     isRail: true,
 
-    search: "",
+    search: computed (() =>
+    {
+        return dashboardSidebar.items.flatMap ((item) =>
+        {
+            if (typeof item.to == "string") return item;
+            else return item.to.flat ();
+        });
+    }),
 
     icon: "https://www.yarsi.ac.id/wp-content/uploads/2018/09/cropped-logo-yarsi-192x192.jpg",
 
@@ -222,14 +229,15 @@ onMounted (async () =>
                     <v-icon v-if="dashboardSidebar.isRail">mdi-chevron-left</v-icon>
                     <v-icon v-else>mdi-chevron-right</v-icon>
                 </v-btn>
-                <v-text-field v-model="dashboardSidebar.search" label="Search" density="compact" prepend-inner-icon="mdi-magnify" single-line hide-details></v-text-field>
+                <v-autocomplete @update:modelValue="navigateTo ($event?.to)" :items="dashboardSidebar.search" prepend-inner-icon="mdi-magnify" density="compact" class="mt-5" variant="solo" :menu-props="{ margin: '10px', }" style="width: 5px;" clearable return-object></v-autocomplete>
                 <v-spacer></v-spacer>
-                <v-btn icon><v-badge content="1" color="warning"><v-icon>mdi-bell</v-icon></v-badge></v-btn>
-                <v-btn icon="mdi-theme-light-dark"></v-btn>
-                <v-btn icon="mdi-cog"></v-btn>
                 <v-btn @click="logout" icon="mdi-logout"></v-btn>
             </v-app-bar>
-            <slot />
+            <v-container fluid>
+                <v-card>
+                    <slot />
+                </v-card>
+            </v-container>
         </v-main>
     </v-layout>
 </template>
