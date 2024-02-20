@@ -7,6 +7,11 @@ const seoConfig = {
         head: {
 
             titleTemplate: 'Yarsi | SIFKGM | %s',
+
+            link: [
+
+                { rel: "icon", type: "image/png", href: "/favicon.ico", },
+            ],
         },
     },
 

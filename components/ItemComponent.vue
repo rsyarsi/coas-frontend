@@ -109,7 +109,7 @@ const setAnItem = async (target) =>
     formTarget,
     (success) =>
     {
-        datatableBody.items[findItem (success.id)] = success;
+        datatableBody.items[findItem (success.id)] = { ...datatableBody.items[findItem (success.id)], ...success, };
 
         clearForms ();
         closeDialog ();
@@ -154,11 +154,25 @@ onMounted (async () =>
 
 </script>
 
+<style scoped>
+
+:deep() .v-table .v-table__wrapper > table > thead > tr > th:not(:last-child)
+{
+    border-right: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
+
+:deep() .v-table .v-table__wrapper > table > tbody > tr > td:not(:last-child), .v-table .v-table__wrapper > table > tbody > tr > th:not(:last-child)
+{
+    border-right: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
+
+</style>
+
 <template>
     <v-layout v-if="datatableBody.isLoaded">
-        <v-data-table-server item-value="id" @update:options="getItems" :headers="datatableBody.headers" :items="datatableBody.items" :items-length="datatableBody.itemsLength" v-model:items-per-page="datatableBody.itemPerPage" :loading="datatableBody.itemsIsLoading">
+        <v-data-table-server @update:options="getItems" :headers="datatableBody.headers" :items="datatableBody.items" :items-length="datatableBody.itemsLength" v-model:items-per-page="datatableBody.itemPerPage" :loading="datatableBody.itemsIsLoading" hover>
             <template v-slot:top>
-                <v-toolbar color="light-blue">
+                <v-toolbar color="#BC1010">
                     <v-breadcrumbs :items="badge">
                         <template v-slot:prepend>
                             <v-icon :icon="datatableBody.icon"></v-icon>
@@ -168,20 +182,30 @@ onMounted (async () =>
                         </template>
                     </v-breadcrumbs>
                     <v-spacer></v-spacer>
-                    <v-dialog v-model="datatableBody.isMutatorDialog">
-                        <template v-slot:activator="{ properties, }">
+                    <v-dialog v-model="datatableBody.isMutatorDialog" transition="dialog-top-transition" fullscreen>
+                        <template v-if="props.apis.createItem" v-slot:activator="{ properties, }">
                             <v-btn @click="showDialog" v-bind="properties" icon="mdi-format-float-right"></v-btn>
                         </template>
                         <template v-slot:default="{ isActive, }">
-                            <v-card width="550" min-height="480px" class="mx-auto">
-                                <v-card-text>
-                                    <slot name="form" :state="datatableBody.isMutatorDialog" :forms="datatableBody.forms" />
+                            <v-card>
+                                <v-card-title>
+                                    <v-toolbar color="#800000">
+                                        <v-btn @click="clearForms (); closeDialog ()" icon><v-icon>mdi-arrow-left</v-icon></v-btn>
+                                    </v-toolbar>
+                                </v-card-title>
+                                <v-card-text class="pa-10">
+                                    <slot name="form" :isMutator="datatableBody.isMutatorDialog" :isCreate="! Boolean (Object.keys (datatableBody.item).length)" :isUpdate="Boolean (Object.keys (datatableBody.item).length)" :forms="datatableBody.forms" />
                                 </v-card-text>
                                 <v-card-actions>
-                                    <v-btn @click="clearForms (); closeDialog ();" color="red" variant="outlined">{{ $t ("action.button.close") }}</v-btn>
                                     <v-spacer></v-spacer>
-                                    <v-btn v-if="Object.keys (datatableBody.item).length" @click="setAnItem (datatableBody.item.id);" color="blue" variant="outlined">{{ $t ("action.button.save") }}</v-btn>
-                                    <v-btn v-else @click="setItems" color="blue" variant="outlined">{{ $t ("action.button.save") }}</v-btn>
+                                    <v-btn v-if="Object.keys (datatableBody.item).length" @click="setAnItem (datatableBody.item.id)" color="indigo-darken-2" variant="elevated" class="text-capitalize">
+                                        <v-icon start icon="mdi-content-save-all"></v-icon>
+                                        {{ $t ("action.button.save") }}
+                                    </v-btn>
+                                    <v-btn v-else @click="setItems" color="indigo-darken-2" variant="elevated" class="text-capitalize">
+                                        <v-icon start icon="mdi-content-save-all"></v-icon>
+                                        {{ $t ("action.button.save") }}
+                                    </v-btn>
                                 </v-card-actions>
                             </v-card>
                         </template>
@@ -194,17 +218,17 @@ onMounted (async () =>
                         <v-card>
                             <v-card-title>
                                 <v-toolbar color="#800000">
-                                    <v-btn @click="datatableBody.isAccessorDialog = false; clearForms ();" icon><v-icon>mdi-close</v-icon></v-btn>
+                                    <v-btn @click="datatableBody.isAccessorDialog = false; clearForms ()" icon><v-icon>mdi-close</v-icon></v-btn>
                                 </v-toolbar>
                             </v-card-title>
                             <v-card-text>
-                                <slot name="item" :state="datatableBody.isAccessorDialog" :item="datatableBody.item" />
+                                <slot name="item" :isAccessor="datatableBody.isAccessorDialog" :item="datatableBody.item" />
                             </v-card-text>
                         </v-card>
                     </template>
                 </v-dialog>
-                <v-btn @click="datatableBody.isAccessorDialog = true; getAnItem (item.id);" icon="mdi-eye" color="light-green-darken-4" class="mx-2" variant="text" density="compact"></v-btn>
-                <v-btn @click="showDialog (); getAnItem (item.id);" icon="mdi-pencil" color="lime-darken-4" class="mx-2" variant="text" density="compact"></v-btn>
+                <v-btn v-if="props.apis.getItem" @click="datatableBody.isAccessorDialog = true; getAnItem (item.id)" icon="mdi-eye" color="indigo-darken-4" class="mx-2" variant="text" density="compact"></v-btn>
+                <v-btn v-if="props.apis.updateItem" @click="showDialog (); getAnItem (item.id)" icon="mdi-pencil" color="lime-darken-4" class="mx-2" variant="text" density="compact"></v-btn>
             </template>
         </v-data-table-server>
     </v-layout>

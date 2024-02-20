@@ -24,149 +24,9 @@ const dashboardSidebar = reactive (
         });
     }),
 
-    icon: "https://www.yarsi.ac.id/wp-content/uploads/2018/09/cropped-logo-yarsi-192x192.jpg",
+    icon: "/logo.jpg",
 
-    items: [
-
-        {
-            title: "Dasbor",
-            icon: "mdi-apps",
-            to: "/dashboard",
-        },
-        {
-            title: "Rumah Sakit",
-            icon: "mdi-hospital-building",
-            to: "/master/hospital",
-        },
-        {
-            title: "Universitas",
-            icon: "mdi-office-building",
-            to: "/master/university",
-        },
-        {
-            title: "Master Data",
-            icon: "mdi-database",
-            to: [
-
-                {
-                    title: "Tahun",
-                    icon: "mdi-calendar",
-                    to: "/master/data/year",
-                },
-                {
-                    title: "Semester",
-                    icon: "mdi-text-box",
-                    to: "/master/data/semester",
-                },
-                {
-                    title: "Grup Spesialis (ASM)",
-                    icon: "mdi-account-group",
-                    to: "/master/data/group_specialist",
-                },
-                {
-                    title: "Spesialis (POLIKLINIK)",
-                    icon: "mdi-account",
-                    to: "/master/data/specialist",
-                },
-                {
-                    title: "Grup Penilaian",
-                    icon: "mdi-text-box-multiple",
-                    to: "/master/data/group_assessment",
-                },
-                {
-                    title: "Penilaian",
-                    icon: "mdi-text",
-                    to: "/master/data/assessment",
-                },
-                {
-                    title: "Dosen",
-                    icon: "mdi-doctor",
-                    to: "/master/data/lecturer",
-                },
-                {
-                    title: "Koas",
-                    icon: "mdi-account-school",
-                    to: "/master/data/coas",
-                },
-            ],
-        },
-        {
-            title: "Master Pengguna",
-            icon: "mdi-account-group",
-            to: [
-
-                {
-                    title: "Input Pengguna",
-                    icon: "mdi-import",
-                    to: "/master/user/input",
-                },
-            ],
-        },
-        {
-            title: "Master Koas",
-            icon: "mdi-account-school",
-            to: [
-
-                {
-                    title: "Input Penilaian",
-                    icon: "mdi-import",
-                    to: "/master/coas/assessment",
-                },
-                {
-                    title: "Emrortodonsi",
-                    icon: "",
-                    to: "/master/coas/emrortodonsi",
-                },
-                {
-                    title: "Emrpedodonsi",
-                    icon: "",
-                    to: "/master/coas/emrpedodonsi",
-                },
-                {
-                    title: "Emrperiodonsi",
-                    icon: "",
-                    to: "/master/coas/emrperiodonsi",
-                },
-                {
-                    title: "Prostodonsia",
-                    icon: "",
-                    to: "/master/coas/prostodonsia",
-                },
-                {
-                    title: "Konservasi",
-                    icon: "",
-                    to: "/master/coas/konservasi",
-                },
-            ],
-        },
-        {
-            title: "Master Dosen",
-            icon: "mdi-doctor",
-            to: [
-
-                {
-                    title: "Input Penilaian",
-                    icon: "mdi-import",
-                    to: "/master/lecturer/input",
-                },
-                {
-                    title: "Penilaian Semester",
-                    icon: "",
-                    to: "/master/lecturer/assessment_semester",
-                },
-                {
-                    title: "Penilaian Grup",
-                    icon: "",
-                    to: "/master/lecturer/group_assessment",
-                },
-                {
-                    title: "Penilaian Perincian",
-                    icon: "",
-                    to: "/master/lecturer/assessment_detail",
-                },
-            ],
-        },
-    ],
+    items: [],
 });
 
 const isDialog = ref (false);
@@ -177,7 +37,9 @@ var logout;
 
 onMounted (async () =>
 {
-    const { token: tokenData, setToken, delToken, getUser, delUser, } = await useAuth (), userData = await getUser (tokenData);
+    const { token: tokenData, setToken, delToken, getUser, delUser, } = await useAuth (), userData = await getUser (tokenData),
+
+    { data: menuData, } = await useFetch ("/api/v1/menu");
 
     logout = delUser;
 
@@ -188,6 +50,8 @@ onMounted (async () =>
     user.avatar = userData.avatar;
 
     dashboardSidebar.isLoaded = true;
+
+    dashboardSidebar.items = menuData.value.filter (item => item.for.includes (user.role));
 });
 
 </script>
@@ -234,7 +98,7 @@ onMounted (async () =>
                 <v-btn @click="logout" icon="mdi-logout"></v-btn>
             </v-app-bar>
             <v-container fluid>
-                <v-card>
+                <v-card variant="tonal">
                     <slot />
                 </v-card>
             </v-container>

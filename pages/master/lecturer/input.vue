@@ -2,10 +2,9 @@
 
 definePageMeta (
 {
-    title: "Dashboard",
+    layout: "dashboard",
+    title: "Lecturer",
 });
-
-navigateTo ("/dashboard");
 
 </script>
 

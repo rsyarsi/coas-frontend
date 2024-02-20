@@ -5,6 +5,13 @@ import useCall from "./useCall";
 
 export default async (identity: string = "", password: string = ""): Promise<any> =>
 {
+    const delToken = (): void =>
+    {
+        localStorage.removeItem ("auth_token");
+        localStorage.removeItem ("auth_ttl");
+        localStorage.removeItem ("auth_user");
+    }
+
     const setToken = (token: string): void =>
     {
         localStorage.setItem ("auth_token", token);
@@ -15,30 +22,27 @@ export default async (identity: string = "", password: string = ""): Promise<any
         return localStorage?.getItem ("auth_token");
     }
 
-    const delToken = (): void =>
+    const delUser = async (): Promise<void> =>
     {
-        localStorage.removeItem ("auth_token");
-        localStorage.removeItem ("auth_ttl");
-        localStorage.removeItem ("auth_user");
+        delToken ();
+
+        await navigateTo ("/auth/login");
     }
 
     const getUser = async (token: string): Promise<any> =>
     {
         const { data, error, } = await useCall ("/v1/auth/profile", "post", "application/json", { data: { username: localStorage?.getItem ("auth_user"), }, }, token);
 
-        if (data.status == 200) {
+        if (data.status == 200 && data.data.status) {
 
             return data.data?.data[0];
+
+        } else {
+
+            await delUser ();
         }
 
         return null;
-    }
-
-    const delUser = async (): Promise<void> =>
-    {
-        delToken ();
-
-        await navigateTo ("/auth/login");
     }
 
     if (identity && password) {
@@ -52,12 +56,14 @@ export default async (identity: string = "", password: string = ""): Promise<any
             },
         });
 
-        if (data.status == 200) {
+        if (data.status == 200 && data.data.status) {
 
-            setToken (data.data.data.access_token);
+            if (! data.data) await delUser ();
+
+            setToken (data.data.data?.access_token);
 
             localStorage.setItem ("auth_user", identity);
-            localStorage.setItem ("auth_ttl", data.data.data.access_token ? useDateTime (Date.now ()).ins.add (data.data.data.expires_in, "seconds") : "lifetime");
+            localStorage.setItem ("auth_ttl", data.data.data.access_token ? useDateTime (useDateTime (Date.now ()).ins.add (data.data.data.expires_in, "seconds")).ins.format ('YYYY-MM-DD hh:mm:ss') : "lifetime");
 
         } else {
 

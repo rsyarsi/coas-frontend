@@ -3,10 +3,10 @@
 definePageMeta (
 {
     layout: "dashboard",
-    title: "Group Assessment",
+    title: "Lecture",
 });
 
-const COMPONENT_BADGE = [ "Master", "Data", "Grup Penilaian", ];
+const COMPONENT_BADGE = [ "Master", "Data", "Dosen", ];
 
 const COMPONENT_HEADER =
 [
@@ -17,7 +17,14 @@ const COMPONENT_HEADER =
         align: " d-none",
     },
     {
-        key: "assementgroupname",
+        key: "nim",
+        title: "Nomor Induk",
+        sortable: true,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
+    },
+    {
+        key: "name",
         title: "Nama",
         sortable: true,
         align: "start",
@@ -27,13 +34,6 @@ const COMPONENT_HEADER =
         key: "specialistid",
         value: item => group (item.specialistid),
         title: "Spesialis",
-        sortable: true,
-        align: "start",
-        headerProps: { class: "font-weight-bold", },
-    },
-    {
-        key: "type",
-        title: "Tipe",
         sortable: true,
         align: "start",
         headerProps: { class: "font-weight-bold", },
@@ -57,18 +57,19 @@ const COMPONENT_HEADER =
 
 const COMPONENT_FORMS =
 {
-    assementgroupname: "",
-    type: "",
+    nim: "",
+    name: "",
     specialistid: "",
+    doctotidsimrs: "",
     active: 1,
 };
 
 const COMPONENT_APIS =
 {
-    getAllItems: "/v1/masterdata/assesmentgroups/viewall",
-    getItem: "/v1/masterdata/assesmentgroups/view/id",
-    createItem: "/v1/masterdata/assesmentgroups/create",
-    updateItem: "/v1/masterdata/assesmentgroups/update",
+    getAllItems: "/v1/masterdata/lectures/viewall",
+    getItem: "/v1/masterdata/lectures/view/id",
+    createItem: "/v1/masterdata/lectures/create",
+    updateItem: "/v1/masterdata/lectures/update",
 };
 
 const
@@ -95,8 +96,9 @@ onMounted (async () =>
     <ItemComponent :badge="COMPONENT_BADGE" :header="COMPONENT_HEADER" :forms="COMPONENT_FORMS" :apis="COMPONENT_APIS">
         <template v-slot:form="{ forms, }">
             <v-form>
-                <v-text-field v-model="forms.assementgroupname" label="Nama"></v-text-field>
-                <v-text-field v-model="forms.type" label="Tipe"></v-text-field>
+                <v-text-field v-model="forms.nim" label="Nomor Induk"></v-text-field>
+                <v-text-field v-model="forms.name" label="Nama"></v-text-field>
+                <v-text-field v-model="forms.doctotidsimrs" label="SIMRS"></v-text-field>
                 <v-select v-model="forms.specialistid" :items="groups" item-value="id" item-title="specialistname" label="Spesialis"></v-select>
                 <v-radio-group v-model="forms.active">
                     <template v-slot:label>
@@ -113,8 +115,9 @@ onMounted (async () =>
                     <v-row>
                         <v-col>
                             <v-row><v-text-field color="success" label="ID" variant="underlined" :model-value="item.id"></v-text-field></v-row>
-                            <v-row><v-text-field label="Nama" variant="underlined" :model-value="item.assementgroupname"></v-text-field></v-row>
-                            <v-row><v-text-field label="Tipe" variant="underlined" :model-value="item.type"></v-text-field></v-row>
+                            <v-row><v-text-field label="Nomor Induk" variant="underlined" :model-value="item.nim"></v-text-field></v-row>
+                            <v-row><v-text-field label="Nama" variant="underlined" :model-value="item.name"></v-text-field></v-row>
+                            <v-row><v-text-field label="SIMRS" variant="underlined" :model-value="item.doctotidsimrs"></v-text-field></v-row>
                             <v-row><v-text-field label="Spesialis" variant="underlined" :value="group (item.specialistid)" active></v-text-field></v-row>
                         </v-col>
                         <v-spacer></v-spacer>

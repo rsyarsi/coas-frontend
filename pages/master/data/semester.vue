@@ -13,28 +13,30 @@ const COMPONENT_HEADER =
     {
         key: "id",
         title: "ID",
-        sortable: false,
+        sortable: true,
+        align: " d-none",
     },
     {
         key: "semestername",
         title: "Nama",
-        sortable: false,
-    },
-    {
-        key: "semestervalue",
-        title: "Nilai",
-        sortable: false,
+        sortable: true,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
     },
     {
         key: "active",
         value: item => item.active ? "Aktif" : "Tidak Aktif",
         title: "Status",
-        sortable: false,
+        sortable: true,
+        align: "center",
+        headerProps: { class: "font-weight-bold", },
     },
     {
         key: "actions",
         title: "Aksi",
         sortable: false,
+        align: "center",
+        headerProps: { class: "font-weight-bold", },
     },
 ];
 
@@ -74,24 +76,25 @@ const COMPONENT_APIS =
             <v-form color="success">
                 <v-container>
                     <v-row>
-                        <v-row>
-                            <v-col>
-                                <v-row><v-text-field color="success" label="ID" variant="underlined" :model-value="item.id"></v-text-field></v-row>
-                                <v-row><v-text-field label="Nama" variant="underlined" :model-value="item.semestername"></v-text-field></v-row>
-                                <v-row><v-text-field label="Nilai" variant="underlined" :model-value="item.semestervalue"></v-text-field></v-row>
-                                <v-row v-if="item.updated_at"><v-text-field label="Tanggal Waktu" variant="underlined" :model-value="item.updated_at"></v-text-field></v-row>
-                            </v-col>
-                            <v-spacer></v-spacer>
-                            <v-col>
-                                <v-radio-group v-model="item.active">
-                                    <template v-slot:label>
-                                        <div><strong>{{ $t ("action.state") }}</strong></div>
+                        <v-col>
+                            <v-row><v-text-field color="success" label="ID" variant="underlined" :model-value="item.id"></v-text-field></v-row>
+                            <v-row><v-text-field label="Nama" variant="underlined" :model-value="item.semestername"></v-text-field></v-row>
+                            <v-row><v-text-field label="Nilai" variant="underlined" :model-value="item.semestervalue"></v-text-field></v-row>
+                        </v-col>
+                        <v-spacer></v-spacer>
+                        <v-col>
+                            <v-row>
+                                <v-text-field label="Status" variant="underlined" :model-value="item.active ? 'Aktif' : 'Tidak Aktif'">
+                                    <template v-slot:prepend>
+                                        <v-icon :color="item.active ? 'primary' : 'warning'">{{ item.active ? 'mdi-checkbox-marked-circle' : 'mdi-close-circle' }}</v-icon>
                                     </template>
-                                    <v-radio label="Aktif" :value="1"></v-radio>
-                                    <v-radio label="Tidak Aktif" :value="0"></v-radio>
-                                </v-radio-group>
-                            </v-col>
-                        </v-row>
+                                </v-text-field>
+                            </v-row>
+                        </v-col>
+                        <v-spacer></v-spacer>
+                        <v-col>
+                            <v-row v-if="item.updated_at"><v-text-field label="Pembaharuan" variant="underlined" :model-value="useDateTime (item.updated_at).ins.fromNow ()"></v-text-field></v-row>
+                        </v-col>
                     </v-row>
                 </v-container>
             </v-form>
