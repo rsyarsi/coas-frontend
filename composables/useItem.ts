@@ -118,6 +118,7 @@ export default (token: string) =>
 
     return {
 
+        getItemPostMethod,
         getItem,
         setItem,
     };
