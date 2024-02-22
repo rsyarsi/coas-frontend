@@ -20,7 +20,7 @@ const login = async () =>
     if (tokenData) {
 
         if (userData.role == "admin") await navigateTo ("/dashboard");
-        else if (userData.role == "dosen") await navigateTo ("/master/lecturer/input");
+        else if (userData.role == "dosen") await navigateTo ("/master/lecturer/assesment");
         else if (userData.role == "mahasiswa") await navigateTo ("/master/coas/patient");
         else isError.value = true;
 

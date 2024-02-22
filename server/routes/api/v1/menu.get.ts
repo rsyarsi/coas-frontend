@@ -114,7 +114,7 @@ export default defineEventHandler ((event) => [
                 for: [ "admin", "dosen", ],
                 title: "Input Penilaian",
                 icon: "mdi-import",
-                to: "/master/lecturer/input",
+                to: "/master/lecturer/assesment",
             },
         ],
     },
