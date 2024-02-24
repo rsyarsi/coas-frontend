@@ -41,13 +41,32 @@ export default async (url: string, method: string, contentType: string, content:
     var data = {};
     var error = {};
 
-    await instance (
-    {
-        url,
-        method,
-        headers: { "Content-Type": contentType, },
-        ...content,
-    })
+    var detail = {};
+
+    if (contentType == "multipart/form-data") {
+
+        detail = {
+
+            url,
+            method,
+            headers: { "Content-Type": contentType, },
+            data: content,
+        }; 
+
+    } else {
+
+        detail = {
+            
+            url,
+            method,
+            headers: { "Content-Type": contentType, },
+            ...content,
+        };
+
+        
+    }
+
+    await instance (detail)
     .then (response => { data = response })
     .catch (throwable => { error = throwable });
 

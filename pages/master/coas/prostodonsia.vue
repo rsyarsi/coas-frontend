@@ -5,201 +5,7 @@ definePageMeta({
 });
 
 var forms = reactive({
-    id: "",
     noregister: useRouter().currentRoute.value.query.noreg,
-    noepisode: "",
-    nomorrekammedik: "",
-    tanggal: "",
-    namapasien: "",
-    pekerjaan: "",
-    jeniskelamin: "",
-    alamatpasien: "",
-    namaoperator: "",
-    nomortelpon: "",
-    npm: "",
-    // keluhanutama: "",
-    // riwayatgeligi: "",
-    // pengalamandengangigitiruan: "",
-    // estetis: "",
-    // fungsibicara: "",
-    // penguyahan: "",
-    // pembiayaan: "",
-    // lainlain: "",
-    // wajah: "",
-    // profilmuka: "",
-    // pupil: "",
-    // tragus: "",
-    // hidung: "",
-    // pernafasanmelaluihidung: "",
-    // bibiratas: "",
-    // bibiratas_b: "",
-    // bibirbawah: "",
-    // bibirbawah_b: "",
-    // submandibulariskanan: "",
-    // submandibulariskanan_b: "",
-    // submandibulariskiri: "",
-    // submandibulariskiri_b: "",
-    // sublingualis: "",
-    // sublingualis_b: "",
-    // sisikiri: "",
-    // sisikirisejak: "",
-    // sisikanan: "",
-    // sisikanansejak: "",
-    // membukamulut: "",
-    // membukamulut_b: "",
-    // kelainanlain: "",
-    // higienemulut: "",
-    // salivakuantitas: "",
-    // salivakonsisten: "",
-    // lidahukuran: "",
-    // lidahposisiwright: "",
-    // lidahmobilitas: "",
-    // refleksmuntah: "",
-    // mukosamulut: "",
-    // mukosamulutberupa: "",
-    // gigitan: "",
-    // gigitanbilaada: "",
-    // gigitanterbuka: "",
-    // gigitanterbukaregion: "",
-    // gigitansilang: "",
-    // gigitansilangregion: "",
-    // hubunganrahang: "",
-    // pemeriksaanrontgendental: "",
-    // elemengigi: "",
-    // pemeriksaanrontgenpanoramik: "",
-    // pemeriksaanrontgentmj: "",
-    // frakturgigi: "",
-    // frakturarah: "",
-    // frakturbesar: "",
-    // intraorallainlain: "",
-    // perbandinganmahkotadanakargigi: "",
-    // interprestasifotorontgen: "",
-    // intraoralkebiasaanburuk: "",
-    // intraoralkebiasaanburukberupa: "",
-    // pemeriksaanodontogram_11_51: "",
-    // pemeriksaanodontogram_12_52: "",
-    // pemeriksaanodontogram_13_53: "",
-    // pemeriksaanodontogram_14_54: "",
-    // pemeriksaanodontogram_15_55: "",
-    // pemeriksaanodontogram_16: "",
-    // pemeriksaanodontogram_17: "",
-    // pemeriksaanodontogram_18: "",
-    // pemeriksaanodontogram_61_21: "",
-    // pemeriksaanodontogram_62_22: "",
-    // pemeriksaanodontogram_63_23: "",
-    // pemeriksaanodontogram_64_24: "",
-    // pemeriksaanodontogram_65_25: "",
-    // pemeriksaanodontogram_26: "",
-    // pemeriksaanodontogram_27: "",
-    // pemeriksaanodontogram_28: "",
-    // pemeriksaanodontogram_48: "",
-    // pemeriksaanodontogram_47: "",
-    // pemeriksaanodontogram_46: "",
-    // pemeriksaanodontogram_45_85: "",
-    // pemeriksaanodontogram_44_84: "",
-    // pemeriksaanodontogram_43_83: "",
-    // pemeriksaanodontogram_42_82: "",
-    // pemeriksaanodontogram_41_81: "",
-    // pemeriksaanodontogram_38: "",
-    // pemeriksaanodontogram_37: "",
-    // pemeriksaanodontogram_36: "",
-    // pemeriksaanodontogram_75_35: "",
-    // pemeriksaanodontogram_74_34: "",
-    // pemeriksaanodontogram_73_33: "",
-    // pemeriksaanodontogram_72_32: "",
-    // pemeriksaanodontogram_71_31: "",
-    // rahangataspostkiri: "",
-    // rahangataspostkanan: "",
-    // rahangatasanterior: "",
-    // rahangbawahpostkiri: "",
-    // rahangbawahpostkanan: "",
-    // rahangbawahanterior: "",
-    // rahangatasbentukpostkiri: "",
-    // rahangatasbentukpostkanan: "",
-    // rahangatasbentukanterior: "",
-    // rahangatasketinggianpostkiri: "",
-    // rahangatasketinggianpostkanan: "",
-    // rahangatasketinggiananterior: "",
-    // rahangatastahananjaringanpostkiri: "",
-    // rahangatastahananjaringanpostkanan: "",
-    // rahangatastahananjaringananterior: "",
-    // rahangatasbentukpermukaanpostkiri: "",
-    // rahangatasbentukpermukaanpostkanan: "",
-    // rahangatasbentukpermukaananterior: "",
-    // rahangbawahbentukpostkiri: "",
-    // rahangbawahbentukpostkanan: "",
-    // rahangbawahbentukanterior: "",
-    // rahangbawahketinggianpostkiri: "",
-    // rahangbawahketinggianpostkanan: "",
-    // rahangbawahketinggiananterior: "",
-    // rahangbawahtahananjaringanpostkiri: "",
-    // rahangbawahtahananjaringanpostkanan: "",
-    // rahangbawahtahananjaringananterior: "",
-    // rahangbawahbentukpermukaanpostkiri: "",
-    // rahangbawahbentukpermukaanpostkanan: "",
-    // rahangbawahbentukpermukaananterior: "",
-    // anterior: "",
-    // prosteriorkiri: "",
-    // prosteriorkanan: "",
-    // labialissuperior: "",
-    // labialisinferior: "",
-    // bukalisrahangataskiri: "",
-    // bukalisrahangataskanan: "",
-    // bukalisrahangbawahkiri: "",
-    // bukalisrahangbawahkanan: "",
-    // lingualis: "",
-    // palatum: "",
-    // kedalaman: "",
-    // toruspalatinus: "",
-    // palatummolle: "",
-    // tuberorositasalveolariskiri: "",
-    // tuberorositasalveolariskanan: "",
-    // ruangretromilahioidkiri: "",
-    // ruangretromilahioidkanan: "",
-    // bentuklengkungrahangatas: "",
-    // bentuklengkungrahangbawah: "",
-    // perlekatandasarmulut: "",
-    // pemeriksaanlain_lainlain: "",
-    // sikapmental: "",
-    // diagnosa: "",
-    // rahangatas: "",
-    // rahangataselemen: "",
-    // rahangbawah: "",
-    // rahangbawahelemen: "",
-    // gigitiruancekat: "",
-    // gigitiruancekatelemen: "",
-    // perawatanperiodontal: "",
-    // perawatanbedah: "",
-    // perawatanbedah_ada: "",
-    // perawatanbedahelemen: "",
-    // perawatanbedahlainlain: "",
-    // konservasigigi: "",
-    // konservasigigielemen: "",
-    // rekonturing: "",
-    // adapembuatanmahkota: "",
-    // pengasahangigimiring: "",
-    // pengasahangigiextruded: "",
-    // rekonturinglainlain: "",
-    // macamcetakan_ra: "",
-    // acamcetakan_rb: "",
-    // warnagigi: "",
-    // klasifikasidaerahtidakbergigirahangatas: "",
-    // klasifikasidaerahtidakbergigirahangbawah: "",
-    // gigipenyangga: "",
-    // direk: "",
-    // indirek: "",
-    // platdasar: "",
-    // anasirgigi: "",
-    // prognosis: "",
-    // prognosisalasan: "",
-    // reliningregio: "",
-    // reliningregiotanggal: "",
-    // reparasiregio: "",
-    // reparasiregiotanggal: "",
-    // perawatanulangsebab: "",
-    // perawatanulanglainlain: "",
-    // perawatanulanglainlaintanggal: "",
-    // perawatanulangketerangan: "",
 });
 
 const setItems = async (target) => {
@@ -252,13 +58,11 @@ const getAnItem = async (target) => {
         (error) => {}
     );
 };
-const getByID = async (noreg, nim) => {
-    const { token: tokenData } = await useAuth(),
-        { getItem, setItem } = useItem(tokenData),
-        formTarget = {
-            nim: nim,
-            noregister: noreg,
-        };
+const getByID = async (noreg) => {
+    const 
+    { token: tokenData,getUser } = await useAuth (), userData = await getUser(tokenData),
+    { getItem,setItem } = useItem (tokenData),
+    formTarget = {"nim" : userData.username,"noregister" : noreg};
 
     await setItem(
         "/v1/emr/prostodonti/viewemrbyRegOperator",
@@ -266,289 +70,17 @@ const getByID = async (noreg, nim) => {
         formTarget,
         (success) => {
             if (success.code == 200) {
-                forms.id = success.data.id;
-                forms.tanggal = success.data.visit_date;
-                forms.namapasien = success.data.patientname;
-                forms.jeniskelamin = success.data.gander;
-                forms.alamat = success.data.address;
-                forms.telepon = success.data.mobilephone;
-                forms.noregister = success.data.noregister;
-                forms.noepisode = success.data.noepisode;
-                forms.keluhanutama = success.data.keluhanutama;
-                forms.riwayatgeligi = success.data.riwayatgeligi;
-                forms.pengalamandengangigitiruan =
-                    success.data.pengalamandengangigitiruan;
-                forms.estetis = success.data.estetis;
-                forms.fungsibicara = success.data.fungsibicara;
-                forms.penguyahan = success.data.penguyahan;
-                forms.pembiayaan = success.data.pembiayaan;
-                forms.lainlain = success.data.lainlain;
-                forms.wajah = success.data.wajah;
-                forms.profilmuka = success.data.profilmuka;
-                forms.pupil = success.data.pupil;
-                forms.tragus = success.data.tragus;
-                forms.hidung = success.data.hidung;
-                forms.pernafasanmelaluihidung =
-                    success.data.pernafasanmelaluihidung;
-                forms.bibiratas = success.data.bibiratas;
-                forms.bibiratas_b = success.data.bibiratas_b;
-                forms.bibirbawah = success.data.bibirbawah;
-                forms.bibirbawah_b = success.data.bibirbawah_b;
-                forms.submandibulariskanan = success.data.submandibulariskanan;
-                forms.submandibulariskanan_b =
-                    success.data.submandibulariskanan_b;
-                forms.submandibulariskiri = success.data.submandibulariskiri;
-                forms.submandibulariskiri_b =
-                    success.data.submandibulariskiri_b;
-                forms.sublingualis = success.data.sublingualis;
-                forms.sublingualis_b = success.data.sublingualis_b;
-                forms.sisikiri = success.data.sisikiri;
-                forms.sisikirisejak = success.data.sisikirisejak;
-                forms.sisikanan = success.data.sisikanan;
-                forms.sisikanansejak = success.data.sisikanansejak;
-                forms.membukamulut = success.data.membukamulut;
-                forms.membukamulut_b = success.data.membukamulut_b;
-                forms.kelainanlain = success.data.kelainanlain;
-                forms.higienemulut = success.data.higienemulut;
-                forms.salivakuantitas = success.data.salivakuantitas;
-                forms.salivakonsisten = success.data.salivakonsisten;
-                forms.lidahukuran = success.data.lidahukuran;
-                forms.lidahposisiwright = success.data.lidahposisiwright;
-                forms.lidahmobilitas = success.data.lidahmobilitas;
-                forms.refleksmuntah = success.data.refleksmuntah;
-                forms.mukosamulut = success.data.mukosamulut;
-                forms.mukosamulutberupa = success.data.mukosamulutberupa;
-                forms.gigitan = success.data.gigitan;
-                forms.gigitanbilaada = success.data.gigitanbilaada;
-                forms.gigitanterbuka = success.data.gigitanterbuka;
-                forms.gigitanterbukaregion = success.data.gigitanterbukaregion;
-                forms.gigitansilang = success.data.gigitansilang;
-                forms.gigitansilangregion = success.data.gigitansilangregion;
-                forms.hubunganrahang = success.data.hubunganrahang;
-                forms.pemeriksaanrontgendental =
-                    success.data.pemeriksaanrontgendental;
-                forms.elemengigi = success.data.elemengigi;
-                forms.pemeriksaanrontgenpanoramik =
-                    success.data.pemeriksaanrontgenpanoramik;
-                forms.pemeriksaanrontgentmj =
-                    success.data.pemeriksaanrontgentmj;
-                forms.frakturgigi = success.data.frakturgigi;
-                forms.frakturarah = success.data.frakturarah;
-                forms.frakturbesar = success.data.frakturbesar;
-                forms.intraorallainlain = success.data.intraorallainlain;
-                forms.perbandinganmahkotadanakargigi =
-                    success.data.perbandinganmahkotadanakargigi;
-                forms.interprestasifotorontgen =
-                    success.data.interprestasifotorontgen;
-                forms.intraoralkebiasaanburuk =
-                    success.data.intraoralkebiasaanburuk;
-                forms.intraoralkebiasaanburukberupa =
-                    success.data.intraoralkebiasaanburukberupa;
-                forms.pemeriksaanodontogram_11_51 =
-                    success.data.pemeriksaanodontogram_11_51;
-                forms.pemeriksaanodontogram_12_52 =
-                    success.data.pemeriksaanodontogram_12_52;
-                forms.pemeriksaanodontogram_13_53 =
-                    success.data.pemeriksaanodontogram_13_53;
-                forms.pemeriksaanodontogram_14_54 =
-                    success.data.pemeriksaanodontogram_14_54;
-                forms.pemeriksaanodontogram_15_55 =
-                    success.data.pemeriksaanodontogram_15_55;
-                forms.pemeriksaanodontogram_16 =
-                    success.data.pemeriksaanodontogram_16;
-                forms.pemeriksaanodontogram_17 =
-                    success.data.pemeriksaanodontogram_17;
-                forms.pemeriksaanodontogram_18 =
-                    success.data.pemeriksaanodontogram_18;
-                forms.pemeriksaanodontogram_61_21 =
-                    success.data.pemeriksaanodontogram_61_21;
-                forms.pemeriksaanodontogram_62_22 =
-                    success.data.pemeriksaanodontogram_62_22;
-                forms.pemeriksaanodontogram_63_23 =
-                    success.data.pemeriksaanodontogram_63_23;
-                forms.pemeriksaanodontogram_64_24 =
-                    success.data.pemeriksaanodontogram_64_24;
-                forms.pemeriksaanodontogram_65_25 =
-                    success.data.pemeriksaanodontogram_65_25;
-                forms.pemeriksaanodontogram_26 =
-                    success.data.pemeriksaanodontogram_26;
-                forms.pemeriksaanodontogram_27 =
-                    success.data.pemeriksaanodontogram_27;
-                forms.pemeriksaanodontogram_28 =
-                    success.data.pemeriksaanodontogram_28;
-                forms.pemeriksaanodontogram_48 =
-                    success.data.pemeriksaanodontogram_48;
-                forms.pemeriksaanodontogram_47 =
-                    success.data.pemeriksaanodontogram_47;
-                forms.pemeriksaanodontogram_46 =
-                    success.data.pemeriksaanodontogram_46;
-                forms.pemeriksaanodontogram_45_85 =
-                    success.data.pemeriksaanodontogram_45_85;
-                forms.pemeriksaanodontogram_44_84 =
-                    success.data.pemeriksaanodontogram_44_84;
-                forms.pemeriksaanodontogram_43_83 =
-                    success.data.pemeriksaanodontogram_43_83;
-                forms.pemeriksaanodontogram_42_82 =
-                    success.data.pemeriksaanodontogram_42_82;
-                forms.pemeriksaanodontogram_41_81 =
-                    success.data.pemeriksaanodontogram_41_81;
-                forms.pemeriksaanodontogram_38 =
-                    success.data.pemeriksaanodontogram_38;
-                forms.pemeriksaanodontogram_37 =
-                    success.data.pemeriksaanodontogram_37;
-                forms.pemeriksaanodontogram_36 =
-                    success.data.pemeriksaanodontogram_36;
-                forms.pemeriksaanodontogram_75_35 =
-                    success.data.pemeriksaanodontogram_75_35;
-                forms.pemeriksaanodontogram_74_34 =
-                    success.data.pemeriksaanodontogram_74_34;
-                forms.pemeriksaanodontogram_73_33 =
-                    success.data.pemeriksaanodontogram_73_33;
-                forms.pemeriksaanodontogram_72_32 =
-                    success.data.pemeriksaanodontogram_72_32;
-                forms.pemeriksaanodontogram_71_31 =
-                    success.data.pemeriksaanodontogram_71_31;
-                forms.rahangataspostkiri = success.data.rahangataspostkiri;
-                forms.rahangataspostkanan = success.data.rahangataspostkanan;
-                forms.rahangatasanterior = success.data.rahangatasanterior;
-                forms.rahangbawahpostkiri = success.data.rahangbawahpostkiri;
-                forms.rahangbawahpostkanan = success.data.rahangbawahpostkanan;
-                forms.rahangbawahanterior = success.data.rahangbawahanterior;
-                forms.rahangatasbentukpostkiri =
-                    success.data.rahangatasbentukpostkiri;
-                forms.rahangatasbentukpostkanan =
-                    success.data.rahangatasbentukpostkanan;
-                forms.rahangatasbentukanterior =
-                    success.data.rahangatasbentukanterior;
-                forms.rahangatasketinggianpostkiri =
-                    success.data.rahangatasketinggianpostkiri;
-                forms.rahangatasketinggianpostkanan =
-                    success.data.rahangatasketinggianpostkanan;
-                forms.rahangatasketinggiananterior =
-                    success.data.rahangatasketinggiananterior;
-                forms.rahangatastahananjaringanpostkiri =
-                    success.data.rahangatastahananjaringanpostkiri;
-                forms.rahangatastahananjaringanpostkanan =
-                    success.data.rahangatastahananjaringanpostkanan;
-                forms.rahangatastahananjaringananterior =
-                    success.data.rahangatastahananjaringananterior;
-                forms.rahangatasbentukpermukaanpostkiri =
-                    success.data.rahangatasbentukpermukaanpostkiri;
-                forms.rahangatasbentukpermukaanpostkanan =
-                    success.data.rahangatasbentukpermukaanpostkanan;
-                forms.rahangatasbentukpermukaananterior =
-                    success.data.rahangatasbentukpermukaananterior;
-                forms.rahangbawahbentukpostkiri =
-                    success.data.rahangbawahbentukpostkiri;
-                forms.rahangbawahbentukpostkanan =
-                    success.data.rahangbawahbentukpostkanan;
-                forms.rahangbawahbentukanterior =
-                    success.data.rahangbawahbentukanterior;
-                forms.rahangbawahketinggianpostkiri =
-                    success.data.rahangbawahketinggianpostkiri;
-                forms.rahangbawahketinggianpostkanan =
-                    success.data.rahangbawahketinggianpostkanan;
-                forms.rahangbawahketinggiananterior =
-                    success.data.rahangbawahketinggiananterior;
-                forms.rahangbawahtahananjaringanpostkiri =
-                    success.data.rahangbawahtahananjaringanpostkiri;
-                forms.rahangbawahtahananjaringanpostkanan =
-                    success.data.rahangbawahtahananjaringanpostkanan;
-                forms.rahangbawahtahananjaringananterior =
-                    success.data.rahangbawahtahananjaringananterior;
-                forms.rahangbawahbentukpermukaanpostkiri =
-                    success.data.rahangbawahbentukpermukaanpostkiri;
-                forms.rahangbawahbentukpermukaanpostkanan =
-                    success.data.rahangbawahbentukpermukaanpostkanan;
-                forms.rahangbawahbentukpermukaananterior =
-                    success.data.rahangbawahbentukpermukaananterior;
-                forms.anterior = success.data.anterior;
-                forms.prosteriorkiri = success.data.prosteriorkiri;
-                forms.prosteriorkanan = success.data.prosteriorkanan;
-                forms.labialissuperior = success.data.labialissuperior;
-                forms.labialisinferior = success.data.labialisinferior;
-                forms.bukalisrahangataskiri =
-                    success.data.bukalisrahangataskiri;
-                forms.bukalisrahangataskanan =
-                    success.data.bukalisrahangataskanan;
-                forms.bukalisrahangbawahkiri =
-                    success.data.bukalisrahangbawahkiri;
-                forms.bukalisrahangbawahkanan =
-                    success.data.bukalisrahangbawahkanan;
-                forms.lingualis = success.data.lingualis;
-                forms.palatum = success.data.palatum;
-                forms.kedalaman = success.data.kedalaman;
-                forms.toruspalatinus = success.data.toruspalatinus;
-                forms.palatummolle = success.data.palatummolle;
-                forms.tuberorositasalveolariskiri =
-                    success.data.tuberorositasalveolariskiri;
-                forms.tuberorositasalveolariskanan =
-                    success.data.tuberorositasalveolariskanan;
-                forms.ruangretromilahioidkiri =
-                    success.data.ruangretromilahioidkiri;
-                forms.ruangretromilahioidkanan =
-                    success.data.ruangretromilahioidkanan;
-                forms.bentuklengkungrahangatas =
-                    success.data.bentuklengkungrahangatas;
-                forms.bentuklengkungrahangbawah =
-                    success.data.bentuklengkungrahangbawah;
-                forms.perlekatandasarmulut = success.data.perlekatandasarmulut;
-                forms.pemeriksaanlain_lainlain =
-                    success.data.pemeriksaanlain_lainlain;
-                forms.sikapmental = success.data.sikapmental;
-                forms.diagnosa = success.data.diagnosa;
-                forms.rahangatas = success.data.rahangatas;
-                forms.rahangataselemen = success.data.rahangataselemen;
-                forms.rahangbawah = success.data.rahangbawah;
-                forms.rahangbawahelemen = success.data.rahangbawahelemen;
-                forms.gigitiruancekat = success.data.gigitiruancekat;
-                forms.gigitiruancekatelemen =
-                    success.data.gigitiruancekatelemen;
-                forms.perawatanperiodontal = success.data.perawatanperiodontal;
-                forms.perawatanbedah = success.data.perawatanbedah;
-                forms.perawatanbedah_ada = success.data.perawatanbedah_ada;
-                forms.perawatanbedahelemen = success.data.perawatanbedahelemen;
-                forms.perawatanbedahlainlain =
-                    success.data.perawatanbedahlainlain;
-                forms.konservasigigi = success.data.konservasigigi;
-                forms.konservasigigielemen = success.data.konservasigigielemen;
-                forms.rekonturing = success.data.rekonturing;
-                forms.adapembuatanmahkota = success.data.adapembuatanmahkota;
-                forms.pengasahangigimiring = success.data.pengasahangigimiring;
-                forms.pengasahangigiextruded =
-                    success.data.pengasahangigiextruded;
-                forms.rekonturinglainlain = success.data.rekonturinglainlain;
-                forms.macamcetakan_ra = success.data.macamcetakan_ra;
-                forms.acamcetakan_rb = success.data.acamcetakan_rb;
-                forms.warnagigi = success.data.warnagigi;
-                forms.klasifikasidaerahtidakbergigirahangatas =
-                    success.data.klasifikasidaerahtidakbergigirahangatas;
-                forms.klasifikasidaerahtidakbergigirahangbawah =
-                    success.data.klasifikasidaerahtidakbergigirahangbawah;
-                forms.gigipenyangga = success.data.gigipenyangga;
-                forms.direk = success.data.direk;
-                forms.indirek = success.data.indirek;
-                forms.platdasar = success.data.platdasar;
-                forms.anasirgigi = success.data.anasirgigi;
-                forms.prognosis = success.data.prognosis;
-                forms.prognosisalasan = success.data.prognosisalasan;
-                forms.reliningregio = success.data.reliningregio;
-                forms.reliningregiotanggal = success.data.reliningregiotanggal;
-                forms.reparasiregio = success.data.reparasiregio;
-                forms.reparasiregiotanggal = success.data.reparasiregiotanggal;
-                forms.perawatanulangsebab = success.data.perawatanulangsebab;
-                forms.perawatanulanglainlain =
-                    success.data.perawatanulanglainlain;
-                forms.perawatanulanglainlaintanggal =
-                    success.data.perawatanulanglainlaintanggal;
-                forms.perawatanulangketerangan =
-                    success.data.perawatanulangketerangan;
                 if (success.data.noepisode == null) {
+                    forms.id = success.data.id;
+                    forms.npm = userData.username;
+                    forms.namaoperator = userData.name;
                     getAnItem(noreg);
                     return false;
                 }
-            } else {
-                getAnItem(noreg);
+                for (const [key, value] of Object.entries(success.data)) {
+                    forms[`${key}`] = value;
+                }
+               // image.designngigitext.push(success.data.designngigitext);
             }
         },
         (error) => {
@@ -556,10 +88,6 @@ const getByID = async (noreg, nim) => {
         }
     );
 };
-
-const image = reactive({
-    designngigitext: [],
-});
 
 const setUploadFile = async (event, filetype, fileurl, fileid, deskripsi) => {
     const formData = new FormData();
@@ -578,56 +106,14 @@ const setUploadFile = async (event, filetype, fileurl, fileid, deskripsi) => {
         );
 
     if (filetype == "designngigitext")
-        image.designngigitext.push(data.data.data.select_file);
+        forms.designngigitext = data.data.data.select_file;
 };
 
-// const getAnItem = async (target) =>
-// {
-//     const
-
-//     { token: tokenData, } = await useAuth (),
-//     { getItem,setItem,getItemPost } = useItem (tokenData);
-
-//     await getItemPost ("/v1/transaction/patient/detailbyNoregistrasi", "",
-//     target,
-//     success =>
-//     {
-//       //   var forms = {
-//       //   //console.log(success.data[0]);
-//       //   tanggal:success.data[0].Visit_Date,
-//       //   namapasien:success.data[0].PatientName,
-//       //   // suku:success.data[0],
-//       //   // umur:success.data[0],
-//       //   // jeniskelamin:success.data[0],
-//       //   // alamat:success.data[0],
-//       //   // telepon:success.data[0],
-//       //   // pekerjaan:success.data[0],
-//       //   // rujukandari:success.data[0],
-//       //   // namaayah:success.data[0],
-//       //   // sukuayah:success.data[0],
-//       //   // umurayah:success.data[0],
-//       //   // namaibu:success.data[0],
-//       //   // sukuibu:success.data[0],
-//       //   // umuribu:success.data[0],
-//       //   // pekerjaanortu:success.data[0],
-//       //   // alamatortu:success.data[0],
-//       //   noregister:success.data[0].NoRegistrasi,
-//       //   noepisode:success.data[0].NoEpisode,
-//       // }
-//     },
-//     error => {});
-// };
-
-// onBeforeMount (async () =>
-// {
-//     clearForms ();
-// });
-
 onMounted(async () => {
-    await getByID(useRouter().currentRoute.value.query.noreg, "141300001");
+    await getByID(useRouter().currentRoute.value.query.noreg);
     //await getAnItem ( useRouter().currentRoute.value.query.noreg );
 
-    image.designngigitext.push(forms.designngigitext);
+    //image.designngigitext.push(forms.designngigitext);
 });
 </script>
 
@@ -635,14 +121,6 @@ onMounted(async () => {
     <v-form v-model="valid">
         <v-container>
             <v-row>
-                <v-col cols="12" md="4">
-                    <v-text-field
-                        v-model="forms.id"
-                        label="ID"
-                        required
-                        hide-details
-                        variant="outlined"></v-text-field>
-                </v-col>
                 <v-col cols="12" md="4">
                     <v-text-field
                         v-model="forms.noregister"
@@ -1452,7 +930,12 @@ onMounted(async () => {
                     </tr>
                 </tbody>
             </v-table>
-
+            <br />
+            <v-img
+                :width="1500"
+                aspect-ratio="16/9"
+                cover
+                src="/img/gigi.jpeg"></v-img>
             <br />
             <v-table density="compact" class="border">
                 <tbody>
@@ -2358,13 +1841,13 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="10" md="4">
+                <!-- <v-col cols="10" md="4">
                     <v-textarea
                         v-model="forms.keterangan"
                         label="Keterangan :"
                         variant="outlined"
                         rows="8"></v-textarea
-                ></v-col>
+                ></v-col> -->
                 <v-col cols="10" md="4">
                     <v-dialog width="300">
                         <template v-slot:activator="{ props }">
@@ -2405,14 +1888,10 @@ onMounted(async () => {
                         <v-fade-transition mode="out-in">
                             <v-row>
                                 <v-col
-                                    v-for="(
-                                        item, index
-                                    ) in image.designngigitext"
-                                    :key="index"
                                     cols="6">
                                     <v-card>
                                         <v-img
-                                            :src="item"
+                                            :src="forms.designngigitext"
                                             height="300"
                                             class="bg-grey-lighten-2"></v-img>
                                     </v-card>
@@ -2420,6 +1899,7 @@ onMounted(async () => {
                             </v-row>
                         </v-fade-transition>
                     </v-container>
+
                 </v-col>
             </v-row>
 
@@ -2436,8 +1916,9 @@ onMounted(async () => {
             </v-row>
             <v-row>
                 <v-col rows="2" cols="10">
+                    <v-textarea
                     v-model="forms.prognosisalasan"
-                    <v-textarea label="Alasan" variant="outlined"></v-textarea>
+                    label="Alasan" variant="outlined"></v-textarea>
                 </v-col>
             </v-row>
             <h4>G. PERAWATAN ULANG</h4>

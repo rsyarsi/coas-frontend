@@ -6,6 +6,18 @@ definePageMeta (
     layout: "dashboard",
     title: "emrortodonsi",
 });
+  
+
+const tab  = ref(null);
+const showSnackbar = ref(false)
+
+const sb = reactive (
+{
+    snackbar: false,
+    text: "",
+    color:"blue-grey",
+    rounded:"pill"
+});
 
 const forms = reactive (
 {
@@ -29,9 +41,13 @@ const setItems = async (target) =>
     (success) =>
     {
         if (success.code == 200){
-            alert(success.message);
+            sb.snackbar = true
+            sb.text = success.message
+            sb.color = "green"
         }else{
-            alert(success.message);
+            sb.snackbar = true
+            sb.text = success.message
+            sb.color = "red"
         }
     },
     error => {
@@ -61,16 +77,13 @@ const getAnItem = async (target) =>
     error => {});
 };
 
-const getByID = async (noreg,nim) =>
+const getByID = async (noreg) =>
 {
     const
 
-    { token: tokenData, } = await useAuth (),
+    { token: tokenData,getUser } = await useAuth (), userData = await getUser(tokenData),
     { getItem,setItem } = useItem (tokenData),
-    formTarget = {
-      "nim" : nim,
-      "noregister" : noreg
-    };
+    formTarget = {"nim" : userData.username,"noregister" : noreg};
 
     await setItem ("/v1/emr/ortodonsi/viewemrbyRegOperator", "",
     formTarget,
@@ -79,6 +92,8 @@ const getByID = async (noreg,nim) =>
       if (success.code == 200){
         if (success.data.noepisode == null){
             forms.id = success.data.id
+            forms.nim = userData.username
+            forms.operator = userData.name
             getAnItem ( noreg );
             return false;
         }
@@ -111,17 +126,35 @@ const setUploadFile = async (event, filetype, fileurl, fileid, deskripsi) =>
 
 onMounted (async () =>
 {
-    await getByID (useRouter().currentRoute.value.query.noreg,'141300001');
+    await getByID (useRouter().currentRoute.value.query.noreg);
 });
 
 </script>
 
 
 <template v-slot:form="{ forms, }">
+
+      <v-tabs
+            v-model="tab"
+            bg-color="red-darken-4"
+            align-tabs="left"
+            >
+            <v-tab :value="1">IDENTITAS & WAKTU PERAWATAN</v-tab>
+            <v-tab :value="2">PEMERIKSAAN KLINIS</v-tab>
+            <v-tab :value="3">ANALISIS FOTO MUKA & MODEL STUDI</v-tab>
+            <v-tab :value="4">ANALISIS RADIOGRAFI & DIAGNOSIS</v-tab>      
+            <v-tab :value="5">ANALISIS ETIOLOGI MALOKLUSI & PROSEDUR PERAWATAN</v-tab>
+            <v-tab :value="6">GAMBAR/DESAIN ALAT & PROGNOSIS</v-tab>
+
+            </v-tabs>
+
       <v-container>
 
         
-
+        
+        <v-window v-model="tab">
+                <v-window-item :value="1" >
+                <v-container fluid>
         <h4>1. IDENTITAS</h4>
         <hr>
         <v-row>
@@ -133,6 +166,7 @@ onMounted (async () =>
               v-model="forms.id"
               label="ID"
               required
+              type="hidden"
               hide-details
             ></v-text-field>
           </v-col>
@@ -380,7 +414,7 @@ onMounted (async () =>
             md="6"
           >
             <v-text-field
-              v-model="forms.pekerjaanortu"
+              v-model="forms.pekerjaanorangtua"
               label="Pekerjaan orang tua"
               hide-details
               required
@@ -395,7 +429,7 @@ onMounted (async () =>
             md="6"
           >
             <v-text-field
-              v-model="forms.alamatortu"
+              v-model="forms.alamatorangtua"
               label="Alamat orang tua"
               hide-details
               required
@@ -484,7 +518,11 @@ onMounted (async () =>
             ></v-text-field>
           </v-col>
         </v-row>
+                </v-container>
+                </v-window-item>
 
+                <v-window-item :value="2" >
+                <v-container fluid>
         <br/>
         <h4>3. PEMERIKSAAN KLINIS</h4>
         <hr>
@@ -844,6 +882,57 @@ onMounted (async () =>
         </v-row>
 
         <h4><label>Pemeriksaan gigi-gigi</label></h4>
+        <v-col cols="12" md="12">
+        <v-dialog width="500">
+          <template v-slot:activator="{ props }">
+            <v-btn v-bind="props" text="Upload Pemeriksaan gigi-gigi"> </v-btn>
+          </template>
+
+          <template v-slot:default="{ isActive }">
+            <v-card title="Upload File">
+
+              <v-file-input
+              @change="setUploadFile ($event, 'image_pemeriksaangigi', '/v1/emr/ortodonsi/create/uploadpemeriksaangigi', forms.id, '-')"
+              show-size
+              counter
+              label="File input"
+              ></v-file-input>
+
+              <v-card-actions >
+                <v-spacer></v-spacer>
+
+                <v-btn
+                  text="Close Dialog"
+                  @click="isActive.value = false"
+                ></v-btn>
+              </v-card-actions>
+            </v-card>
+          </template>
+        </v-dialog>
+      </v-col>
+
+      <v-col cols="12" md="12">
+        <v-container
+    class="fill-height"
+    fluid
+    style="min-height: 434px">
+          <v-fade-transition mode="out-in">
+            <v-row>
+              <v-col cols="10">
+                <v-card>
+                  <v-img
+                    :src="forms.image_pemeriksaangigi"
+                    height="300"
+                    class="bg-grey-lighten-2"
+                  ></v-img>
+                </v-card>
+              </v-col>
+            </v-row>
+          </v-fade-transition>
+        </v-container>
+      </v-col>
+
+
         <br/>
         <!-- tabel gigi -->
         <!-- <v-row>
@@ -851,8 +940,11 @@ onMounted (async () =>
             <label>Keterangan</label>
             </v-col>
         </v-row> -->
+                </v-container>
+                </v-window-item>
         
-        
+        <v-window-item :value="3" >
+                <v-container fluid>
         <br/>
         <h4>4. ANALISIS FOTO MUKA</h4>
         <hr>
@@ -898,7 +990,7 @@ onMounted (async () =>
             <v-card title="Upload File">
 
               <v-file-input
-              @change="setUploadFile ($event, 'uploadfotosenyum', '/v1/emr/ortodonsi/analisafoto/uploadfotosenyum', forms.id, '-')"
+              @change="setUploadFile ($event, 'tampakdepansenyumterlihatgigi', '/v1/emr/ortodonsi/analisafoto/uploadfotosenyum', forms.id, '-')"
               show-size
               counter
               label="File input"
@@ -1910,6 +2002,11 @@ onMounted (async () =>
             </v-col>
         </v-row>
         
+      </v-container>
+                </v-window-item>
+        
+                <v-window-item :value="4" >
+                <v-container fluid>
         <h4>6. ANALISIS RADIOGRAFI</h4>
 
         <v-row>
@@ -2024,6 +2121,7 @@ onMounted (async () =>
                  <v-textarea v-model="forms.fotopanoramik" label="Foto panoramik"></v-textarea>
             </v-col>
         </v-row> -->
+
         
         <h4>7. DIAGNOSIS</h4>
         <v-row>
@@ -2116,6 +2214,13 @@ onMounted (async () =>
             </v-col>
         </v-row>
 
+        
+      </v-container>
+                </v-window-item>
+
+                
+                <v-window-item :value="5" >
+                <v-container fluid>
         <h4>8. ANALISIS ETIOLOGI MALOKLUSI</h4>
 
         <v-row>
@@ -2388,6 +2493,12 @@ onMounted (async () =>
             </v-col>
         </v-row> -->
 
+        
+      </v-container>
+                </v-window-item>
+
+                <v-window-item :value="6" >
+                <v-container fluid>
         <h4>11. GAMBAR / DESAIN ALAT</h4>
         <h5>Plat aktif</h5>
 
@@ -2544,66 +2655,35 @@ onMounted (async () =>
                 ></v-select>
             </v-col>
         </v-row>
+      </v-container>
+                </v-window-item>
+            </v-window>
 
-                <v-btn @click="setItems" color="blue" variant="outlined">{{ $t ("action.button.save") }}</v-btn>
+            <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn @click="setItems" color="primary" variant="outlined">{{
+                $t("action.button.save")
+            }}</v-btn>
+                                </v-card-actions>
 
 
       </v-container>
-  </template>
-  <!-- <script>
-  export default {
-      data: () => ({
-          valid: false,
-          id: "",
-    operator:"",
-    nim:"",
-    pembimbing:"",
-    tanggal:"",
-    namapasien:"",
-    suku:"",
-    umur:"",
-    jeniskelamin:"",
-    alamat:"",
-    telepon:"",
-    pekerjaan:"",
-    rujukandari:"",
-    namaayah:"",
-    sukuayah:"",
-    umurayah:"",
-    namaibu:"",
-    sukuibu:"",
-    umuribu:"",
-    pekerjaanortu:"",
-    alamatortu:"",
-    noregister: "",
-    noepisode: "",
 
-          nameRules: [
-              (value) => {
-                  if (value) return true;
-  
-                  return "Name is required.";
-              },
-              (value) => {
-                  if (value?.length <= 10) return true;
-  
-                  return "Name must be less than 10 characters.";
-              },
-          ],
-          email: "",
-          emailRules: [
-              (value) => {
-                  if (value) return true;
-  
-                  return "E-mail is requred.";
-              },
-              (value) => {
-                  if (/.+@.+\..+/.test(value)) return true;
-  
-                  return "E-mail must be valid.";
-              },
-          ],
-      }),
-  };
-  </script> -->
-  
+    <v-snackbar v-model="sb.snackbar" :color="sb.color">
+      {{ sb.text }}
+      <template v-slot:actions>
+        <v-btn
+          color="red"
+          variant="text"
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+    <!-- <v-btn @click="showSnackbar = true"> Open Snackbar </v-btn>
+    <Snackbar :options="{ showSnackbar: showSnackbar }" @close="showSnackbar = false">
+      Warning
+    </Snackbar> -->
+
+  </template>

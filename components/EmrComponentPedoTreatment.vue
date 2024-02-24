@@ -141,7 +141,6 @@ const setItems = async (target) =>
         formTarget[form] = datatableBody.forms[form];
     }
     formTarget.emrid = props.idemr;
-    formTarget.datetreatmentplanentry = "2024-02-24";
     formTarget.userentry = userData.id;
     formTarget.userentryname = userData.name;
 
@@ -191,9 +190,9 @@ const DeleteItem = async (target) =>
     });
 };
 
-defineExpose({
-    getItems
-});
+// defineExpose({
+//     getItems
+// });
 
 onBeforeMount (async () =>
 {
