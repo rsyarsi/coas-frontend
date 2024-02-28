@@ -4,6 +4,9 @@ definePageMeta({
     title: "Konservasi",
 });
 
+
+const ListComponent = ref(null);
+
 const forms = reactive({
     id: "",
     noregister: useRouter().currentRoute.value.query.noreg,
@@ -63,6 +66,8 @@ const getAnItem = async (target) => {
             forms.noregister = success.NoRegistrasi;
             forms.noepisode = success.NoEpisode;
             forms.nomorrekammedik = success.NoMR;
+            forms.pekerjaan = success.pekerjaan;
+            ListComponent.value.getItems('');
 
             //console.log(forms);
 
@@ -96,8 +101,7 @@ const getByID = async (noreg, nim) => {
                 for (const [key, value] of Object.entries(success.data)) {
                     forms[`${key}`] = value;
                 }
-            } else {
-                getAnItem(noreg);
+                 ListComponent.value.getItems('');
             }
         },
         (error) => {
@@ -111,106 +115,152 @@ onMounted(async () => {
 
     // image.designgigi.push(forms.designgigi);
 });
+
+const COMPONENT_TITLE = 'LEMBAR PEMERIKSAAN KONSERVASI GIGI';
+
+const COMPONENT_HEADER =
+[
+    {
+        key: "datejob",
+        title: "Tgl",
+        sortable: false,
+    },
+    {
+        key: "keadaangigi",
+        title: "Keadaan Gigi",
+        sortable: false,
+    },
+    {
+        key: "tindakan",
+        title: "Tindakan",
+        sortable: false,
+    },
+    {
+        key: "keterangan",
+        title: "Keterangan",
+        sortable: false,
+    },
+    {
+        key: "user_entry_name",
+        title: "User Entry",
+        sortable: false,
+    },
+    {
+        key: "actions",
+        title: "Aksi",
+        sortable: false,
+    },
+];
+
+const COMPONENT_FORMS =
+{
+    keadaangigi: "",
+    tindakan: "",
+    keterangan: "",
+};
+
+const COMPONENT_APIS =
+{
+    getAllItems: "/v1/emr/konservasi/jobs/showall",
+    getItem: "/v1/emr/konservasi/jobs/showbyid",
+    createItem: "/v1/emr/konservasi/jobs/create",
+    updateItem: "/v1/emr/konservasi/jobs/update",
+    deleteItem: "/v1/emr/konservasi/jobs/delete",
+};
 </script>
 
 <template>
     <v-form>
         <v-container>
-            <v-row>
-                <v-col cols="12" md="4">
                     <v-text-field
                         v-model="forms.id"
-                        label="ID"
-                        required
-                        hide-details
-                        variant="outlined"></v-text-field>
-                </v-col>
-            </v-row>
+                        type="hidden"></v-text-field>
+           
+            <h1 class="font-weight-bold text-center text-basil">
+                IDENTITAS PASIEN
+            </h1>
+            <br />
+
             <v-row>
-                <v-col cols="12" md="4">
+                <v-col cols="12" md="3">
                     <v-text-field
                         v-model="forms.noregister"
                         label="Nomor Registrasi"
-                        variant="outlined"></v-text-field>
+                        variant="outlined"
+                        readonly></v-text-field>
                 </v-col>
-                <v-col cols="12" md="4">
+                <v-col cols="12" md="3">
                     <v-text-field
                         v-model="forms.noepisode"
                         label="No.Episode"
                         hide-details
                         required
-                        variant="outlined"></v-text-field>
+                        variant="outlined"
+                        readonly></v-text-field>
                 </v-col>
-            </v-row>
-            <v-row>
-                <v-col cols="12" md="4">
+                <v-col cols="12" md="3">
                     <v-text-field
                         v-model="forms.nomorrekammedik"
                         label="Nomor Rekam Medik"
                         required
                         hide-details
-                        variant="outlined"></v-text-field>
+                        variant="outlined"
+                        readonly></v-text-field>
                 </v-col>
-                <v-col cols="12" md="4">
+                <v-col cols="12" md="3">
                     <v-text-field
                         v-model="forms.tanggal"
                         label="Tanggal"
                         hide-details
                         required
-                        variant="outlined"></v-text-field>
+                        variant="outlined"
+                        readonly></v-text-field>
                 </v-col>
             </v-row>
-            <br />
-            <hr />
-            <h4>IDENTITAS</h4>
-            <br />
+
             <v-row>
-                <v-col cols="12" md="4">
+                <v-col cols="12" md="12">
                     <v-text-field
                         v-model="forms.namapasien"
                         label="Nama Pasien"
                         required
                         hide-details
-                        variant="outlined"></v-text-field>
+                        variant="outlined"
+                        readonly></v-text-field>
                 </v-col>
-
+            </v-row>
+            
+            <v-row>
+                <v-col cols="12" md="12">
+                    <v-text-field
+                        v-model="forms.alamatpasien"
+                        label="Alamat Pasien"
+                        hide-details
+                        required
+                        variant="outlined"
+                        readonly></v-text-field>
+                </v-col>
+            </v-row>
+           
+            <v-row>
                 <v-col cols="12" md="4">
                     <v-text-field
                         v-model="forms.pekerjaan"
                         label="Pekerjaan"
                         hide-details
                         required
-                        variant="outlined"></v-text-field>
+                        variant="outlined"
+                        readonly></v-text-field>
                 </v-col>
-            </v-row>
-            <v-row>
+
                 <v-col cols="12" md="4">
                     <v-text-field
                         v-model="forms.jeniskelamin"
                         label="Jenis Kelamin"
                         required
                         hide-details
-                        variant="outlined"></v-text-field>
-                </v-col>
-
-                <v-col cols="12" md="4">
-                    <v-text-field
-                        v-model="forms.alamatpasien"
-                        label="Alamat Pasien"
-                        hide-details
-                        required
-                        variant="outlined"></v-text-field>
-                </v-col>
-            </v-row>
-
-            <v-row>
-                <v-col cols="12" md="4">
-                    <v-text-field
-                        v-model="forms.namaoperator"
-                        label="Nama Operator"
-                        required
-                        hide-details
-                        variant="outlined"></v-text-field>
+                        variant="outlined"
+                        readonly></v-text-field>
                 </v-col>
 
                 <v-col cols="12" md="4">
@@ -219,20 +269,35 @@ onMounted(async () => {
                         label="Nomor Telpon"
                         hide-details
                         required
-                        variant="outlined"></v-text-field>
+                        variant="outlined"
+                        readonly></v-text-field>
                 </v-col>
+               
             </v-row>
 
             <v-row>
-                <v-col cols="12" md="4">
+                <v-col cols="12" md="6">
+                    <v-text-field
+                        v-model="forms.namaoperator"
+                        label="Nama Operator"
+                        required
+                        hide-details
+                        variant="outlined"
+                        readonly></v-text-field>
+                </v-col>
+
+                
+                <v-col cols="12" md="6">
                     <v-text-field
                         v-model="forms.nim"
                         label="NIM"
                         required
                         hide-details
-                        variant="outlined"></v-text-field>
+                        variant="outlined"
+                        readonly></v-text-field>
                 </v-col>
             </v-row>
+            <br />
             <br />
             <hr />
             <br />
@@ -701,7 +766,7 @@ onMounted(async () => {
                 :width="1500"
                 aspect-ratio="16/9"
                 cover
-                src="/img/gambar.jpeg"></v-img>
+                src="/img/gambar.png"></v-img>
             <br />
 
             <v-table density="compact" class="border">
@@ -1632,7 +1697,7 @@ onMounted(async () => {
                 :width="1500"
                 aspect-ratio="16/9"
                 cover
-                src="/img/gambar.jpeg"></v-img>
+                src="/img/gambar.png"></v-img>
             <br />
 
             <v-table density="compact" class="border">
@@ -2103,7 +2168,12 @@ onMounted(async () => {
                 FAKTOR RISIKO KARIES
             </h2>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                    Sikap
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="forms.sblmperawatanfaktorrisikokaries_sikap"
                         label="Sikap"
@@ -2118,7 +2188,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Status
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="forms.sblmperawatanfaktorrisikokaries_status"
                         label="Status"
@@ -2133,7 +2208,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Risiko Karies Saliva Tanpa Stimulasi Hidrasi
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.sblmperawatanfaktorrisikokaries_saliva_tanpastimulasi_hidrasi
@@ -2150,7 +2230,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Risiko Karies Saliva Tanpa Stimulasi Viskosita
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="forms.sblmperawatanfaktorrisikokaries_saliva_tanpastimulasi_viskosita"
                         label="Faktor Risiko Karies Saliva Tanpa Stimulasi Viskositas"
@@ -2165,7 +2250,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Risiko Karies Saliva Tanpa Stimulasi pH
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.sblmperawatanfaktorrisikokaries_saliva_tanpastimulasi_pH
@@ -2182,7 +2272,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Risiko Karies Saliva Dengan Stimulasi Hidrasi
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.sblmperawatanfaktorrisikokaries_saliva_denganstimulasi_hidrasi
@@ -2199,7 +2294,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Risiko Karies Saliva Dengan Stimulasi Kecepatan Aliran Per 5 menit
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.sblmperawatanfaktorrisikokaries_saliva_denganstimulasi_kecepata
@@ -2216,7 +2316,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Risiko Karies Saliva Dengan Stimulasi Kapasitas Buffer
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.sblmperawatanfaktorrisikokaries_saliva_denganstimulasi_kapasita
@@ -2229,7 +2334,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Risiko Karies Saliva Dengan Stimulasi pH
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.sblmperawatanfaktorrisikokaries_saliva_denganstimulasi_pH
@@ -2246,7 +2356,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Risiko Karies Plak pH
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="forms.sblmperawatanfaktorrisikokaries_plak_pH"
                         label="Faktor Risiko Karies Plak pH"
@@ -2261,7 +2376,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Risiko Karies Plak Aktivitas
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.sblmperawatanfaktorrisikokaries_plak_aktivitas
@@ -2278,7 +2398,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Risiko Karies Fluor
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="forms.sblmperawatanfaktorrisikokaries_fluor"
                         label="Faktor Risiko Karies Fluor"
@@ -2289,7 +2414,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Risiko Karies Diet
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="forms.sblmperawatanfaktorrisikokaries_diet"
                         label="Faktor Risiko Karies Diet"
@@ -2306,7 +2436,12 @@ onMounted(async () => {
             <br />
 
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Modifikasi Obat Peningkat Aliran Saliva
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.sblmperawatanfaktorrisikokaries_faktormodifikasi_obatpeningkata
@@ -2319,7 +2454,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Modifikasi Penyakit Penyebab Mulut Kering
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.sblmperawatanfaktorrisikokaries_faktormodifikasi_penyakitpenyeb
@@ -2332,7 +2472,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Modifikasi Protesa / Alat Orthodonsi
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.sblmperawatanfaktorrisikokaries_faktormodifikasi_protesa
@@ -2345,7 +2490,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Modifikasi Karies Aktif
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.sblmperawatanfaktorrisikokaries_faktormodifikasi_kariesaktif
@@ -2358,7 +2508,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Modifikasi Sikap
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.sblmperawatanfaktorrisikokaries_faktormodifikasi_sikap
@@ -2371,7 +2526,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Modifikasi Keterangan
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.sblmperawatanfaktorrisikokaries_faktormodifikasi_keterangan
@@ -2389,7 +2549,12 @@ onMounted(async () => {
             </h2>
             <br />
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Penilaian Akhir Risiko Karies Saliva
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.sblmperawatanfaktorrisikokaries_penilaianakhir_saliva
@@ -2402,7 +2567,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Penilaian Akhir Risiko Karies Plak
+                </h2>
+                </v-col>
+                <v-col cols="612" md="6">
                     <v-select
                         v-model="
                             forms.sblmperawatanfaktorrisikokaries_penilaianakhir_plak
@@ -2415,7 +2585,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Penilaian Akhir Risiko Karies Diet
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.sblmperawatanfaktorrisikokaries_penilaianakhir_diet
@@ -2428,7 +2603,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Penilaian Akhir Risiko Karies Fluor
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.sblmperawatanfaktorrisikokaries_penilaianakhir_fluor
@@ -2441,7 +2621,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Penilaian Akhir Risiko Karies Faktor Modifikasi
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.sblmperawatanfaktorrisikokaries_penilaianakhir_faktormodifikasi
@@ -2463,7 +2648,12 @@ onMounted(async () => {
                 FAKTOR RISIKO KARIES
             </h2>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Sikap
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="forms.ssdhperawatanfaktorrisikokaries_sikap"
                         label="Sikap"
@@ -2478,7 +2668,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Status
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="forms.ssdhperawatanfaktorrisikokaries_status"
                         label="Status"
@@ -2493,7 +2688,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Risiko Karies Saliva Tanpa Stimulasi Hidrasi
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.ssdhperawatanfaktorrisikokaries_saliva_tanpastimulasi_hidrasi
@@ -2510,7 +2710,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Risiko Karies Saliva Tanpa Stimulasi Viskositas
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.ssdhperawatanfaktorrisikokaries_saliva_tanpastimulasi_viskosita
@@ -2527,7 +2732,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Risiko Karies Saliva Tanpa Stimulasi pH
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.ssdhperawatanfaktorrisikokaries_saliva_tanpastimulasi_pH
@@ -2544,7 +2754,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Risiko Karies Saliva Dengan Stimulasi Hidrasi
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.ssdhperawatanfaktorrisikokaries_saliva_denganstimulasi_hidrasi
@@ -2561,7 +2776,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Risiko Karies Saliva Dengan Stimulasi Kecepatan Aliran Per 5 menit
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.ssdhperawatanfaktorrisikokaries_saliva_denganstimulasi_kecepata
@@ -2578,7 +2798,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Risiko Karies Saliva Dengan Stimulasi Kapasitas Buffer
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.ssdhperawatanfaktorrisikokaries_saliva_denganstimulasi_kapasita
@@ -2591,7 +2816,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Risiko Karies Saliva Dengan Stimulasi pH
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.ssdhperawatanfaktorrisikokaries_saliva_denganstimulasi_pH
@@ -2608,7 +2838,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Risiko Karies Plak pH
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="forms.ssdhperawatanfaktorrisikokaries_plak_pH"
                         label="Faktor Risiko Karies Plak pH"
@@ -2623,7 +2858,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Risiko Karies Plak Aktivitas
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.ssdhperawatanfaktorrisikokaries_plak_aktivitas
@@ -2640,7 +2880,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Risiko Karies Fluor
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="forms.ssdhperawatanfaktorrisikokaries_fluor"
                         label="Faktor Risiko Karies Fluor"
@@ -2651,7 +2896,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Risiko Karies Diet
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="forms.ssdhperawatanfaktorrisikokaries_diet"
                         label="Faktor Risiko Karies Diet"
@@ -2668,7 +2918,12 @@ onMounted(async () => {
             <br />
 
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Modifikasi Obat Peningkat Aliran Saliva
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.ssdhperawatanfaktorrisikokaries_faktormodifikasi_obatpeningkata
@@ -2681,7 +2936,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Modifikasi Penyakit Penyebab Mulut Kering
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.ssdhperawatanfaktorrisikokaries_faktormodifikasi_penyakitpenyeb
@@ -2694,7 +2954,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Modifikasi Protesa / Alat Orthodonsi
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.ssdhperawatanfaktorrisikokaries_faktormodifikasi_protesa
@@ -2707,7 +2972,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Modifikasi Karies Aktif
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.ssdhperawatanfaktorrisikokaries_faktormodifikasi_kariesaktif
@@ -2720,7 +2990,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Modifikasi Sikap
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.ssdhperawatanfaktorrisikokaries_faktormodifikasi_sikap
@@ -2733,7 +3008,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Faktor Modifikasi Keterangan
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.ssdhperawatanfaktorrisikokaries_faktormodifikasi_keterangan
@@ -2751,7 +3031,12 @@ onMounted(async () => {
             </h2>
             <br />
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Penilaian Akhir Risiko Karies Saliva
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_saliva
@@ -2764,7 +3049,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Penilaian Akhir Risiko Karies Plak
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_plak
@@ -2777,7 +3067,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Penilaian Akhir Risiko Karies Diet
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_diet
@@ -2790,7 +3085,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Penilaian Akhir Risiko Karies Fluor
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_fluor
@@ -2803,7 +3103,12 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="6" md="12">
+                <v-col cols="12" md="6">
+                    <h2>
+                        Penilaian Akhir Risiko Karies Faktor Modifikasi
+                </h2>
+                </v-col>
+                <v-col cols="12" md="6">
                     <v-select
                         v-model="
                             forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_faktormodifikasi
@@ -3245,9 +3550,41 @@ onMounted(async () => {
                         :items="['YA', 'TIDAK']"></v-select>
                 </v-col>
             </v-row>
+            <br />
+            <br />
+
+            <EmrComponent ref="ListComponent" :title="COMPONENT_TITLE" :header="COMPONENT_HEADER" :forms="COMPONENT_FORMS" :apis="COMPONENT_APIS" :idemr="forms.id">
+                          <template v-slot:form="{ forms, }">
+                              <v-form>
+                                  <v-textarea v-model="forms.keadaangigi" label="Keadaan Gigi"></v-textarea>
+                                  <v-textarea v-model="forms.tindakan" label="Tindakan"></v-textarea>
+                                  <v-textarea v-model="forms.keterangan" label="Keterangan"></v-textarea>
+                              </v-form>
+                          </template>
+                          <template v-slot:item="{ item, }">
+                              <v-form color="success">
+                                  <v-container>
+                                      <v-row>
+                                          <v-row>
+                                              <v-col>
+                                                  <v-row><v-text-field color="success" label="ID" variant="underlined" :model-value="item.id" readonly></v-text-field></v-row>
+                                                  <v-row><v-textarea label="Keadaan Gigi" variant="underlined" :model-value="item.keadaangigi" readonly></v-textarea></v-row>
+                                                  <v-row><v-textarea label="Tindakan" variant="underlined" :model-value="item.tindakan" readonly></v-textarea></v-row>
+                                                  <v-row><v-textarea label="Keterangan" variant="underlined" :model-value="item.keterangan" readonly></v-textarea></v-row>
+                                              </v-col>
+                                          </v-row>
+                                      </v-row>
+                                  </v-container>
+                              </v-form>
+                          </template>
+                      </EmrComponent>
+
         </v-container>
-        <v-btn @click="setItems" color="blue" variant="outlined">{{
-            $t("action.button.save")
-        }}</v-btn>
+        <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn @click="setItems" color="primary" variant="outlined">{{
+                $t("action.button.save")
+            }}</v-btn>
+                                </v-card-actions>
     </v-form>
 </template>

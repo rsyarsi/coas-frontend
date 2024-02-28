@@ -54,13 +54,13 @@ onMounted (async () =>
     dashboardSidebar.items = menuData.value.filter (item => item.for.includes (user.role));
 });
 
-const sb = reactive (
-{
-    snackbar: false,
-    text: "",
-    color:"blue-grey",
-    rounded:"pill"
-});
+// const sb = reactive (
+// {
+//     snackbar: false,
+//     text: "",
+//     color:"blue-grey",
+//     rounded:"pill"
+// });
 
 </script>
 
@@ -113,7 +113,7 @@ const sb = reactive (
                 </v-card>
             </v-container>
         </v-main>
-        <v-snackbar v-model="sb.snackbar" >
+        <!-- <v-snackbar v-model="sb.snackbar" >
             {{ sb.text }}
             <template v-slot:actions>
                 <v-btn
@@ -124,6 +124,6 @@ const sb = reactive (
                 Close
                 </v-btn>
             </template>
-            </v-snackbar>
+            </v-snackbar> -->
     </v-layout>
 </template>

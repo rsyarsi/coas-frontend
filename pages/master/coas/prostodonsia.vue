@@ -49,6 +49,7 @@ const getAnItem = async (target) => {
             forms.noregister = success.NoRegistrasi;
             forms.noepisode = success.NoEpisode;
             forms.nomorrekammedik = success.NoMR;
+            forms.pekerjaan = success.pekerjaan;
             //console.log(forms);
 
             // for (let form of Object.keys (forms)) {
@@ -79,6 +80,15 @@ const getByID = async (noreg) => {
                 }
                 for (const [key, value] of Object.entries(success.data)) {
                     forms[`${key}`] = value;
+                }
+                if (success.data.reliningregiotanggal != null){
+                    forms.reliningregiotanggal = useDateTime (success.data.reliningregiotanggal).ins.format ('YYYY-MM-DD');
+                }
+                if (success.data.reparasiregiotanggal != null){
+                forms.reparasiregiotanggal = useDateTime (success.data.reparasiregiotanggal).ins.format ('YYYY-MM-DD');
+                }
+                if (success.data.perawatanulanglainlaintanggal != null){
+                forms.perawatanulanglainlaintanggal = useDateTime (success.data.perawatanulanglainlaintanggal).ins.format ('YYYY-MM-DD');
                 }
                // image.designngigitext.push(success.data.designngigitext);
             }
@@ -120,95 +130,93 @@ onMounted(async () => {
 <template v-slot:form="{ forms }">
     <v-form v-model="valid">
         <v-container>
+            <v-text-field
+                        v-model="forms.id"
+                        type="hidden"></v-text-field>
+            <h1 class="font-weight-bold text-center text-basil">
+                IDENTITAS PASIEN
+            </h1>
+            <br />
             <v-row>
-                <v-col cols="12" md="4">
+                <v-col cols="12" md="3">
                     <v-text-field
                         v-model="forms.noregister"
-                        label="Nomor Register"
-                        required
-                        hide-details
-                        variant="outlined"></v-text-field>
+                        label="Nomor Registrasi"
+                        variant="outlined"
+                        readonly></v-text-field>
                 </v-col>
-                <v-col cols="12" md="4">
+                <v-col cols="12" md="3">
                     <v-text-field
                         v-model="forms.noepisode"
-                        label="Nomor Episode"
-                        required
+                        label="No.Episode"
                         hide-details
-                        variant="outlined"></v-text-field>
+                        required
+                        variant="outlined"
+                        readonly></v-text-field>
                 </v-col>
-            </v-row>
-            <v-row>
-                <v-col cols="12" md="4">
+                <v-col cols="12" md="3">
                     <v-text-field
                         v-model="forms.nomorrekammedik"
                         label="Nomor Rekam Medik"
                         required
                         hide-details
-                        variant="outlined"></v-text-field>
+                        variant="outlined"
+                        readonly></v-text-field>
                 </v-col>
-                <v-col cols="12" md="4">
+                <v-col cols="12" md="3">
                     <v-text-field
                         v-model="forms.tanggal"
                         label="Tanggal"
                         hide-details
                         required
-                        variant="outlined"></v-text-field>
+                        variant="outlined"
+                        readonly></v-text-field>
                 </v-col>
             </v-row>
-            <br />
-            <hr />
 
-            <h4>IDENTITAS</h4>
-            <br />
             <v-row>
-                <v-col cols="12" md="4">
+                <v-col cols="12" md="12">
                     <v-text-field
                         v-model="forms.namapasien"
                         label="Nama Pasien"
                         required
                         hide-details
-                        variant="outlined"></v-text-field>
+                        variant="outlined"
+                        readonly></v-text-field>
                 </v-col>
-
+            </v-row>
+            
+            <v-row>
+                <v-col cols="12" md="12">
+                    <v-text-field
+                        v-model="forms.alamatpasien"
+                        label="Alamat Pasien"
+                        hide-details
+                        required
+                        variant="outlined"
+                        readonly></v-text-field>
+                </v-col>
+            </v-row>
+           
+            <v-row>
                 <v-col cols="12" md="4">
                     <v-text-field
                         v-model="forms.pekerjaan"
                         label="Pekerjaan"
                         hide-details
                         required
-                        variant="outlined"></v-text-field>
+                        variant="outlined"
+                        readonly></v-text-field>
                 </v-col>
-            </v-row>
 
-            <v-row>
                 <v-col cols="12" md="4">
                     <v-text-field
                         v-model="forms.jeniskelamin"
                         label="Jenis Kelamin"
                         required
                         hide-details
-                        variant="outlined"></v-text-field>
-                </v-col>
-
-                <v-col cols="12" md="4">
-                    <v-text-field
-                        v-model="forms.alamatpasien"
-                        label="Alamat Pasien"
-                        hide-details
-                        required
-                        variant="outlined"></v-text-field>
-                </v-col>
-            </v-row>
-
-            <v-row>
-                <v-col cols="12" md="4">
-                    <v-text-field
-                        v-model="forms.namaoperator"
-                        label="Nama Operator"
-                        required
-                        hide-details
-                        variant="outlined"></v-text-field>
+                        variant="outlined"
+                        readonly></v-text-field>
                 </v-col>
 
                 <v-col cols="12" md="4">
@@ -217,20 +225,35 @@ onMounted(async () => {
                         label="Nomor Telpon"
                         hide-details
                         required
-                        variant="outlined"></v-text-field>
+                        variant="outlined"
+                        readonly></v-text-field>
                 </v-col>
+               
             </v-row>
 
             <v-row>
-                <v-col cols="12" md="4">
+                <v-col cols="12" md="6">
                     <v-text-field
-                        v-model="forms.npm"
-                        label="NPM"
+                        v-model="forms.namaoperator"
+                        label="Nama Operator"
                         required
                         hide-details
-                        variant="outlined"></v-text-field>
+                        variant="outlined"
+                        readonly></v-text-field>
+                </v-col>
+
+                
+                <v-col cols="12" md="6">
+                    <v-text-field
+                        v-model="forms.npm"
+                        label="NIM"
+                        required
+                        hide-details
+                        variant="outlined"
+                        readonly></v-text-field>
                 </v-col>
             </v-row>
+            <br />
             <br />
             <hr />
             <br />
@@ -1932,11 +1955,12 @@ onMounted(async () => {
                         rows="1"></v-textarea>
                 </v-col>
                 <v-col cols="10" md="4">
-                    <v-textarea
+                    <v-text-field
                         v-model="forms.reliningregiotanggal"
                         label="Tanggal :"
                         variant="outlined"
-                        rows="1"></v-textarea>
+                        type="date"
+                        rows="1"></v-text-field>
                 </v-col>
             </v-row>
             <v-row>
@@ -1948,11 +1972,12 @@ onMounted(async () => {
                         rows="1"></v-textarea>
                 </v-col>
                 <v-col cols="10" md="4">
-                    <v-textarea
+                    <v-text-field
                         v-model="forms.reparasiregiotanggal"
                         label="Tanggal :"
                         variant="outlined"
-                        rows="1"></v-textarea>
+                        type="date"
+                        rows="1"></v-text-field>
                 </v-col>
             </v-row>
             <v-row>
@@ -1973,11 +1998,12 @@ onMounted(async () => {
                         rows="1"></v-textarea>
                 </v-col>
                 <v-col cols="10" md="4">
-                    <v-textarea
+                    <v-text-field
                         v-model="forms.perawatanulanglainlaintanggal"
                         label="Tanggal :"
                         variant="outlined"
-                        rows="1"></v-textarea>
+                        type="date"
+                        rows="1"></v-text-field>
                 </v-col>
             </v-row>
             <v-row>
@@ -1990,8 +2016,11 @@ onMounted(async () => {
             </v-row>
         </v-container>
 
-        <v-btn @click="setItems" color="blue" variant="outlined">{{
-            $t("action.button.save")
-        }}</v-btn>
+        <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn @click="setItems" color="primary" variant="outlined">{{
+                $t("action.button.save")
+            }}</v-btn>
+                                </v-card-actions>
     </v-form>
 </template>

@@ -84,7 +84,9 @@ const getAnItem = async (target) =>
       forms.noepisode= success.NoEpisode;
       forms.jenis_kelamin_pasien = success.Gander;
       forms.konsuldari = success.NamaDokter;
-      ListComponent.value.getItems();
+      forms.umur_pasien = success.Usia;
+      forms.pendidikan_pasien = success.Education;
+      ListComponent.value.getItems('');
     },
     error => {});
 };
@@ -105,15 +107,44 @@ const getByID = async (noreg) =>
             forms.id = success.data.id
             forms.npm = userData.username
             forms.nama_mahasiswa = userData.name
+            getDataCoas (userData.username)
             getAnItem ( noreg );
             return false;
         }
         for (const [key, value] of Object.entries(success.data)) {
               forms[`${key}`] = value
           }
-        ListComponent.value.getItems();
+          if (success.data.merokok_tahun_awal != null){
+            forms.merokok_tahun_awal = useDateTime (success.data.merokok_tahun_awal).ins.format ('YYYY-MM-DD');
+          }
+          if (success.data.merokok_tahun_akhir != null){
+          forms.merokok_tahun_akhir = useDateTime (success.data.merokok_tahun_akhir).ins.format ('YYYY-MM-DD');
+          }
+          if (success.data.p1_tanggal != null){
+          forms.p1_tanggal = useDateTime (success.data.p1_tanggal).ins.format ('YYYY-MM-DD');
+          }
+          
+        ListComponent.value.getItems('');
         
       }
+    },
+    error => {
+      console.log(error)
+    });
+};
+
+const getDataCoas = async (target) =>
+{
+    const
+
+    { token: tokenData, } = await useAuth (),
+    { getItem,setItem } = useItem (tokenData);
+
+    await getItem ("/v1/masterdata/students/view/nim", target,
+    success =>
+    {
+        
+        forms.tahun_klinik = success.datein
     },
     error => {
       console.log(error)
@@ -233,7 +264,6 @@ onMounted (async () =>
 </script>
 
 <template v-slot:form="{ forms }">
-
     <v-form >
         <v-container>
             <v-card>
@@ -347,6 +377,7 @@ onMounted (async () =>
                                                         hide-details
                                                         required
                                                         variant="filled"
+                                                        readonly
                                                         ></v-text-field>
                                                 </v-col>
                                             </v-row>
@@ -2931,6 +2962,7 @@ onMounted (async () =>
                         background="transparent"
                         v-model="forms.nama_pasien"
                         hide-details
+                        readonly
                         required></v-text-field>
                 </v-col>
 
@@ -2945,6 +2977,7 @@ onMounted (async () =>
                         background="transparent"
                         v-model="forms.jenis_kelamin_pasien"
                         hide-details
+                        readonly
                         required></v-text-field>
                 </v-col>
 
@@ -2959,6 +2992,7 @@ onMounted (async () =>
                         background="transparent"
                         v-model="forms.alamat"
                         hide-details
+                        readonly
                         required></v-text-field>
                 </v-col>
                 <v-col cols="12" md="2">
@@ -2972,6 +3006,7 @@ onMounted (async () =>
                         background="transparent"
                         v-model="forms.umur_pasien"
                         hide-details
+                        readonly
                         required></v-text-field>
                 </v-col>
 
@@ -2986,6 +3021,7 @@ onMounted (async () =>
                         background="transparent"
                         v-model="forms.no_rekammedik"
                         hide-details
+                        readonly
                         required></v-text-field>
                 </v-col>
                 <v-col cols="12" md="2">
@@ -2999,6 +3035,7 @@ onMounted (async () =>
                         background="transparent"
                         v-model="forms.pendidikan_pasien"
                         hide-details
+                        readonly
                         required></v-text-field>
                 </v-col>
             </v-row>
@@ -3106,16 +3143,16 @@ onMounted (async () =>
             <v-table density="compact" class="border">
                 <thead>
                     <tr>
-                        <th colspan="2" class="text-left">Pemeriksaan 1 :</th>
-                        <th colspan="6" class="text-left">
-                            <v-text-field v-model="forms.pemeriksaan"></v-text-field>
-                        </th>
+                        <th colspan="8" class="text-left">Pemeriksaan 1 :</th>
+                        <!-- <th colspan="6" class="text-left">
+                            <v-text-field v-model="forms.p1_pemeriksaan"></v-text-field>
+                        </th> -->
                         <th colspan="1" class="text-left"></th>
 
                         <th colspan="2" class="text-left">Tanggal :</th>
                         <th colspan="6" class="text-left">
                             <br />
-                            <v-text-field v-model="forms.p1_tanggal"></v-text-field>
+                            <v-text-field v-model="forms.p1_tanggal" type="date"></v-text-field>
                         </th>
                         <th colspan="1" class="text-left"></th>
                     </tr>
@@ -3686,7 +3723,7 @@ onMounted (async () =>
                                                                         aspect-ratio="1"
                                                                     ></v-img>
                                                         
-                                                            <v-text-field v-model="forms.foto_klinis_oklusi_arah_kiri" label="File URL" :readonly ></v-text-field>
+                                                            <v-text-field v-model="forms.foto_klinis_oklusi_arah_kiri" label="File URL" readonly ></v-text-field>
                                                         </v-col>
                                                     
                                     </v-row>
@@ -3732,7 +3769,7 @@ onMounted (async () =>
                                                                         aspect-ratio="1"
                                                                     ></v-img>
                                                         
-                                                            <v-text-field v-model="forms.foto_klinis_oklusi_arah_kanan" label="File URL" :readonly ></v-text-field>
+                                                            <v-text-field v-model="forms.foto_klinis_oklusi_arah_kanan" label="File URL" readonly ></v-text-field>
                                                         </v-col>
                                                     
                                     </v-row>
@@ -3778,7 +3815,7 @@ onMounted (async () =>
                                                                         aspect-ratio="1"
                                                                     ></v-img>
                                                         
-                                                            <v-text-field v-model="forms.foto_klinis_oklusi_arah_anterior" label="File URL" :readonly ></v-text-field>
+                                                            <v-text-field v-model="forms.foto_klinis_oklusi_arah_anterior" label="File URL" readonly ></v-text-field>
                                                         </v-col>
                                                     
                                     </v-row>
@@ -3824,7 +3861,7 @@ onMounted (async () =>
                                                                         aspect-ratio="1"
                                                                     ></v-img>
                                                         
-                                                            <v-text-field v-model="forms.foto_klinis_oklusal_rahang_atas" label="File URL" :readonly ></v-text-field>
+                                                            <v-text-field v-model="forms.foto_klinis_oklusal_rahang_atas" label="File URL" readonly ></v-text-field>
                                                         </v-col>
                                                     
                                     </v-row>
@@ -3870,7 +3907,7 @@ onMounted (async () =>
                                                                         aspect-ratio="1"
                                                                     ></v-img>
                                                         
-                                                            <v-text-field v-model="forms.foto_klinis_oklusal_rahang_bawah" label="File URL" :readonly ></v-text-field>
+                                                            <v-text-field v-model="forms.foto_klinis_oklusal_rahang_bawah" label="File URL" readonly ></v-text-field>
                                                         </v-col>
                                                     
                                     </v-row>
@@ -3916,7 +3953,7 @@ onMounted (async () =>
                                                                         aspect-ratio="1"
                                                                     ></v-img>
                                                         
-                                                            <v-text-field v-model="forms.foto_klinis_before" label="File URL" :readonly ></v-text-field>
+                                                            <v-text-field v-model="forms.foto_klinis_before" label="File URL" readonly ></v-text-field>
                                                         </v-col>
                                                     
                                     </v-row>
@@ -3962,7 +3999,7 @@ onMounted (async () =>
                                                                         aspect-ratio="1"
                                                                     ></v-img>
                                                         
-                                                            <v-text-field v-model="forms.foto_klinis_after" label="File URL" :readonly ></v-text-field>
+                                                            <v-text-field v-model="forms.foto_klinis_after" label="File URL" readonly ></v-text-field>
                                                         </v-col>
                                                     
                                     </v-row>
@@ -4010,7 +4047,7 @@ onMounted (async () =>
                                                                         aspect-ratio="1"
                                                                     ></v-img>
                                                         
-                                                            <v-text-field v-model="forms.foto_ronsen_panoramik" label="File URL" :readonly ></v-text-field>
+                                                            <v-text-field v-model="forms.foto_ronsen_panoramik" label="File URL" readonly ></v-text-field>
                                                         </v-col>
                     </v-container>
                 </v-window-item>

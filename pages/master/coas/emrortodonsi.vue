@@ -73,6 +73,10 @@ const getAnItem = async (target) =>
       forms.telepon=success.MobilePhone;
       forms.noregister=success.NoRegistrasi
       forms.noepisode= success.NoEpisode;
+      forms.pembimbing= success.NamaDokter;
+      forms.umur= success.Usia;
+      forms.pekerjaan= success.pekerjaan;
+      forms.suku = success.Etnis;
     },
     error => {});
 };
@@ -182,6 +186,7 @@ onMounted (async () =>
               label="Operator"
               required
               hide-details
+              readonly
             ></v-text-field>
           </v-col>
   
@@ -194,6 +199,7 @@ onMounted (async () =>
               label="NIM"
               hide-details
               required
+              readonly
             ></v-text-field>
           </v-col>
         </v-row>
@@ -208,6 +214,7 @@ onMounted (async () =>
               label="Pembimbing"
               hide-details
               required
+              readonly
             ></v-text-field>
           </v-col>
 
@@ -220,6 +227,7 @@ onMounted (async () =>
               label="Tanggal"
               hide-details
               required
+              readonly
             ></v-text-field>
           </v-col>
         </v-row>
@@ -234,6 +242,7 @@ onMounted (async () =>
               label="Nama Pasien"
               hide-details
               required
+              readonly
             ></v-text-field>
           </v-col>
 
@@ -246,6 +255,7 @@ onMounted (async () =>
               label="Suku"
               hide-details
               required
+              readonly
             ></v-text-field>
           </v-col>
         </v-row>
@@ -260,6 +270,7 @@ onMounted (async () =>
               label="Umur"
               hide-details
               required
+              readonly
             ></v-text-field>
           </v-col>
 
@@ -272,6 +283,7 @@ onMounted (async () =>
               label="Jenis kelamin"
               hide-details
               required
+              readonly
             ></v-text-field>
           </v-col>
         </v-row>
@@ -286,6 +298,7 @@ onMounted (async () =>
               label="Alamat"
               hide-details
               required
+              readonly
             ></v-text-field>
           </v-col>
 
@@ -298,6 +311,7 @@ onMounted (async () =>
               label="Telepon"
               hide-details
               required
+              readonly
             ></v-text-field>
           </v-col>
         </v-row>
@@ -312,6 +326,7 @@ onMounted (async () =>
               label="Pekerjaan"
               hide-details
               required
+              readonly
             ></v-text-field>
           </v-col>
 
@@ -450,6 +465,7 @@ onMounted (async () =>
               label="No Registrasi"
               required
               hide-details
+              readonly
             ></v-text-field>
           </v-col>
   
@@ -462,6 +478,7 @@ onMounted (async () =>
               label="No Episode"
               hide-details
               required
+              readonly
             ></v-text-field>
           </v-col>
         </v-row>

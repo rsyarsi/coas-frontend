@@ -102,7 +102,8 @@ const setAnItem = async (target) =>
 {
     
     const
-    { token: tokenData, } = await useAuth (),
+    { token: tokenData, getUser } = await useAuth(),
+        userData = await getUser(tokenData),
     { getItem, setItem, } = useItem (tokenData),
     formTarget = {};
 
@@ -111,8 +112,8 @@ const setAnItem = async (target) =>
     }
     formTarget.id = target
     formTarget.idemr = props.idemr
-    formTarget.user_entry = '123'
-    formTarget.user_entry_name = 'fff'
+    formTarget.user_entry = userData.username
+    formTarget.user_entry_name = userData.name
 
     await setItem (props.apis.updateItem, target,
     formTarget,
@@ -130,7 +131,8 @@ const setItems = async (target) =>
 {
     const
 
-    { token: tokenData, } = await useAuth (),
+    { token: tokenData, getUser } = await useAuth(),
+        userData = await getUser(tokenData),
     { getItem, setItem, } = useItem (tokenData),
     formTarget = {};
 
@@ -138,8 +140,8 @@ const setItems = async (target) =>
         formTarget[form] = datatableBody.forms[form];
     }
     formTarget.idemr = props.idemr
-    formTarget.user_entry = '123'
-    formTarget.user_entry_name = 'fff'
+    formTarget.user_entry = userData.username
+    formTarget.user_entry_name = userData.name
 
     await setItem (props.apis.createItem, "",
     formTarget,

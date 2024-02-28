@@ -182,6 +182,14 @@ const goTo = async (NoRegistrasi,idunit) =>
 </script>
 
 <template>
+    <v-overlay
+      :opacity="1"
+      :value="true"
+    >
+      <v-progress-circular indeterminate size="64">
+        Loading...
+      </v-progress-circular>
+    </v-overlay>
     <v-layout v-if="datatableBody.isLoaded">
         <v-data-table-server item-value="id" @update:options="getItems" :headers="datatableBody.headers" :items="datatableBody.items" :items-length="datatableBody.itemsLength" v-model:items-per-page="datatableBody.itemPerPage" :loading="datatableBody.itemsIsLoading">
             <template v-slot:top>
@@ -196,9 +204,9 @@ const goTo = async (NoRegistrasi,idunit) =>
                     </v-breadcrumbs>
                     <v-spacer></v-spacer>
                     <v-dialog v-model="datatableBody.isMutatorDialog">
-                        <template v-slot:activator="{ properties, }">
+                        <!-- <template v-slot:activator="{ properties, }">
                             <v-btn @click="showDialog" v-bind="properties" icon="mdi-format-float-right"></v-btn>
-                        </template>
+                        </template> -->
                         <template v-slot:default="{ isActive, }">
                             <v-card width="550" min-height="480px" class="mx-auto">
                                 <v-card-text>
