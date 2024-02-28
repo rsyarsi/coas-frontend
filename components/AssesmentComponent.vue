@@ -1,15 +1,12 @@
 <script setup>
 
-import { useRouter } from 'vue-router'
-const router = useRouter()
-
-
 const props = defineProps (
 {
-    badge: Array,
+    title: String,
     header: Array,
     forms: Object,
     apis: Object,
+    idemr: String,
 });
 
 const datatableBody = reactive (
@@ -47,7 +44,7 @@ const closeDialog = () =>
 
 const clearForms = async () =>
 {
-    datatableBody.forms = props.forms;
+    datatableBody.forms = {};
     datatableBody.item = {};
 
     await nextTick ();
@@ -60,30 +57,37 @@ const getAnItem = async (target) =>
     const
 
     { token: tokenData, } = await useAuth (),
-    { getItem, } = useItem (tokenData);
+    { getItemPostMethod, } = useItem (tokenData),
+    formTarget = {
+        "id" : target,
+        "type" : '1',
+    };
 
-    await getItem (props.apis.getItem, target,
+    await getItemPostMethod (props.apis.getDetailPenilaian, "-",formTarget,
     success =>
     {
-        //datatableBody.item = success;
-        //router.push({ name: '/master/hospital', params: { username: 'erina' } })
+        datatableBody.item = success.data;
 
-        // for (let form of Object.keys (props.forms)) {
+          for (let form of Object.keys (props.forms)) {
+            datatableBody.forms[form] = datatableBody.item[form];
+            }
 
-        //     datatableBody.forms[form] = datatableBody.item[form];
-        // }
     },
     error => {});
 };
+
+
 
 const getItems = async (target) =>
 {
     const
 
     { token: tokenData, } = await useAuth (),
-    { getItem, } = useItem (tokenData);
-
-    await getItem (props.apis.getAllItems + "?page=" + (typeof target === "object" ? target.page : target), "",
+    { getItemPostMethod, } = useItem (tokenData),
+    formTarget = {
+        "id" : props.idemr,
+    };
+    await getItemPostMethod (props.apis.getAllItems + "?page=" + (typeof target === "object" ? target.page : target), "",formTarget,
     (success, total, per_page, next_page_url, prev_page_url, first_page_url, last_page_url) =>
     {
         datatableBody.items = success;
@@ -93,33 +97,46 @@ const getItems = async (target) =>
         datatableBody.itemPreviousPageUrl = prev_page_url;
         datatableBody.isLoaded = true;
         closeDialog ();
+ 
     },
     error => {});
 };
 
 const setAnItem = async (target) =>
 {
+    
     const
-
     { token: tokenData, } = await useAuth (),
     { getItem, setItem, } = useItem (tokenData),
     formTarget = {};
 
     for (let form of Object.keys (props.forms)) {
-
         formTarget[form] = datatableBody.forms[form];
     }
+    
+    
+    formTarget.id = target
+    formTarget.idhdr = props.idemr
+    formTarget.user_entry = '123'
+    formTarget.user_entry_name = 'fff'
+    formTarget.type = props.type
+    
+    const updatedata = await useCall 
+    ("/v1/transaction/assesment/updatedetailsbyitem", "post", "application/json", 
+    {data: formTarget,  } , tokenData);
 
-    await setItem (props.apis.updateItem, target,
-    formTarget,
-    (success) =>
-    {
-        datatableBody.items[findItem (success.id)] = success;
+   
 
-        clearForms ();
+    if(updatedata.data.data.status){
+        console.log(updatedata.data.data.data.id)
+        datatableBody.items[findItem (updatedata.data.data.data.id)] = updatedata.data.data.data;
         closeDialog ();
-    },
-    error => {});
+        clearForms ();
+        alert(updatedata.data.data.message)
+    }else{
+        alert(updatedata.data.data.message)
+    }
+ 
 };
 
 const setItems = async (target) =>
@@ -131,21 +148,26 @@ const setItems = async (target) =>
     formTarget = {};
 
     for (let form of Object.keys (props.forms)) {
-
         formTarget[form] = datatableBody.forms[form];
     }
+    formTarget.idemr = props.idemr
+    formTarget.user_entry = '123'
+    formTarget.user_entry_name = 'fff'
 
     await setItem (props.apis.createItem, "",
     formTarget,
     (success) =>
     {
-        datatableBody.items.unshift (success);
-
+        //datatableBody.items.unshift (success.data);
+        getItems();
         clearForms ();
         closeDialog ();
     },
-    error => {});
+    error => {
+        alert(error.data.message)
+    });
 };
+  
 
 onBeforeMount (async () =>
 {
@@ -155,29 +177,8 @@ onBeforeMount (async () =>
 onMounted (async () =>
 {
     await getItems ({ page: 1, });
+    // await getAnItem2(props.idemr)
 });
-
-const goTo = async (NoRegistrasi,idunit) =>
-{
-    //this.$router.push({ name: '/master/hospital', params: { username: 'erina' } })
-    if (idunit == 46){
-        var path = 'emrortodonsi';
-    }else if (idunit == 58){
-        var path = 'emrpedodonsi';
-    }else if (idunit == 59){
-        var path = 'emrperiodonsi';
-    }else if (idunit == 60){
-        var path = 'prostodonsia';
-    }else if (idunit == 137){
-        var path = 'konservasi';
-    }else{
-        var path = '';
-    }
-     //navigateTo('/master/coas/'+path, { id: NoRegistrasi });
-     
-     //router.push('/master/coas/'+path, params: {id: 123})
-     router.push({ path: '/master/coas/'+path, query: { noreg: NoRegistrasi } })
-};
 
 </script>
 
@@ -186,19 +187,17 @@ const goTo = async (NoRegistrasi,idunit) =>
         <v-data-table-server item-value="id" @update:options="getItems" :headers="datatableBody.headers" :items="datatableBody.items" :items-length="datatableBody.itemsLength" v-model:items-per-page="datatableBody.itemPerPage" :loading="datatableBody.itemsIsLoading">
             <template v-slot:top>
                 <v-toolbar color="#D3D3D3">
-                    <v-breadcrumbs :items="badge">
+                    <!-- <v-breadcrumbs :items="title">
                         <template v-slot:prepend>
                             <v-icon :icon="datatableBody.icon"></v-icon>
                         </template>
                         <template v-slot:divider>
                             <v-icon icon="mdi-forward"></v-icon>
                         </template>
-                    </v-breadcrumbs>
+                    </v-breadcrumbs> -->
+                    <span class="font-weight-black px-5">{{ title }}</span>
                     <v-spacer></v-spacer>
                     <v-dialog v-model="datatableBody.isMutatorDialog">
-                        <!-- <template v-slot:activator="{ properties, }">
-                            <v-btn @click="showDialog" v-bind="properties" icon="mdi-format-float-right"></v-btn>
-                        </template> -->
                         <template v-slot:default="{ isActive, }">
                             <v-card width="550" min-height="480px" class="mx-auto">
                                 <v-card-text>
@@ -208,7 +207,7 @@ const goTo = async (NoRegistrasi,idunit) =>
                                     <v-btn @click="clearForms (); closeDialog ();" color="red" variant="outlined">{{ $t ("action.button.close") }}</v-btn>
                                     <v-spacer></v-spacer>
                                     <v-btn v-if="Object.keys (datatableBody.item).length" @click="setAnItem (datatableBody.item.id);" color="blue" variant="outlined">{{ $t ("action.button.save") }}</v-btn>
-                                    <v-btn v-else @click="setItems" color="blue" variant="outlined">{{ $t ("action.button.save") }}</v-btn>
+                                    
                                 </v-card-actions>
                             </v-card>
                         </template>
@@ -230,8 +229,9 @@ const goTo = async (NoRegistrasi,idunit) =>
                         </v-card>
                     </template>
                 </v-dialog>
-                <v-btn @click="goTo(item.noregistrasi,item.idunit);" icon="mdi-eye" color="light-green-darken-4" class="mx-2" variant="text" density="compact"></v-btn>
-                <!-- <v-btn @click="showDialog (); getAnItem (item.id);" icon="mdi-pencil" color="lime-darken-4" class="mx-2" variant="text" density="compact"></v-btn> -->
+                
+                <v-btn @click="showDialog (); getAnItem (item.id);" icon="mdi-pencil" color="lime-darken-4" class="mx-2" variant="text" density="compact"></v-btn>
+                
             </template>
         </v-data-table-server>
     </v-layout>

@@ -12,7 +12,7 @@ const forms = reactive({
     id: "",     
     assesmentgroupid: "",
     studentid: "",
-    lectureid: "7922d1e2-e175-4fbd-8baa-0b6149a16338",
+    lectureid: "efa754e5-759a-4b21-92f3-5a35e7b0234b",
     yearid: "",
     semesterid: "",
     specialistid: "",
@@ -48,17 +48,24 @@ const setItems = async (target) =>
     {
         if (success.code == 200){
             alert(success.message); 
-            goTo(success.data.header.id,success.data.header.idspecialistsimrs);
+           goTo(success.data.header.id,success.data.header.idspecialistsimrs,success.data.header.assesmenttype);
         }else{
             alert(success.message);
         }
     },
     error => {});
 };
-const goTo = async (uuid,idunit) =>
+const goTo = async (uuid,idunit,assesmenttype) =>
 {
     if (idunit == 46){
+        if(assesmenttype == "6"){
+            var path = 'ortodonsi/control';
+        }else if(assesmenttype == "7"){
+            var path = 'ortodonsi/assesment';
+        }else{
         var path = 'ortodonsi';
+        }
+        
     }else if (idunit == 58){
         var path = 'pedodonsi';
     }else if (idunit == 59){
@@ -70,7 +77,7 @@ const goTo = async (uuid,idunit) =>
     }else{
         var path = '';
     }
-    router.push({ path: '/lecture/assesmentdetail/'+path, query: { uuid: uuid } })
+    router.push({ path: '/master/lecturer/assesmentdetail/'+path, query: { uuid: uuid } })
 };
 onMounted (async () =>
 {
@@ -109,6 +116,7 @@ onMounted (async () =>
                             :items="groups_year"
                             item-value="id" item-title="name"
                             label="Tahun"
+                            variant="outlined"
                             required
                         ></v-select>
 
@@ -119,6 +127,7 @@ onMounted (async () =>
                             :items="groups_semester"
                             item-value="id" item-title="semestername"
                             label="Semester"
+                            variant="outlined"
                             required
                         ></v-select> 
                     </v-col>
@@ -128,6 +137,7 @@ onMounted (async () =>
                             :items="groups_specialist"
                             item-value="id" item-title="specialistname"
                             label="Spesialis"
+                            variant="outlined"
                             required
                         ></v-select> 
                         
@@ -141,6 +151,7 @@ onMounted (async () =>
                             :items="groups_student"
                             item-value="id" item-title="name"
                             label="Mahasiswa"
+                            variant="outlined"
                             required
                         ></v-select>
                     </v-col>
@@ -150,6 +161,7 @@ onMounted (async () =>
                             :items="groups_assesmentgroup" 
                             item-value="id" item-title="assementgroupname"
                             label="Group Penilaian"
+                            variant="outlined"
                             required
                         ></v-select>
                     </v-col>

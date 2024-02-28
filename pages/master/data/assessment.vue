@@ -17,6 +17,13 @@ const COMPONENT_HEADER =
         align: " d-none",
     },
     {
+        key: "kodesub",
+        title: "Kode Sub",
+        sortable: true,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
+    },
+    {
         key: "assesmentnumbers",
         title: "Nomor",
         sortable: true,
@@ -31,6 +38,20 @@ const COMPONENT_HEADER =
         align: "start",
         headerProps: { class: "font-weight-bold", },
     },
+    {
+        key: "assesmentdescription", 
+        title: "Description",
+        sortable: true,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
+    }, 
+    {
+        key: "index_sub", 
+        title: "Kode Sub Index",
+        sortable: true,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
+    }, 
     {
         key: "active",
         value: item => item.active ? "Aktif" : "Tidak Aktif",
@@ -54,18 +75,20 @@ const COMPONENT_FORMS =
     assesmentnumbers: "",
     assesmentdescription: "",
 
-    assesmentbobotvalue: "",
-    assesmentvaluestart: "",
-    assesmentvalueend: "",
+    assesmentbobotvalue: "0",
+    assesmentvaluestart: "0",
+    assesmentvalueend: "0",
 
-    assesmentskalavalue: "",
-    assesmentskalavaluestart: "",
-    assesmentskalavalueend: "",
+    assesmentskalavalue: "0",
+    assesmentskalavaluestart: "0",
+    assesmentskalavalueend: "0",
 
-    assesmentkonditevalue: "",
-    assesmentkonditevaluestart: "",
-    assesmentkonditevalueend: "",
+    assesmentkonditevalue: "0",
+    assesmentkonditevaluestart: "0",
+    assesmentkonditevalueend: "0",
 
+    index_sub:"0",
+    kodesub:"0",
     active: 1,
 };
 
@@ -128,6 +151,11 @@ onMounted (async () =>
                     </v-row>
                     <v-row>
                         <v-col>
+                            <v-row><v-text-field v-model="forms.kodesub" label="Kode Sub"></v-text-field></v-row> 
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col>
                             <v-row><v-textarea v-model="forms.assesmentdescription" label="Deskripsi"></v-textarea></v-row>
                             <v-row>
                                 <v-radio-group v-model="forms.active">
@@ -138,6 +166,11 @@ onMounted (async () =>
                                     <v-radio label="Tidak Aktif" :value="0"></v-radio>
                                 </v-radio-group>
                             </v-row>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col>
+                            <v-row><v-text-field v-model="forms.index_sub" label="Kode Sub Index"></v-text-field></v-row> 
                         </v-col>
                     </v-row>
                 </v-container>
@@ -188,6 +221,16 @@ onMounted (async () =>
                     <v-row>
                         <v-col>
                             <v-row><v-textarea label="Deskripsi" variant="underlined" :model-value="item.assesmentdescription"></v-textarea></v-row>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col>
+                            <v-text-field label="Kode Sub" variant="underlined" :model-value="item.kodesub"></v-text-field> 
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col>
+                            <v-text-field label="Kode Sub Index" variant="underlined" :model-value="item.index_sub"></v-text-field> 
                         </v-col>
                     </v-row>
                 </v-container>

@@ -39,6 +39,13 @@ const COMPONENT_HEADER =
         headerProps: { class: "font-weight-bold", },
     },
     {
+        key: "valuetotal",
+        title: "Total Nilai Bobot",
+        sortable: true,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
+    },
+    {
         key: "active",
         value: item => item.active ? "Aktif" : "Tidak Aktif",
         title: "Status",
@@ -59,7 +66,8 @@ const COMPONENT_FORMS =
 {
     assementgroupname: "",
     type: "",
-    specialistid: "",
+    specialistid: "",    
+    valuetotal: "", 
     active: 1,
 };
 
@@ -91,12 +99,20 @@ onMounted (async () =>
 
 </script>
 
-<template>
+<template> 
+     <v-alert
+        type="success"
+        title="Informasi"
+        class="multi-line"
+        text="Untuk Type Group isikan : 1. ( ORTHODONSIA & PROSTODONSIA ), 3. ( PEDODONTIA ), 4. ( KONSERVASI ), 5. ( PERIODONSIA ), 6. ( Kontrol Orthodonti ), 7. ( Penilaian Hasil Perawatan Orthodonti ). Untuk Value Total masukan total Nilai Bobot. "
+    ></v-alert>
+    <br>  
     <ItemComponent :badge="COMPONENT_BADGE" :header="COMPONENT_HEADER" :forms="COMPONENT_FORMS" :apis="COMPONENT_APIS">
         <template v-slot:form="{ forms, }">
             <v-form>
                 <v-text-field v-model="forms.assementgroupname" label="Nama"></v-text-field>
                 <v-text-field v-model="forms.type" label="Tipe"></v-text-field>
+                <v-text-field v-model="forms.valuetotal" label="Total Nilai Bobot"></v-text-field>
                 <v-select v-model="forms.specialistid" :items="groups" item-value="id" item-title="specialistname" label="Spesialis"></v-select>
                 <v-radio-group v-model="forms.active">
                     <template v-slot:label>
@@ -115,6 +131,7 @@ onMounted (async () =>
                             <v-row><v-text-field color="success" label="ID" variant="underlined" :model-value="item.id"></v-text-field></v-row>
                             <v-row><v-text-field label="Nama" variant="underlined" :model-value="item.assementgroupname"></v-text-field></v-row>
                             <v-row><v-text-field label="Tipe" variant="underlined" :model-value="item.type"></v-text-field></v-row>
+                            <v-row><v-text-field label="Total Nilai Bobot" variant="underlined" :model-value="item.valuetotal"></v-text-field></v-row>
                             <v-row><v-text-field label="Spesialis" variant="underlined" :value="group (item.specialistid)" active></v-text-field></v-row>
                         </v-col>
                         <v-spacer></v-spacer>
