@@ -12,12 +12,12 @@ const forms = reactive({
     id: "",     
     assesmentgroupid: "",
     studentid: "",
-    lectureid: "efa754e5-759a-4b21-92f3-5a35e7b0234b",
+    lectureid: "",
     yearid: "",
     semesterid: "",
     specialistid: "",
     grandotal: "0",
-    transactiondate: "2024-01-01",
+    transactiondate: (new Date()).toISOString().split('T')[0],
     active: "1"
 
 });
@@ -79,21 +79,61 @@ const goTo = async (uuid,idunit,assesmenttype) =>
     }
     router.push({ path: '/master/lecturer/assesmentdetail/'+path, query: { uuid: uuid } })
 };
+
+const getLecturer = async () =>
+{
+    const
+    { token: tokenData,getUser } = await useAuth (), userData = await getUser(tokenData),
+    { getItem,setItem } = useItem (tokenData);
+
+    await getItem ("/v1/masterdata/lectures/view/nim", userData.username,
+    success =>
+    {
+        forms.lectureid = success.id
+    },
+    error => {
+      console.log(error)
+    });
+};
+
+const getStudentbySpecialist = async (target) =>
+{
+    forms.studentid = null
+    const
+    { token: tokenData,getUser } = await useAuth (), userData = await getUser(tokenData),
+
+    response = await useCall ("/v1/masterdata/students/view/idspecialist/" + target, "get", "application/json", {}, tokenData);
+
+    groups_student.value = response.data.data.data
+}
+
+const getGroupPenilaianbySpecialist = async (target) =>
+{
+    forms.assesmentgroupid = null
+    const
+    { token: tokenData,getUser } = await useAuth (), userData = await getUser(tokenData),
+
+    response = await useCall ("/v1/masterdata/assesmentgroups/view/idspecialist/" + target, "get", "application/json", {}, tokenData);
+
+    groups_assesmentgroup.value = response.data.data.data
+}
+
 onMounted (async () =>
 {
+    await getLecturer();
     const { token: tokenData, } = await useAuth (),
 
     datas_year = await useCall ("/v1/masterdata/years/viewallwithotpaging", "get", "application/json", {}, tokenData),
     datas_semester = await useCall ("/v1/masterdata/semesters/viewallwithotpaging", "get", "application/json", {}, tokenData),
-    datas_student = await useCall ("/v1/masterdata/students/viewallwithotpaging", "get", "application/json", {}, tokenData),
-    datas_specialist = await useCall ("/v1/masterdata/specialists/viewallwithotpaging", "get", "application/json", {}, tokenData),
-    datas_assesmentgroup = await useCall ("/v1/masterdata/assesmentgroups/viewallwithotpaging", "get", "application/json", {}, tokenData);
+    //datas_student = await useCall ("/v1/masterdata/students/viewallwithotpaging", "get", "application/json", {}, tokenData),
+    datas_specialist = await useCall ("/v1/masterdata/specialists/viewallwithotpaging", "get", "application/json", {}, tokenData);
+    //datas_assesmentgroup = await useCall ("/v1/masterdata/assesmentgroups/viewallwithotpaging", "get", "application/json", {}, tokenData);
  
     groups_year.value = datas_year.data.data.data;  
     groups_semester.value = datas_semester.data.data.data; 
     groups_specialist.value = datas_specialist.data.data.data; 
-    groups_student.value = datas_student.data.data.data; 
-    groups_assesmentgroup.value = datas_assesmentgroup.data.data.data; 
+    //groups_student.value = datas_student.data.data.data; 
+    //groups_assesmentgroup.value = datas_assesmentgroup.data.data.data; 
 
     
 });
@@ -139,6 +179,7 @@ onMounted (async () =>
                             label="Spesialis"
                             variant="outlined"
                             required
+                            @update:modelValue="getStudentbySpecialist(forms.specialistid);getGroupPenilaianbySpecialist(forms.specialistid)"
                         ></v-select> 
                         
                       

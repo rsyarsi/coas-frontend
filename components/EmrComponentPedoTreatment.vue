@@ -199,7 +199,7 @@ onBeforeMount (async () =>
     clearForms ();
 });
 
-onMounted (async () =>
+onUpdated (async () =>
 {
     await getItems ({ page: 1, });
 });

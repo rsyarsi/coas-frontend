@@ -112,7 +112,7 @@ const COMPONENT_FORMS =
     dateupdate : "",
     assesmentgroupid : "",
     iddetail : "",
-    assesmenttype : "",    
+    assesmenttype : "1",    
     kode_sub_name : "", 
     assesmentskala : "",
     dateupdatedetail : "", 
@@ -123,7 +123,8 @@ const COMPONENT_FORMS =
     konditevalue: "0",
     assementscore: "0",
     active : "",
-    assesmentbobotvalue : "0"
+    assesmentbobotvalue : "0",
+    grandotal : "0",
 };
 
 const COMPONENT_APIS =
@@ -340,7 +341,7 @@ onMounted (async () =>
                             <v-text-field 
                                 label="Total Penilaian"
                                 readonly
-                                v-model="forms2.grandotal"
+                                v-model="COMPONENT_FORMS.grandotal"
                                 hide-details
                                 variant="outlined"></v-text-field>
                         </v-col>

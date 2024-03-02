@@ -13,7 +13,7 @@ export default async (url: string, method: string, contentType: string, content:
 
         headers: {
 
-            "X-Requested-With": "XMLHttpRequest",
+            // "X-Requested-With": "XMLHttpRequest",
             ... (auth ? { "Authorization": "Bearer " + auth, } : {}),
         },
     });

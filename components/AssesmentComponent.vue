@@ -60,7 +60,7 @@ const getAnItem = async (target) =>
     { getItemPostMethod, } = useItem (tokenData),
     formTarget = {
         "id" : target,
-        "type" : '1',
+        "type" : props.forms.assesmenttype,
     };
 
     await getItemPostMethod (props.apis.getDetailPenilaian, "-",formTarget,
@@ -97,6 +97,14 @@ const getItems = async (target) =>
         datatableBody.itemPreviousPageUrl = prev_page_url;
         datatableBody.isLoaded = true;
         closeDialog ();
+
+        var total = 0;
+        var arrayLength = success.length;
+        for (var i = 0; i < arrayLength; i++) {
+            total += success[i].assementvalue;
+        }
+            props.forms.grandotal = total
+        
  
     },
     error => {});
@@ -231,7 +239,7 @@ onMounted (async () =>
                 </v-dialog>
                 
                 <v-btn @click="showDialog (); getAnItem (item.id);" icon="mdi-pencil" color="lime-darken-4" class="mx-2" variant="text" density="compact"></v-btn>
-                
+              
             </template>
         </v-data-table-server>
     </v-layout>

@@ -1,5 +1,7 @@
 <script setup>
 import { useRouter } from "vue-router";
+import EmrComponentPedo from '../../../components/EmrComponentPedo.vue'
+  import { ref } from 'vue'
 
 definePageMeta({
     layout: "dashboard",
@@ -9,8 +11,8 @@ definePageMeta({
 const tab = ref(null);
 const tab2 = ref(null);
 const tab3 = ref(null);
-const ListComponent = ref(null);
-const ListComponent2 = ref(null);
+ const ListComponent = ref(null);
+// const ListComponent2 = ref(null);
 
 const forms = reactive({
     noregister: useRouter().currentRoute.value.query.noreg,
@@ -59,8 +61,8 @@ const getAnItem = async (target) => {
             forms.noepisode = success.NoEpisode;
             forms.jenis_kelamin_pasien = success.Gander;
             forms.konsuldari = success.NamaDokter;
-            ListComponent.value.getItems();
-            ListComponent2.value.getItems();
+             ListComponent.value.getItems();
+            // ListComponent2.value.getItems('');
             // console.log(success.);
 
             // for (let form of Object.keys (forms)) {
@@ -92,8 +94,8 @@ const getByID = async (noreg) => {
                 for (const [key, value] of Object.entries(success.data)) {
                     forms[`${key}`] = value;
                 }
-                ListComponent.value.getItems();
-                ListComponent2.value.getItems();
+                 ListComponent.value.getItems();
+                // ListComponent2.value.getItems('');
             }
         },
         (error) => {

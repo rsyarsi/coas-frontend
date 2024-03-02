@@ -109,6 +109,23 @@ const getByID = async (noreg, nim) => {
         }
     );
 };
+
+const setUploadFile = async (event, filetype, fileurl, fileid, deskripsi) =>
+{
+    const formData = new FormData ();
+
+    formData.append ("id", fileid);
+    formData.append ('', deskripsi);
+    formData.append ("select_file", event.target.files[0]);
+
+    const
+
+    { token: tokenData, } = await useAuth (),
+    { data, error, } = await useCall (fileurl, "post", "multipart/form-data", formData, tokenData);
+    
+    forms[`${filetype}`] = data.data.data.select_file;
+};
+
 onMounted(async () => {
     await getByID(useRouter().currentRoute.value.query.noreg);
     //await getAnItem ( useRouter().currentRoute.value.query.noreg );
@@ -762,12 +779,67 @@ const COMPONENT_APIS =
                 </tbody>
             </v-table>
             <br />
-            <v-img
+            
+        <v-row>
+            <v-col cols="12" md="12">
+        <v-dialog width="500">
+          <template v-slot:activator="{ props }">
+            <v-btn v-bind="props" text="Upload foto gigi sebelum perawatan"> </v-btn>
+          </template>
+
+          <template v-slot:default="{ isActive }">
+            <v-card title="Upload File">
+
+              <v-file-input
+              @change="setUploadFile ($event, 'sebelumgambar', '/v1/emr/konservasi/sebelumgambar', forms.id, '-')"
+              show-size
+              counter
+              label="File input"
+              ></v-file-input>
+
+              <v-card-actions >
+                <v-spacer></v-spacer>
+
+                <v-btn
+                  text="Close Dialog"
+                  @click="isActive.value = false"
+                ></v-btn>
+              </v-card-actions>
+            </v-card>
+          </template>
+        </v-dialog>
+        
+      </v-col>
+        </v-row>
+
+        <v-row>
+            <v-col cols="12" md="12">
+        <v-container
+    class="fill-height"
+    fluid
+    style="min-height: 434px">
+          <v-fade-transition mode="out-in">
+            <v-row>
+              <v-col cols="10">
+                <v-card>
+                  <v-img
+                    :src="forms.sebelumgambar"
+                    height="300"
+                    class="bg-grey-lighten-2"
+                  ></v-img>
+                </v-card>
+              </v-col>
+            </v-row>
+          </v-fade-transition>
+        </v-container>
+      </v-col>
+      </v-row>
+            <!-- <v-img
                 :width="1500"
                 aspect-ratio="16/9"
                 cover
                 src="/img/gambar.png"></v-img>
-            <br />
+            <br /> -->
 
             <v-table density="compact" class="border">
                 <thead>
@@ -1693,12 +1765,68 @@ const COMPONENT_APIS =
                 </tbody>
             </v-table>
             <br />
-            <v-img
+
+            <v-row>
+            <v-col cols="12" md="12">
+        <v-dialog width="500">
+          <template v-slot:activator="{ props }">
+            <v-btn v-bind="props" text="Upload foto gigi sesudah perawatan"> </v-btn>
+          </template>
+
+          <template v-slot:default="{ isActive }">
+            <v-card title="Upload File">
+
+              <v-file-input
+              @change="setUploadFile ($event, 'sesudahgambar', '/v1/emr/konservasi/sesudahgambar', forms.id, '-')"
+              show-size
+              counter
+              label="File input"
+              ></v-file-input>
+
+              <v-card-actions >
+                <v-spacer></v-spacer>
+
+                <v-btn
+                  text="Close Dialog"
+                  @click="isActive.value = false"
+                ></v-btn>
+              </v-card-actions>
+            </v-card>
+          </template>
+        </v-dialog>
+        
+      </v-col>
+        </v-row>
+
+        <v-row>
+            <v-col cols="12" md="12">
+        <v-container
+    class="fill-height"
+    fluid
+    style="min-height: 434px">
+          <v-fade-transition mode="out-in">
+            <v-row>
+              <v-col cols="10">
+                <v-card>
+                  <v-img
+                    :src="forms.sesudahgambar"
+                    height="300"
+                    class="bg-grey-lighten-2"
+                  ></v-img>
+                </v-card>
+              </v-col>
+            </v-row>
+          </v-fade-transition>
+        </v-container>
+      </v-col>
+      </v-row>
+
+            <!-- <v-img
                 :width="1500"
                 aspect-ratio="16/9"
                 cover
                 src="/img/gambar.png"></v-img>
-            <br />
+            <br /> -->
 
             <v-table density="compact" class="border">
                 <thead>

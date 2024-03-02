@@ -1,4 +1,6 @@
 <script setup>
+import { ref } from 'vue'
+
 
 const props = defineProps (
 {
@@ -195,12 +197,12 @@ defineExpose({
     getItems
 });
 
-onBeforeMount (async () =>
-{
-    clearForms ();
-});
+// onBeforeMount (async () =>
+// {
+//     clearForms ();
+// });
 
-onMounted (async () =>
+onUpdated (async () =>
 {
     await getItems ({ page: 1, });
 });

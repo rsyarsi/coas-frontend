@@ -1864,17 +1864,17 @@ onMounted(async () => {
                 </v-col>
             </v-row>
             <v-row>
-                <!-- <v-col cols="10" md="4">
+                <v-col cols="10" md="4">
                     <v-textarea
                         v-model="forms.keterangan"
-                        label="Keterangan :"
+                        label="KETERANGAN DESIGN GIGI TIRUAN"
                         variant="outlined"
                         rows="8"></v-textarea
-                ></v-col> -->
+                ></v-col>
                 <v-col cols="10" md="4">
                     <v-dialog width="300">
                         <template v-slot:activator="{ props }">
-                            <v-btn v-bind="props" text="Upload foto gigi utuh">
+                            <v-btn v-bind="props" text="UPLOAD DESIGN GIGI TIRUAN">
                             </v-btn>
                         </template>
 
@@ -1887,7 +1887,7 @@ onMounted(async () => {
                                             'designngigitext',
                                             '/v1/emr/prostodonti/create/uploadgigi',
                                             forms.id,
-                                            '-'
+                                            forms.keterangan
                                         )
                                     "
                                     show-size
