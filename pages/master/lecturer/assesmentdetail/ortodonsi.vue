@@ -264,7 +264,7 @@ onMounted (async () =>
                                     <v-textarea v-model="forms.assesmentdescription" variant="outlined" readonly label="Deskripsi Penilaian"></v-textarea> 
                                 </v-col> 
                             </v-row>
-                            <v-row>
+                            <!-- <v-row>
                                 <v-col cols="12" md="12">
                                     <v-text-field 
                                     label="Assesmenttype"
@@ -293,8 +293,8 @@ onMounted (async () =>
                                     hide-details
                                     variant="outlined"></v-text-field>
                                 </v-col> 
-                            </v-row>
-                            <v-row>
+                            </v-row>-->
+                            <v-row> 
                               <v-col cols="12" md="6"> 
                                     <v-text-field 
                                         label="Bobot"
@@ -303,7 +303,7 @@ onMounted (async () =>
                                         hide-details
                                         variant="outlined"></v-text-field>
                                 </v-col>
-                                <v-col cols="12" md="6">
+                                <!-- <v-col cols="12" md="6">
  
 
                                     <v-text-field 
@@ -312,7 +312,7 @@ onMounted (async () =>
                                         v-model="forms.assesmentbobotvalue"
                                         hide-details
                                         variant="outlined"></v-text-field>
-                                </v-col>
+                                </v-col> -->
                                 <v-col cols="12" md="6">
                                     <v-text-field 
                                         label="Nilai" 
