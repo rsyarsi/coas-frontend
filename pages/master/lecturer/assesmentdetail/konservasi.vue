@@ -84,18 +84,13 @@ const COMPONENT_HEADER =
         sortable: false,
     },
     {
+        key: "assesmentskalavalue",
+        title: "Skala",
+        sortable: false,
+    },
+    {
         key: "assementvalue",
-        title: "NILAI 0-2",
-        sortable: false,
-    },
-    {
-        key: "assesmentbobotvalue",
-        title: "Bobot",
-        sortable: false,
-    },
-    {
-        key: "assementscore",
-        title: "N x B",
+        title: "Nilai",
         sortable: false,
     },
     
@@ -124,7 +119,8 @@ const COMPONENT_FORMS =
     konditevalue: "0",
     assementscore: "0",
     active : "",
-    assesmentbobotvalue : "0",
+    assesmentskalavaluestart : "0",
+    assesmentskalavalueend : "0",
     grandotal : "0",
 };
 
@@ -265,7 +261,7 @@ onMounted (async () =>
                                     <v-textarea v-model="forms.assesmentdescription" variant="outlined" readonly label="Deskripsi Penilaian"></v-textarea> 
                                 </v-col> 
                             </v-row>
-                            <v-row>
+                            <!-- <v-row>
                                 <v-col cols="12" md="12">
                                     <v-text-field 
                                     label="Assesmenttype"
@@ -294,13 +290,13 @@ onMounted (async () =>
                                     hide-details
                                     variant="outlined"></v-text-field>
                                 </v-col> 
-                            </v-row>
+                            </v-row> -->
                             <v-row>
                               <v-col cols="12" md="6"> 
                                     <v-text-field 
-                                        label="Bobot"
-                                        
-                                        v-model="forms.assesmentbobotvalue"
+                                        label="Skala Awal"
+                                        readonly
+                                        v-model="forms.assesmentskalavaluestart"
                                         hide-details
                                         variant="outlined"></v-text-field>
                                 </v-col>
@@ -308,9 +304,9 @@ onMounted (async () =>
  
 
                                     <v-text-field 
-                                        label="Bobot"
-                                        
-                                        v-model="forms.assesmentbobotvalue"
+                                        label="Skala Akhir"
+                                        readonly
+                                        v-model="forms.assesmentskalavalueend"
                                         hide-details
                                         variant="outlined"></v-text-field>
                                 </v-col>

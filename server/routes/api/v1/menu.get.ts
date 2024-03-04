@@ -52,6 +52,12 @@ export default defineEventHandler ((event) => [
             },
             {
                 for: [ "admin", ],
+                title: "Grup Assesment Final",
+                icon: "mdi-text",
+                to: "/master/data/group_assessmentfinal",
+            },
+            {
+                for: [ "admin", ],
                 title: "Grup Penilaian",
                 icon: "mdi-text-box-multiple",
                 to: "/master/data/group_assessment",
