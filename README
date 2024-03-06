@@ -8,3 +8,7 @@ NUXT_PUBLIC_BASE_URL=http://202.51.196.91/api
 NUXT_PUBLIC_APP_ENV=development
 NUXT_PORT=3000
 SECRET=123456
+
+- Run :
+npm install
+npm run dev
