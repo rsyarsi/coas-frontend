@@ -1,7 +1,6 @@
 - Clone
 - Switch Branch to 'master'
 - Create .env :
-
 NUXT_PUBLIC_APP_NAME=yarsi_sikm
 NUXT_PUBLIC_APP_URL=http://frontend.localhost
 NUXT_PUBLIC_BASE_URL=http://202.51.196.91/api
