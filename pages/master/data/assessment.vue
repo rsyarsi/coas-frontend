@@ -19,14 +19,14 @@ const COMPONENT_HEADER =
     {
         key: "kodesub",
         title: "Kode Sub",
-        sortable: true,
+        sortable: false,
         align: "start",
         headerProps: { class: "font-weight-bold", },
     },
     {
         key: "assesmentnumbers",
         title: "Nomor",
-        sortable: true,
+        sortable: false,
         align: "start",
         headerProps: { class: "font-weight-bold", },
     },
@@ -48,7 +48,7 @@ const COMPONENT_HEADER =
     {
         key: "index_sub", 
         title: "Kode Sub Index",
-        sortable: true,
+        sortable: false,
         align: "start",
         headerProps: { class: "font-weight-bold", },
     }, 

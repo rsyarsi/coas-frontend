@@ -15,7 +15,7 @@ const login = async () =>
 {
     isLoading.value = true;
 
-    const { token: tokenData, setToken, delToken, getUser, delUser, } = await useAuth (formUserIdentity.value, formUserPassword.value), userData = await getUser (tokenData);
+    const { token: tokenData, setToken, delToken, getUser, delUser, } = (formUserIdentity.value && formUserPassword.value ? await useAuth (formUserIdentity.value, formUserPassword.value) : await useAuth ()), userData = await getUser (tokenData);
 
     if (tokenData) {
 
@@ -30,10 +30,16 @@ const login = async () =>
 
         await delUser ();
 
-        isError.value = true;
+        if (formUserIdentity.value && formUserPassword.value) isError.value = true;
+
         isLoading.value = false;
     }
 };
+
+onMounted (async () =>
+{
+    await login ();
+});
 
 </script>
 
@@ -54,7 +60,7 @@ const login = async () =>
                         </v-row>
                     </template>
                     <v-card-subtitle>
-                        <v-alert v-if="isError" type="warning" :text="$t ('auth.error')"></v-alert>
+                        <v-alert v-if="! isLoading && isError" type="warning" :text="$t ('auth.error')"></v-alert>
                     </v-card-subtitle>
                     <v-form @keyup.native.enter="login">
                         <v-card-text>
