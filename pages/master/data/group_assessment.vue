@@ -41,7 +41,7 @@ const COMPONENT_HEADER =
     {
         key: "valuetotal",
         title: "Total Nilai Bobot",
-        sortable: true,
+        sortable: false,
         align: "start",
         headerProps: { class: "font-weight-bold", },
     },

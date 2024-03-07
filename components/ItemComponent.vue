@@ -14,6 +14,8 @@ const datatableBody = reactive (
     isAccessorDialog: false,
     isMutatorDialog: false,
 
+    searchables: [],
+    searchBy: "",
     search: "",
 
     icon: "mdi-hospital-building",
@@ -22,7 +24,7 @@ const datatableBody = reactive (
 
     itemsIsLoading: false,
     itemsLength: 0,
-    itemPerPage: 0,
+    itemPerPage: 10,
     itemNextPageUrl: "",
     itemPreviousPageUrl: "",
     item: {},
@@ -76,9 +78,49 @@ const getItems = async (target) =>
     const
 
     { token: tokenData, } = await useAuth (),
-    { getItem, } = useItem (tokenData);
+    { getItem, } = useItem (tokenData),
 
-    await getItem (props.apis.getAllItems + "?page=" + (typeof target === "object" ? target.page : target), "",
+    limitBy = () => "limit=" + datatableBody.itemPerPage + "&",
+    orderBy = () =>
+    {
+        let by = toRaw (target.sortBy) ?? [];
+
+        if (by.length) {
+
+            let { order, key, } = by[0];
+
+            if (order == "asc") {
+
+                return "order=" + key + "&";
+
+            } else if (order == "desc") {
+
+                return "order=-" + key + "&";
+            }
+
+        } else {
+
+            return "";
+        }
+    },
+    filterBy = () =>
+    {
+        if (datatableBody.searchables.length && datatableBody.searchBy && target.search) {
+
+            return "filter[" + datatableBody.searchBy + "]=" + target.search + "&";
+
+        } else {
+
+            return "";
+        }
+    };
+
+    await getItem (props.apis.getAllItems + "?"
+    + orderBy ()
+    + filterBy ()
+    + limitBy ()
+    + "current_page=" + (typeof target === "object" ? target.page : target),
+    "",
     (success, total, per_page, next_page_url, prev_page_url, first_page_url, last_page_url) =>
     {
         datatableBody.items = success;
@@ -149,6 +191,10 @@ onBeforeMount (async () =>
 
 onMounted (async () =>
 {
+    datatableBody.searchables = props.header.filter (header => header.key != "id" && (header.searchable ?? header.sortable) === true);
+
+    if (datatableBody.searchables.length) datatableBody.searchBy = datatableBody.searchables[0].key;
+
     await getItems ({ page: 1, });
 });
 
@@ -170,7 +216,7 @@ onMounted (async () =>
 
 <template>
     <v-layout v-if="datatableBody.isLoaded">
-        <v-data-table-server @update:options="getItems" :headers="datatableBody.headers" :items="datatableBody.items" :items-length="datatableBody.itemsLength" v-model:items-per-page="datatableBody.itemPerPage" :loading="datatableBody.itemsIsLoading" hover>
+        <v-data-table-server @update:options="getItems" :headers="datatableBody.headers" :items="datatableBody.items" :items-length="datatableBody.itemsLength" v-model:items-per-page="datatableBody.itemPerPage" :search="datatableBody.search" :loading="datatableBody.itemsIsLoading" hover>
             <template v-slot:top>
                 <v-toolbar color="#BC1010">
                     <v-breadcrumbs :items="badge">
@@ -182,6 +228,8 @@ onMounted (async () =>
                         </template>
                     </v-breadcrumbs>
                     <v-spacer></v-spacer>
+                    <v-text-field v-model="datatableBody.search" variant="outlined" density="compact" placeholder="Filter" single-line hide-details></v-text-field>
+                    <v-select v-model="datatableBody.searchBy" :items="datatableBody.searchables" item-title="title" item-value="key" class="mx-2" variant="plain" density="compact" style="max-width: 33px" single-line hide-details></v-select>
                     <v-dialog v-model="datatableBody.isMutatorDialog" transition="dialog-top-transition" fullscreen>
                         <template v-if="props.apis.createItem" v-slot:activator="{ properties, }">
                             <v-btn @click="showDialog" v-bind="properties" icon="mdi-format-float-right"></v-btn>
