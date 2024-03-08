@@ -100,15 +100,25 @@ groupfinal = (target) =>
 }
 ;
 
+const getGroupFinalbySpecialist = async (target) =>
+{
+    COMPONENT_FORMS.idassesmentgroupfinal = null
+    const
+    { token: tokenData,getUser } = await useAuth (), userData = await getUser(tokenData),
+
+    response = await useCall ("/v1/masterdata/assesmentgroupfinals/view/idspecialist/" + target, "get", "application/json", {}, tokenData);
+
+    groupfinals.value = response.data.data.data
+}
+
 onMounted (async () =>
 {
     const
 
     { token: tokenData, } = await useAuth (),
     { data: { data: { data: datas = [], } = {}, error, } = {}, } = await useCall ("/v1/masterdata/specialists/viewallwithotpaging", "get", "application/json", {}, tokenData)
-    ,{ data: { data: { data: datas_groupfinal = [], } = {}, errorx, } = {}, } = await useCall ("/v1/masterdata/assesmentgroupfinals/viewallwithotpaging", "get", "application/json", {}, tokenData)
+     ,{ data: { data: { data: datas_groupfinal = [], } = {}, errorx, } = {}, } = await useCall ("/v1/masterdata/assesmentgroupfinals/viewallwithotpaging", "get", "application/json", {}, tokenData)
     ;
-
     groups.value = datas;
     groupfinals.value = datas_groupfinal;
 });
@@ -129,6 +139,7 @@ onMounted (async () =>
                 <v-text-field v-model="forms.assementgroupname" label="Nama"></v-text-field>
                 <v-text-field v-model="forms.type" label="Tipe"></v-text-field>
                 <v-text-field v-model="forms.valuetotal" label="Total Nilai Bobot"></v-text-field>
+                <v-select v-model="forms.specialistid" :items="groups" item-value="id" item-title="specialistname" label="Spesialis" @update:modelValue="getGroupFinalbySpecialist(forms.specialistid)"></v-select>
                 <v-select v-model="forms.idassesmentgroupfinal" :items="groupfinals" item-value="id" item-title="name" label="Group Final Assesment"></v-select>
                 <v-radio-group v-model="forms.isskala">
                     <template v-slot:label>
@@ -138,7 +149,6 @@ onMounted (async () =>
                     <v-radio label="Tidak" :value="0"></v-radio>
                 </v-radio-group>
                 <v-text-field v-model="forms.bobotprosenfinal" label="Bobot Prosen Final"></v-text-field>
-                <v-select v-model="forms.specialistid" :items="groups" item-value="id" item-title="specialistname" label="Spesialis"></v-select>
                 <v-radio-group v-model="forms.active">
                     <template v-slot:label>
                         <div><strong>{{ $t ("action.state") }}</strong></div>
