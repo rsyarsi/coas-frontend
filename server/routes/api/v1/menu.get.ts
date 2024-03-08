@@ -124,4 +124,17 @@ export default defineEventHandler ((event) => [
             },
         ],
     },
+    {
+        for: [ "admin", "dosen", ],
+        title: "Rekapitulasi Penilaian",
+        icon: "mdi-account-tie",
+        to: [
+            {
+                for: [ "admin", "dosen", ],
+                title: "Data Rekapitulasi Penilaian",
+                icon: "mdi-import",
+                to: "/master/lecturer/rekapitulasi",
+            },
+        ],
+    },
 ]);
