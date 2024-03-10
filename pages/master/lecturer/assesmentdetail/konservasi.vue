@@ -58,7 +58,6 @@ const getAnItem2 = async (target) =>
         forms2.assesmenttype = success.data.assesmenttype;
         forms2.kodesub = success.data.kodesub;
         forms2.index_sub = success.data.index_sub;
-        console.log(success.data,'ff')
 
     },
     error => {});
@@ -132,7 +131,7 @@ const COMPONENT_APIS =
     getItem: "/v1/emr/periodonti/soap/showbyid",
     createItem: "/v1/emr/periodonti/soap/create",
     updateItem: "/v1/transaction/assesment/updatedetailsbyitem",
-    deleteItem: "/v1/emr/periodonti/soap/delete",
+    setFinish: "/v1/transaction/recapitulation/generate",
 };
 
 const COMPONENT_IDEMR = useRouter().currentRoute.value.query.uuid;

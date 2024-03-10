@@ -16,6 +16,8 @@
 
         "button": {
 
+            "lanjut": "Lanjut Assesment",
+            "kirimdanfinish": "Kirim dan Finish Penilaian",
             "save": "Simpan",
             "close": "Batal"
         }
