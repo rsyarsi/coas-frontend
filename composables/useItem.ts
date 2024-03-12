@@ -41,6 +41,27 @@ export default (token: string) =>
         }
     };
 
+    const downloadItem = async (
+        url: string,
+        extension: string,
+        fnSuccess: Function,
+        fnError: Function): Promise<void> =>
+    {
+        const { data, error, } = await useCall (url, "get", "blob", {}, token);
+
+        if (data) {
+
+            let dataObject = window.URL.createObjectURL (new Blob ([ data.data, ])),
+                link = document.createElement ("a");
+
+            link.href = dataObject;
+            link.download = `${+ new Date()}.${extension}`;
+            link.click ();
+
+            window.URL.revokeObjectURL (dataObject);
+        }
+    };
+
     const getItem = async (
         url: string,
         item: string = "",
@@ -119,6 +140,7 @@ export default (token: string) =>
     return {
 
         getItemPostMethod,
+        downloadItem,
         getItem,
         setItem,
     };
