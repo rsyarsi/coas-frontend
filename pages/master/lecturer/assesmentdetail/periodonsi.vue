@@ -58,6 +58,12 @@ const getAnItem2 = async (target) =>
         forms2.assesmenttype = success.data.assesmenttype;
         forms2.kodesub = success.data.kodesub;
         forms2.index_sub = success.data.index_sub;
+        COMPONENT_FORMS.lock=success.data.lock;
+        COMPONENT_FORMS.semesterid=success.data.semesterid;
+        COMPONENT_FORMS.yearid=success.data.yearid;
+        COMPONENT_FORMS.studentid=success.data.studentid;
+        COMPONENT_FORMS.lectureid=success.data.lectureid;
+        COMPONENT_FORMS.specialistid=success.data.specialistid;
 
     },
     error => {});
@@ -93,8 +99,18 @@ const COMPONENT_HEADER =
         sortable: false,
     },
     {
+        key: "nilaitindakan_akhir",
+        title: "Nilai",
+        sortable: false,
+    },
+    {
+        key: "nilaisikap_akhir",
+        title: "Kondite Sikap",
+        sortable: false,
+    },
+    {
         key: "assementscore",
-        title: "N x B",
+        title: "Total",
         sortable: false,
     },
     
@@ -128,7 +144,13 @@ const COMPONENT_FORMS =
     nilaitindakan_awal:"",
     nilaisikap_awal:"",
     nilaitindakan_akhir:"",
-    nilaisikap_akhir:""
+    nilaisikap_akhir:"",
+    lock:"0",
+    studentid: "",
+    yearid:"",
+    semesterid:"",
+    lectureid:"",
+    specialistid:"",
 };
 
 const COMPONENT_APIS =
@@ -140,6 +162,7 @@ const COMPONENT_APIS =
     createItem: "/v1/emr/periodonti/soap/create",
     updateItem: "/v1/transaction/assesment/updatedetailsbyitem",
     deleteItem: "/v1/emr/periodonti/soap/delete",
+    setFinish: "/v1/transaction/recapitulation/generate",
 };
 
 const COMPONENT_IDEMR = useRouter().currentRoute.value.query.uuid;
@@ -333,7 +356,7 @@ onMounted (async () =>
 
                                 <v-col cols="6" md="6"> 
                                     <v-text-field 
-                                        label="Nilai Tindakan Akhir"
+                                        label="Nilai Tindakan Akhir (80%)"
                                         v-model="forms.nilaitindakan_akhir"
                                         hide-details
                                         readonly
@@ -341,7 +364,7 @@ onMounted (async () =>
                                 </v-col>
                                 <v-col cols="6" md="6">
                                     <v-text-field 
-                                        label="Nilai Sikap Akhir" 
+                                        label="Nilai Sikap Akhir (20%)" 
                                         v-model="forms.nilaisikap_akhir"
                                         hide-details
                                         readonly

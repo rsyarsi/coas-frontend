@@ -59,7 +59,7 @@ const COMPONENT_HEADER = [
 
 const COMPONENT_FORMS = {
     id: "",
-    idhdr: useRouter().currentRoute.value.query.uuid,
+    idhdr: "",
     dateupdate: "",
     assesmentgroupid: "",
     iddetail: "",
@@ -77,6 +77,8 @@ const COMPONENT_FORMS = {
     assesmentskalavaluestart: "0",
     assesmentskalavalueend: "0",
     grandotal: "0",
+    yearid: useRouter().currentRoute.value.query.yearid,
+    semesterid: useRouter().currentRoute.value.query.semesterid,
 };
 
 const COMPONENT_APIS = {

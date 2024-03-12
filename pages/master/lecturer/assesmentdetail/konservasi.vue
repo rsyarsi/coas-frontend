@@ -58,6 +58,7 @@ const getAnItem2 = async (target) =>
         forms2.assesmenttype = success.data.assesmenttype;
         forms2.kodesub = success.data.kodesub;
         forms2.index_sub = success.data.index_sub;
+        COMPONENT_FORMS.lock = success.data.lock;
 
     },
     error => {});
@@ -121,6 +122,7 @@ const COMPONENT_FORMS =
     assesmentskalavaluestart : "0",
     assesmentskalavalueend : "0",
     grandotal : "0",
+    lock : "0",
 };
 
 const COMPONENT_APIS =
