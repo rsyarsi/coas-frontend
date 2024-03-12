@@ -184,6 +184,17 @@ const setItems = async (target) =>
     error => {});
 };
 
+const exportItems = async (extension) =>
+{
+    const
+
+    { token: tokenData, } = await useAuth (),
+    { downloadItem, } = useItem (tokenData),
+    url = props.apis.exportItem + "?file=" + extension;
+
+    await downloadItem (url, extension);
+};
+
 onBeforeMount (async () =>
 {
     clearForms ();
@@ -230,6 +241,11 @@ onMounted (async () =>
                     <v-spacer></v-spacer>
                     <v-text-field v-model="datatableBody.search" variant="outlined" density="compact" placeholder="Filter" single-line hide-details></v-text-field>
                     <v-select v-model="datatableBody.searchBy" :items="datatableBody.searchables" item-title="title" item-value="key" class="mx-2" variant="plain" density="compact" style="max-width: 33px" single-line hide-details></v-select>
+                    <v-btn-toggle v-if="props?.apis?.exportItem" variant="outlined" rounded="xl" density="compact" divided>
+                        <v-btn @click="exportItems ('csv')"><span class="font-weight-medium text-caption text-white">CSV</span></v-btn>
+                        <v-btn @click="exportItems ('xls')"><span class="font-weight-medium text-caption text-white">XLS</span></v-btn>
+                        <v-btn @click="exportItems ('xlsx')"><span class="font-weight-medium text-caption text-white">XLSX</span></v-btn>
+                    </v-btn-toggle>
                     <v-dialog v-model="datatableBody.isMutatorDialog" transition="dialog-top-transition" fullscreen>
                         <template v-if="props.apis.createItem" v-slot:activator="{ properties, }">
                             <v-btn @click="showDialog" v-bind="properties" icon="mdi-format-float-right"></v-btn>
