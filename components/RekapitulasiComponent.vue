@@ -77,9 +77,12 @@ const getItems = async (target) =>
     const
 
     { token: tokenData, } = await useAuth (),
-    { getItem, } = useItem (tokenData);
-
-    await getItem (props.apis.getAllItems + "?page=" + (typeof target === "object" ? target.page : target), "",
+    { getItemPostMethod, } = useItem (tokenData),
+    formTarget = {
+        "yearid" : props.forms.yearid ,
+        "semesterid" : props.forms.semesterid 
+    };
+    await getItemPostMethod (props.apis.getAllItems + "?page=" + (typeof target === "object" ? target.page : target), "",formTarget,
     (success, total, per_page, next_page_url, prev_page_url, first_page_url, last_page_url) =>
     {
         datatableBody.items = success;

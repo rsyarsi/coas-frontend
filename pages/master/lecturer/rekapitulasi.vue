@@ -27,6 +27,22 @@ const groups_year = ref([]),
 
     const getAnItem = async (target) =>
 {
+    //validasi
+    if (forms.yearid == ""){
+        alert('Tahun masih kosong !')
+        return false;
+    }
+
+    if (forms.specialistid == ""){
+        alert('Spesialis masih kosong !')
+        return false;
+    }
+    
+    if (forms.semesterid == ""){
+        alert('Semester masih kosong !')
+        return false;
+    }
+    //#END validasi
     const
 
     { token: tokenData, } = await useAuth (),
@@ -35,15 +51,12 @@ const groups_year = ref([]),
     await getItem ('/v1/masterdata/specialists/view/id', target,
     success =>
     {
-        goTo(
-            success.id,
-            success.simrsid
-        );
+        goTo(success.simrsid,forms.yearid,forms.semesterid);
     },
     error => {});
 }
 
-const goTo = async (uuid, idunit) => {
+const goTo = async (idunit,yearid,semesterid) => {
     if (idunit == 46) {
         var path = "ortodonsi";
     } else if (idunit == 58) {
@@ -59,7 +72,10 @@ const goTo = async (uuid, idunit) => {
     }
     router.push({
         path: "/master/lecturer/rekap/" + path,
-        query: { uuid: uuid },
+        query: { 
+            yearid: yearid ,
+            semesterid: semesterid ,
+        },
     });
 };
 

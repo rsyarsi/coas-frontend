@@ -80,6 +80,27 @@ const goTo = async (uuid,idunit,assesmenttype) =>
     router.push({ path: '/master/lecturer/assesmentdetail/'+path, query: { uuid: uuid } })
 };
 
+const goToViewEmr = async (NoRegistrasi,idunit) =>
+{
+    if (idunit == 46){
+        var path = 'emrortodonsi';
+    }else if (idunit == 58){
+        var path = 'emrpedodonsi';
+    }else if (idunit == 59){
+        var path = 'emrperiodonsi';
+    }else if (idunit == 60){
+        var path = 'prostodonsia';
+    }else if (idunit == 137){
+        var path = 'konservasi';
+    }else{
+        var path = '';
+    }
+     //navigateTo('/master/coas/'+path, { id: NoRegistrasi });
+     
+     //router.push('/master/coas/'+path, params: {id: 123})
+     router.push({ path: '/master/coas/'+path, query: { noreg: NoRegistrasi } })
+};
+
 const getLecturer = async () =>
 {
     const
@@ -134,9 +155,118 @@ onMounted (async () =>
     groups_specialist.value = datas_specialist.data.data.data; 
     //groups_student.value = datas_student.data.data.data; 
     //groups_assesmentgroup.value = datas_assesmentgroup.data.data.data; 
-
-    
 });
+
+const getItems = async (target) =>
+{
+    const
+
+    { token: tokenData, } = await useAuth (),
+    { getItemPostMethod, } = useItem (tokenData),
+    formTarget = {
+        "specialistid" : forms.specialistid,
+        "studentid" : forms.studentid
+    };
+    await getItemPostMethod ('/v1/transaction/patient/view/bystudent' + "?page=" + (typeof target === "object" ? target.page : target), "",formTarget,
+    (success, total, per_page, next_page_url, prev_page_url, first_page_url, last_page_url) =>
+    {
+        datatableBody.items = success;
+        datatableBody.itemsLength = total;
+        datatableBody.itemPerPage = per_page;
+        datatableBody.itemNextPageUrl = next_page_url;
+        datatableBody.itemPreviousPageUrl = prev_page_url;
+        datatableBody.isLoaded = true;
+        closeDialog ();
+    },
+    error => {});
+};
+
+const datatableBody = reactive (
+{
+    isLoaded: false,
+    isAccessorDialog: false,
+    isMutatorDialog: false,
+
+    search: "",
+
+    icon: "mdi-tooth-outline",
+
+    headers: [
+    {
+        key: "nomr",
+        title: "no mr",
+        sortable: false,
+    },
+    {
+        key: "patientname",
+        title: "nama pasien",
+        sortable: false,
+    },
+    {
+        key: "visit_date",
+        title: "tgl kunjungan",
+        sortable: false,
+    },
+    {
+        key: "noepisode",
+        title: "no episode",
+        sortable: false,
+    },
+    {
+        key: "noregistrasi",
+        title: "no registrasi",
+        sortable: false,
+    },
+    {
+        key: "namaunit",
+        title: "poliklinik",
+        sortable: false,
+    },
+    {
+        key: "namadokter",
+        title: "dokter",
+        sortable: false,
+    },
+    {
+        key: "namajaminan",
+        title: "jaminan",
+        sortable: false,
+    },
+    {
+        key: "actions",
+        title: "Aksi",
+        sortable: false,
+    },
+],
+
+    itemsIsLoading: false,
+    itemsLength: 0,
+    itemPerPage: 0,
+    itemNextPageUrl: "",
+    itemPreviousPageUrl: "",
+    item: {},
+    items: [],
+
+    forms: '',
+});
+
+const showDialog = () =>
+{
+    datatableBody.isMutatorDialog = true;
+};
+
+const closeDialog = () =>
+{
+    datatableBody.isMutatorDialog = false;
+};
+
+const clearForms = async () =>
+{
+    datatableBody.forms = props.forms;
+    datatableBody.item = {};
+
+    await nextTick ();
+};
 
 
 </script>
@@ -211,14 +341,43 @@ onMounted (async () =>
                         color="success"
                         class="mt-4"
                         block
-                        @click="setItems"
+                        @click="getItems"
                         >
-                        BUAT PENILAIAN
+                        LOAD DATA
                         </v-btn>
 
                         
 
                     </v-col>
                 </v-row>
+
+                
+    <v-layout v-if="datatableBody.isLoaded">
+        <v-data-table-server item-value="id" @update:options="getItems" :headers="datatableBody.headers" :items="datatableBody.items" :items-length="datatableBody.itemsLength" v-model:items-per-page="datatableBody.itemPerPage" :loading="datatableBody.itemsIsLoading">
+            <template v-slot:top>
+                <v-toolbar color="#D3D3D3">
+                </v-toolbar>
+            </template>
+            <template v-slot:item.actions="{ item, index, }">
+                <!-- <v-dialog v-model="datatableBody.isAccessorDialog" transition="dialog-bottom-transition" fullscreen>
+                    <template v-slot:default="{ isActive, }">
+                        <v-card>
+                            <v-card-title>
+                                <v-toolbar color="#800000">
+                                    <v-btn @click="datatableBody.isAccessorDialog = false; clearForms ();" icon><v-icon>mdi-close</v-icon></v-btn>
+                                </v-toolbar>
+                            </v-card-title>
+                        </v-card>
+                    </template>
+                </v-dialog> -->
+                <v-btn @click="goToViewEmr(item.noregistrasi,item.idunit);" icon="mdi-eye" color="light-green-darken-4" class="mx-2" variant="text" density="compact"></v-btn>
+                <v-btn @click="setItems" icon="mdi mdi-account-box-edit-outline" color="light-red-darken-4" class="mx-2" variant="text" density="compact"></v-btn>
+            </template>
+        </v-data-table-server>
+    </v-layout>
+
 </v-container>
+
+
+
 </template>

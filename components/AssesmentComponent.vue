@@ -265,7 +265,7 @@ onMounted (async () =>
                     </template>
                 </v-dialog>
                 
-                <v-btn @click="showDialog (); getAnItem (item.id);" icon="mdi-pencil" color="lime-darken-4" class="mx-2" variant="text" density="compact"></v-btn>
+                <v-btn v-if="props.forms.lock == 0" @click="showDialog (); getAnItem (item.id);" icon="mdi-pencil" color="lime-darken-4" class="mx-2" variant="text" density="compact"></v-btn>
               
             </template>
         </v-data-table-server>
@@ -276,7 +276,7 @@ onMounted (async () =>
                 $t("action.button.lanjut")
             }}</v-btn>
             &nbsp&nbsp&nbsp&nbsp -->
-             <v-btn @click="setFinish ();" color="primary" variant="flat">{{
+             <v-btn v-if="props.forms.lock == 0" @click="setFinish ();" color="primary" variant="flat">{{
                 $t("action.button.kirimdanfinish")
             }}</v-btn>
         </v-card-actions>

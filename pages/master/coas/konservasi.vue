@@ -22,6 +22,11 @@ const forms = reactive({
     nomortelpon: "",
     namaoperator: "",
     nim: "",
+    // if (sblmperawatanfaktorrisikokaries_saliva_tanpastimulasi_hidrasi : "MERAH") {
+    //     sblmperawatanfaktorrisikokaries_penilaianakhir_saliva: "MERAH",
+    // } else {
+    //     sblmperawatanfaktorrisikokaries_penilaianakhir_saliva: "KUNING",
+    // },
 });
 
 const setItems = async (target) => {
@@ -113,6 +118,12 @@ const getByID = async (noreg, nim) => {
 };
 
 const setUploadFile = async (event, filetype, fileurl, fileid, deskripsi) => {
+    // console.log(event);
+    // console.log(filetype);
+    // console.log(fileurl);
+    // console.log(fileid);
+    // console.log(deskripsi);
+
     const formData = new FormData();
 
     formData.append("id", fileid);
@@ -190,6 +201,674 @@ const COMPONENT_APIS = {
     createItem: "/v1/emr/konservasi/jobs/create",
     updateItem: "/v1/emr/konservasi/jobs/update",
     deleteItem: "/v1/emr/konservasi/jobs/delete",
+};
+
+const getSalivaBefore = async (target) => {
+    var tanpastimulasi_hidrasi =
+        forms.sblmperawatanfaktorrisikokaries_saliva_tanpastimulasi_hidrasi;
+    var tanpastimulasi_viskosita =
+        forms.sblmperawatanfaktorrisikokaries_saliva_tanpastimulasi_viskosita;
+    var tanpastimulasi_pH =
+        forms.sblmperawatanfaktorrisikokaries_saliva_tanpastimulasi_pH;
+    var denganstimulasi_kecepata =
+        forms.sblmperawatanfaktorrisikokaries_saliva_denganstimulasi_kecepata;
+    var denganstimulasi_kapasita =
+        forms.sblmperawatanfaktorrisikokaries_saliva_denganstimulasi_kapasita;
+    var denganstimulasi_pH =
+        forms.sblmperawatanfaktorrisikokaries_saliva_denganstimulasi_pH;
+    if (
+        tanpastimulasi_hidrasi === undefined ||
+        tanpastimulasi_viskosita === undefined ||
+        tanpastimulasi_pH === undefined ||
+        denganstimulasi_kecepata === undefined ||
+        denganstimulasi_kapasita === undefined ||
+        denganstimulasi_pH === undefined
+    ) {
+        forms.sblmperawatanfaktorrisikokaries_penilaianakhir_saliva =
+            "PROSESSS.......";
+    }
+    // Data sudah lengkap
+    else {
+        var arrTarget = [
+            tanpastimulasi_hidrasi.substring(0, 1),
+            tanpastimulasi_viskosita.substring(0, 1),
+            tanpastimulasi_pH.substring(0, 1),
+            denganstimulasi_kecepata.substring(0, 1),
+            denganstimulasi_kapasita.substring(0, 1),
+            denganstimulasi_pH.substring(0, 1),
+        ];
+        console.log(arrTarget);
+
+        //Rumus
+        var arrTargetMerah = 0;
+        var arrTargetKuning = 0;
+        var arrTargetHijau = 0;
+        for (let i = 0; i < arrTarget.length; i++) {
+            if (arrTarget[i] == "M") {
+                arrTargetMerah = arrTargetMerah + 1;
+            }
+            if (arrTarget[i] == "K") {
+                arrTargetKuning = arrTargetKuning + 1;
+            }
+            if (arrTarget[i] == "H") {
+                arrTargetHijau = arrTargetHijau + 1;
+            }
+        }
+        console.log(arrTargetMerah);
+        console.log(arrTargetKuning);
+        console.log(arrTargetHijau);
+
+        if (
+            arrTargetMerah >= arrTargetKuning &&
+            arrTargetMerah >= arrTargetHijau
+        ) {
+            var hasil = "MERAH";
+            forms.sblmperawatanfaktorrisikokaries_penilaianakhir_saliva =
+                "MERAH";
+        } else if (
+            arrTargetKuning > arrTargetMerah &&
+            arrTargetKuning >= arrTargetHijau
+        ) {
+            var hasil = "KUNING";
+            forms.sblmperawatanfaktorrisikokaries_penilaianakhir_saliva =
+                "KUNING";
+        } else if (
+            arrTargetHijau > arrTargetKuning &&
+            arrTargetHijau > arrTargetMerah
+        ) {
+            var hasil = "HIJAU";
+            forms.sblmperawatanfaktorrisikokaries_penilaianakhir_saliva =
+                "HIJAU";
+        } else {
+            var hasil = "AU AH";
+            forms.sblmperawatanfaktorrisikokaries_penilaianakhir_saliva =
+                "AU AH";
+        }
+        console.log(hasil);
+    }
+};
+
+const getPlakBefore = async (target) => {
+    var risikokaries_plak_pH = forms.sblmperawatanfaktorrisikokaries_plak_pH;
+    var risikokaries_plak_aktivitas =
+        forms.sblmperawatanfaktorrisikokaries_plak_aktivitas;
+    if (
+        risikokaries_plak_pH === undefined ||
+        risikokaries_plak_aktivitas === undefined
+    ) {
+        forms.sblmperawatanfaktorrisikokaries_penilaianakhir_plak =
+            "PROSESSS.......";
+    }
+    // Data sudah lengkap
+    else {
+        var arrTarget = [
+            risikokaries_plak_pH.substring(0, 1),
+            risikokaries_plak_aktivitas.substring(0, 1),
+        ];
+        console.log(arrTarget);
+
+        //Rumus
+        var arrTargetMerah = 0;
+        var arrTargetKuning = 0;
+        var arrTargetHijau = 0;
+        for (let i = 0; i < arrTarget.length; i++) {
+            if (arrTarget[i] == "M") {
+                arrTargetMerah = arrTargetMerah + 1;
+            }
+            if (arrTarget[i] == "K") {
+                arrTargetKuning = arrTargetKuning + 1;
+            }
+            if (arrTarget[i] == "H") {
+                arrTargetHijau = arrTargetHijau + 1;
+            }
+        }
+        console.log(arrTargetMerah);
+        console.log(arrTargetKuning);
+        console.log(arrTargetHijau);
+
+        if (
+            arrTargetMerah >= arrTargetKuning &&
+            arrTargetMerah >= arrTargetHijau
+        ) {
+            var hasil = "MERAH";
+            forms.sblmperawatanfaktorrisikokaries_penilaianakhir_plak = "MERAH";
+        } else if (
+            arrTargetKuning > arrTargetMerah &&
+            arrTargetKuning >= arrTargetHijau
+        ) {
+            var hasil = "KUNING";
+            forms.sblmperawatanfaktorrisikokaries_penilaianakhir_plak =
+                "KUNING";
+        } else if (
+            arrTargetHijau > arrTargetKuning &&
+            arrTargetHijau > arrTargetMerah
+        ) {
+            var hasil = "HIJAU";
+            forms.sblmperawatanfaktorrisikokaries_penilaianakhir_plak = "HIJAU";
+        } else {
+            var hasil = "AU AH";
+            forms.sblmperawatanfaktorrisikokaries_penilaianakhir_plak = "AU AH";
+        }
+        console.log(hasil);
+    }
+};
+
+const getFluorBefore = async (target) => {
+    var risikokaries_fluor_pastagigi =
+        forms.sblmperawatanfaktorrisikokaries_fluor_pastagigi;
+    var risikokaries_fluor_airminum =
+        forms.sblmperawatanfaktorrisikokaries_fluor_airminum;
+    var risikokaries_fluor_topikal =
+        forms.sblmperawatanfaktorrisikokaries_fluor_topikal;
+    if (
+        risikokaries_fluor_pastagigi === undefined ||
+        risikokaries_fluor_airminum === undefined ||
+        risikokaries_fluor_topikal === undefined
+    ) {
+        forms.sblmperawatanfaktorrisikokaries_penilaianakhir_fluor =
+            "PROSESSS.......";
+    }
+    // Data sudah lengkap
+    else {
+        var arrTarget = [
+            risikokaries_fluor_pastagigi,
+            risikokaries_fluor_airminum,
+            risikokaries_fluor_topikal,
+        ];
+        console.log(arrTarget);
+
+        //Rumus
+        var arrTargetYa = 0;
+        var arrTargetTidak = 0;
+        for (let i = 0; i < arrTarget.length; i++) {
+            if (arrTarget[i] == "Ya") {
+                arrTargetYa = arrTargetYa + 1;
+            }
+            if (arrTarget[i] == "Tidak") {
+                arrTargetTidak = arrTargetTidak + 1;
+            }
+        }
+        console.log(arrTargetYa);
+        console.log(arrTargetTidak);
+
+        if (arrTargetYa > 2) {
+            var hasil = "MERAH";
+            forms.sblmperawatanfaktorrisikokaries_penilaianakhir_fluor =
+                "MERAH";
+        } else if (arrTargetYa < 1) {
+            var hasil = "HIJAU";
+            forms.sblmperawatanfaktorrisikokaries_penilaianakhir_fluor =
+                "HIJAU";
+        } else {
+            var hasil = "KUNING";
+            forms.sblmperawatanfaktorrisikokaries_penilaianakhir_fluor =
+                "KUNING";
+        }
+        console.log(hasil);
+    }
+};
+
+const getDietBefore = async (target) => {
+    var risikokaries_diet_gula =
+        forms.sblmperawatanfaktorrisikokaries_diet_gula;
+    var risikokaries_diet_asam =
+        forms.sblmperawatanfaktorrisikokaries_diet_asam;
+    if (
+        risikokaries_diet_gula === undefined ||
+        risikokaries_diet_asam === undefined
+    ) {
+        forms.sblmperawatanfaktorrisikokaries_penilaianakhir_diet =
+            "PROSESSS.......";
+    }
+    // Data sudah lengkap
+    else {
+        var arrTarget = [
+            risikokaries_diet_gula.substring(0, 1),
+            risikokaries_diet_asam.substring(0, 1),
+        ];
+        console.log(arrTarget);
+
+        //Rumus
+        var arrTargetMerah = 0;
+        var arrTargetKuning = 0;
+        var arrTargetHijau = 0;
+        for (let i = 0; i < arrTarget.length; i++) {
+            if (arrTarget[i] == "M") {
+                arrTargetMerah = arrTargetMerah + 1;
+            }
+            if (arrTarget[i] == "K") {
+                arrTargetKuning = arrTargetKuning + 1;
+            }
+            if (arrTarget[i] == "H") {
+                arrTargetHijau = arrTargetHijau + 1;
+            }
+        }
+        console.log(arrTargetMerah);
+        console.log(arrTargetKuning);
+        console.log(arrTargetHijau);
+
+        if (
+            arrTargetMerah >= arrTargetKuning &&
+            arrTargetMerah >= arrTargetHijau
+        ) {
+            var hasil = "MERAH";
+            forms.sblmperawatanfaktorrisikokaries_penilaianakhir_diet = "MERAH";
+        } else if (
+            arrTargetKuning > arrTargetMerah &&
+            arrTargetKuning >= arrTargetHijau
+        ) {
+            var hasil = "KUNING";
+            forms.sblmperawatanfaktorrisikokaries_penilaianakhir_diet =
+                "KUNING";
+        } else if (
+            arrTargetHijau > arrTargetKuning &&
+            arrTargetHijau > arrTargetMerah
+        ) {
+            var hasil = "HIJAU";
+            forms.sblmperawatanfaktorrisikokaries_penilaianakhir_diet = "HIJAU";
+        } else {
+            var hasil = "AU AH";
+            forms.sblmperawatanfaktorrisikokaries_penilaianakhir_diet = "AU AH";
+        }
+        console.log(hasil);
+    }
+};
+
+const getModifBefore = async (target) => {
+    var faktormodifikasi_obatpeningkata =
+        forms.sblmperawatanfaktorrisikokaries_faktormodifikasi_obatpeningkata;
+    var faktormodifikasi_penyakitpenyeb =
+        forms.sblmperawatanfaktorrisikokaries_faktormodifikasi_penyakitpenyeb;
+    var faktormodifikasi_protesa =
+        forms.sblmperawatanfaktorrisikokaries_faktormodifikasi_protesa;
+    var faktormodifikasi_kariesaktif =
+        forms.sblmperawatanfaktorrisikokaries_faktormodifikasi_kariesaktif;
+    var faktormodifikasi_sikap =
+        forms.sblmperawatanfaktorrisikokaries_faktormodifikasi_sikap;
+
+    if (
+        faktormodifikasi_obatpeningkata === undefined ||
+        faktormodifikasi_penyakitpenyeb === undefined ||
+        faktormodifikasi_protesa === undefined ||
+        faktormodifikasi_kariesaktif === undefined ||
+        faktormodifikasi_sikap === undefined
+    ) {
+        forms.sblmperawatanfaktorrisikokaries_penilaianakhir_faktormodifikasi =
+            "PROSESSS.......";
+    }
+    // Data sudah lengkap
+    else {
+        var arrTarget = [
+            faktormodifikasi_obatpeningkata,
+            faktormodifikasi_penyakitpenyeb,
+            faktormodifikasi_protesa,
+            faktormodifikasi_kariesaktif,
+            faktormodifikasi_sikap,
+        ];
+        console.log(arrTarget);
+
+        //Rumus
+        var arrTargetYa = 0;
+        var arrTargetTidak = 0;
+        for (let i = 0; i < arrTarget.length; i++) {
+            if (arrTarget[i] == "Ya") {
+                arrTargetYa = arrTargetYa + 1;
+            }
+            if (arrTarget[i] == "Tidak") {
+                arrTargetTidak = arrTargetTidak + 1;
+            }
+        }
+        console.log(arrTargetYa);
+        console.log(arrTargetTidak);
+
+        if (arrTargetYa > 4) {
+            var hasil = "MERAH";
+            forms.sblmperawatanfaktorrisikokaries_penilaianakhir_faktormodifikasi =
+                "MERAH";
+        } else if (arrTargetYa < 2) {
+            var hasil = "HIJAU";
+            forms.sblmperawatanfaktorrisikokaries_penilaianakhir_faktormodifikasi =
+                "HIJAU";
+        } else {
+            var hasil = "KUNING";
+            forms.sblmperawatanfaktorrisikokaries_penilaianakhir_faktormodifikasi =
+                "KUNING";
+        }
+        console.log(hasil);
+    }
+};
+const getSalivaAfter = async (target) => {
+    var tanpastimulasi_hidrasi =
+        forms.ssdhperawatanfaktorrisikokaries_saliva_tanpastimulasi_hidrasi;
+    var tanpastimulasi_viskosita =
+        forms.ssdhperawatanfaktorrisikokaries_saliva_tanpastimulasi_viskosita;
+    var tanpastimulasi_pH =
+        forms.ssdhperawatanfaktorrisikokaries_saliva_tanpastimulasi_pH;
+    var denganstimulasi_kecepata =
+        forms.ssdhperawatanfaktorrisikokaries_saliva_denganstimulasi_kecepata;
+    var denganstimulasi_kapasita =
+        forms.ssdhperawatanfaktorrisikokaries_saliva_denganstimulasi_kapasita;
+    var denganstimulasi_pH =
+        forms.ssdhperawatanfaktorrisikokaries_saliva_denganstimulasi_pH;
+    if (
+        tanpastimulasi_hidrasi === undefined ||
+        tanpastimulasi_viskosita === undefined ||
+        tanpastimulasi_pH === undefined ||
+        denganstimulasi_kecepata === undefined ||
+        denganstimulasi_kapasita === undefined ||
+        denganstimulasi_pH === undefined
+    ) {
+        forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_saliva =
+            "PROSESSS.......";
+    }
+    // Data sudah lengkap
+    else {
+        var arrTarget = [
+            tanpastimulasi_hidrasi.substring(0, 1),
+            tanpastimulasi_viskosita.substring(0, 1),
+            tanpastimulasi_pH.substring(0, 1),
+            denganstimulasi_kecepata.substring(0, 1),
+            denganstimulasi_kapasita.substring(0, 1),
+            denganstimulasi_pH.substring(0, 1),
+        ];
+        console.log(arrTarget);
+
+        //Rumus
+        var arrTargetMerah = 0;
+        var arrTargetKuning = 0;
+        var arrTargetHijau = 0;
+        for (let i = 0; i < arrTarget.length; i++) {
+            if (arrTarget[i] == "M") {
+                arrTargetMerah = arrTargetMerah + 1;
+            }
+            if (arrTarget[i] == "K") {
+                arrTargetKuning = arrTargetKuning + 1;
+            }
+            if (arrTarget[i] == "H") {
+                arrTargetHijau = arrTargetHijau + 1;
+            }
+        }
+        console.log(arrTargetMerah);
+        console.log(arrTargetKuning);
+        console.log(arrTargetHijau);
+
+        if (
+            arrTargetMerah >= arrTargetKuning &&
+            arrTargetMerah >= arrTargetHijau
+        ) {
+            var hasil = "MERAH";
+            forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_saliva =
+                "MERAH";
+        } else if (
+            arrTargetKuning > arrTargetMerah &&
+            arrTargetKuning >= arrTargetHijau
+        ) {
+            var hasil = "KUNING";
+            forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_plak =
+                "KUNING";
+        } else if (
+            arrTargetHijau > arrTargetKuning &&
+            arrTargetHijau > arrTargetMerah
+        ) {
+            var hasil = "HIJAU";
+            forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_diet = "HIJAU";
+        } else {
+            var hasil = "AU AH";
+            forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_fluor =
+                "AU AH";
+        }
+        console.log(hasil);
+    }
+};
+
+const getPlakAfter = async (target) => {
+    var risikokaries_plak_pH = forms.ssdhperawatanfaktorrisikokaries_plak_pH;
+    var risikokaries_plak_aktivitas =
+        forms.ssdhperawatanfaktorrisikokaries_plak_aktivitas;
+    if (
+        risikokaries_plak_pH === undefined ||
+        risikokaries_plak_aktivitas === undefined
+    ) {
+        forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_plak =
+            "PROSESSS.......";
+    }
+    // Data sudah lengkap
+    else {
+        var arrTarget = [
+            risikokaries_plak_pH.substring(0, 1),
+            risikokaries_plak_aktivitas.substring(0, 1),
+        ];
+        console.log(arrTarget);
+
+        //Rumus
+        var arrTargetMerah = 0;
+        var arrTargetKuning = 0;
+        var arrTargetHijau = 0;
+        for (let i = 0; i < arrTarget.length; i++) {
+            if (arrTarget[i] == "M") {
+                arrTargetMerah = arrTargetMerah + 1;
+            }
+            if (arrTarget[i] == "K") {
+                arrTargetKuning = arrTargetKuning + 1;
+            }
+            if (arrTarget[i] == "H") {
+                arrTargetHijau = arrTargetHijau + 1;
+            }
+        }
+        console.log(arrTargetMerah);
+        console.log(arrTargetKuning);
+        console.log(arrTargetHijau);
+
+        if (
+            arrTargetMerah >= arrTargetKuning &&
+            arrTargetMerah >= arrTargetHijau
+        ) {
+            var hasil = "MERAH";
+            forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_plak = "MERAH";
+        } else if (
+            arrTargetKuning > arrTargetMerah &&
+            arrTargetKuning >= arrTargetHijau
+        ) {
+            var hasil = "KUNING";
+            forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_plak =
+                "KUNING";
+        } else if (
+            arrTargetHijau > arrTargetKuning &&
+            arrTargetHijau > arrTargetMerah
+        ) {
+            var hasil = "HIJAU";
+            forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_plak = "HIJAU";
+        } else {
+            var hasil = "AU AH";
+            forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_plak = "AU AH";
+        }
+        console.log(hasil);
+    }
+};
+
+const getFluorAfter = async (target) => {
+    var risikokaries_fluor_pastagigi =
+        forms.ssdhperawatanfaktorrisikokaries_fluor_pastagigi;
+    var risikokaries_fluor_airminum =
+        forms.ssdhperawatanfaktorrisikokaries_fluor_airminum;
+    var risikokaries_fluor_topikal =
+        forms.ssdhperawatanfaktorrisikokaries_fluor_topikal;
+    if (
+        risikokaries_fluor_pastagigi === undefined ||
+        risikokaries_fluor_airminum === undefined ||
+        risikokaries_fluor_topikal === undefined
+    ) {
+        forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_fluor =
+            "PROSESSS.......";
+    }
+    // Data sudah lengkap
+    else {
+        var arrTarget = [
+            risikokaries_fluor_pastagigi,
+            risikokaries_fluor_airminum,
+            risikokaries_fluor_topikal,
+        ];
+        console.log(arrTarget);
+
+        //Rumus
+        var arrTargetYa = 0;
+        var arrTargetTidak = 0;
+        for (let i = 0; i < arrTarget.length; i++) {
+            if (arrTarget[i] == "Ya") {
+                arrTargetYa = arrTargetYa + 1;
+            }
+            if (arrTarget[i] == "Tidak") {
+                arrTargetTidak = arrTargetTidak + 1;
+            }
+        }
+        console.log(arrTargetYa);
+        console.log(arrTargetTidak);
+
+        if (arrTargetYa > 2) {
+            var hasil = "MERAH";
+            forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_fluor =
+                "MERAH";
+        } else if (arrTargetYa < 1) {
+            var hasil = "HIJAU";
+            forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_fluor =
+                "HIJAU";
+        } else {
+            var hasil = "KUNING";
+            forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_fluor =
+                "KUNING";
+        }
+        console.log(hasil);
+    }
+};
+
+const getDietAfter = async (target) => {
+    var risikokaries_diet_gula =
+        forms.ssdhperawatanfaktorrisikokaries_diet_gula;
+    var risikokaries_diet_asam =
+        forms.ssdhperawatanfaktorrisikokaries_diet_asam;
+    if (
+        risikokaries_diet_gula === undefined ||
+        risikokaries_diet_asam === undefined
+    ) {
+        forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_diet =
+            "PROSESSS.......";
+    }
+    // Data sudah lengkap
+    else {
+        var arrTarget = [
+            risikokaries_diet_gula.substring(0, 1),
+            risikokaries_diet_asam.substring(0, 1),
+        ];
+        console.log(arrTarget);
+
+        //Rumus
+        var arrTargetMerah = 0;
+        var arrTargetKuning = 0;
+        var arrTargetHijau = 0;
+        for (let i = 0; i < arrTarget.length; i++) {
+            if (arrTarget[i] == "M") {
+                arrTargetMerah = arrTargetMerah + 1;
+            }
+            if (arrTarget[i] == "K") {
+                arrTargetKuning = arrTargetKuning + 1;
+            }
+            if (arrTarget[i] == "H") {
+                arrTargetHijau = arrTargetHijau + 1;
+            }
+        }
+        console.log(arrTargetMerah);
+        console.log(arrTargetKuning);
+        console.log(arrTargetHijau);
+
+        if (
+            arrTargetMerah >= arrTargetKuning &&
+            arrTargetMerah >= arrTargetHijau
+        ) {
+            var hasil = "MERAH";
+            forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_diet = "MERAH";
+        } else if (
+            arrTargetKuning > arrTargetMerah &&
+            arrTargetKuning >= arrTargetHijau
+        ) {
+            var hasil = "KUNING";
+            forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_diet =
+                "KUNING";
+        } else if (
+            arrTargetHijau > arrTargetKuning &&
+            arrTargetHijau > arrTargetMerah
+        ) {
+            var hasil = "HIJAU";
+            forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_diet = "HIJAU";
+        } else {
+            var hasil = "AU AH";
+            forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_diet = "AU AH";
+        }
+        console.log(hasil);
+    }
+};
+
+const getModifAfter = async (target) => {
+    var faktormodifikasi_obatpeningkata =
+        forms.ssdhperawatanfaktorrisikokaries_faktormodifikasi_obatpeningkata;
+    var faktormodifikasi_penyakitpenyeb =
+        forms.ssdhperawatanfaktorrisikokaries_faktormodifikasi_penyakitpenyeb;
+    var faktormodifikasi_protesa =
+        forms.ssdhperawatanfaktorrisikokaries_faktormodifikasi_protesa;
+    var faktormodifikasi_kariesaktif =
+        forms.ssdhperawatanfaktorrisikokaries_faktormodifikasi_kariesaktif;
+    var faktormodifikasi_sikap =
+        forms.ssdhperawatanfaktorrisikokaries_faktormodifikasi_sikap;
+
+    if (
+        faktormodifikasi_obatpeningkata === undefined ||
+        faktormodifikasi_penyakitpenyeb === undefined ||
+        faktormodifikasi_protesa === undefined ||
+        faktormodifikasi_kariesaktif === undefined ||
+        faktormodifikasi_sikap === undefined
+    ) {
+        forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_faktormodifikasi =
+            "PROSESSS.......";
+    }
+    // Data sudah lengkap
+    else {
+        var arrTarget = [
+            faktormodifikasi_obatpeningkata,
+            faktormodifikasi_penyakitpenyeb,
+            faktormodifikasi_protesa,
+            faktormodifikasi_kariesaktif,
+            faktormodifikasi_sikap,
+        ];
+        console.log(arrTarget);
+
+        //Rumus
+        var arrTargetYa = 0;
+        var arrTargetTidak = 0;
+        for (let i = 0; i < arrTarget.length; i++) {
+            if (arrTarget[i] == "Ya") {
+                arrTargetYa = arrTargetYa + 1;
+            }
+            if (arrTarget[i] == "Tidak") {
+                arrTargetTidak = arrTargetTidak + 1;
+            }
+        }
+        console.log(arrTargetYa);
+        console.log(arrTargetTidak);
+
+        if (arrTargetYa > 4) {
+            var hasil = "MERAH";
+            forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_faktormodifikasi =
+                "MERAH";
+        } else if (arrTargetYa < 2) {
+            var hasil = "HIJAU";
+            forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_faktormodifikasi =
+                "HIJAU";
+        } else {
+            var hasil = "KUNING";
+            forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_faktormodifikasi =
+                "KUNING";
+        }
+        console.log(hasil);
+    }
 };
 </script>
 
@@ -2340,15 +3019,17 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.sblmperawatanfaktorrisikokaries_saliva_tanpastimulasi_hidrasi
                                                     "
-                                                    label="Faktor Risiko Karies Saliva Tanpa Stimulasi Hidrasi"
-                                                    required
-                                                    hide-details
-                                                    variant="outlined"
                                                     :items="[
                                                         'M. > dari 60 Detik',
                                                         'K. 30-60 Detik',
                                                         'H. < dari 30 Detik',
-                                                    ]"></v-select>
+                                                    ]"
+                                                    label="Faktor Risiko Karies Saliva Tanpa Stimulasi Hidrasi"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getSalivaBefore('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -2363,15 +3044,17 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.sblmperawatanfaktorrisikokaries_saliva_tanpastimulasi_viskosita
                                                     "
-                                                    label="Faktor Risiko Karies Saliva Tanpa Stimulasi Viskositas"
-                                                    required
-                                                    hide-details
-                                                    variant="outlined"
                                                     :items="[
                                                         'M. Kental',
                                                         'K. Berbusa',
                                                         'H. Jenrnih, Cair',
-                                                    ]"></v-select>
+                                                    ]"
+                                                    label="Faktor Risiko Karies Saliva Tanpa Stimulasi Viskositas"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getSalivaBefore('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -2386,18 +3069,20 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.sblmperawatanfaktorrisikokaries_saliva_tanpastimulasi_pH
                                                     "
-                                                    label="Faktor Risiko Karies Saliva Tanpa Stimulasi pH"
-                                                    required
-                                                    hide-details
-                                                    variant="outlined"
                                                     :items="[
                                                         'M. 5,0-5,8',
                                                         'K. 6,0-6,6',
                                                         'H. 6,8-7,8',
-                                                    ]"></v-select>
+                                                    ]"
+                                                    label="Faktor Risiko Karies Saliva Tanpa Stimulasi pH"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getSalivaBefore('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
-                                        <v-row>
+                                        <!-- <v-row>
                                             <v-col cols="12" md="6">
                                                 <h2>
                                                     Faktor Risiko Karies Saliva
@@ -2409,17 +3094,19 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.sblmperawatanfaktorrisikokaries_saliva_denganstimulasi_hidrasi
                                                     "
-                                                    label="Faktor Risiko Karies Saliva Dengan Stimulasi Hidrasi"
-                                                    required
-                                                    hide-details
-                                                    variant="outlined"
                                                     :items="[
                                                         'M. > dari 60 Detik',
                                                         'K. 30-60 Detik',
                                                         'H. < dari 30 Detik',
-                                                    ]"></v-select>
+                                                    ]"
+                                                    label="Faktor Risiko Karies Saliva Dengan Stimulasi Hidrasi"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getSalivaBefore('uhuy')
+                                                    "></v-select>
                                             </v-col>
-                                        </v-row>
+                                        </v-row> -->
                                         <v-row>
                                             <v-col cols="12" md="6">
                                                 <h2>
@@ -2433,15 +3120,17 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.sblmperawatanfaktorrisikokaries_saliva_denganstimulasi_kecepata
                                                     "
-                                                    label="Faktor Risiko Karies Saliva Dengan Stimulasi Kecepatan Aliran Per 5 menit"
-                                                    required
-                                                    hide-details
-                                                    variant="outlined"
                                                     :items="[
                                                         'M. < 3,5 ml',
                                                         'K. 3,5-5,0 ml',
                                                         'H. > 5,0 ml',
-                                                    ]"></v-select>
+                                                    ]"
+                                                    label="Faktor Risiko Karies Saliva Dengan Stimulasi Kecepatan Aliran Per 5 menit"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getSalivaBefore('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -2457,15 +3146,17 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.sblmperawatanfaktorrisikokaries_saliva_denganstimulasi_kapasita
                                                     "
-                                                    label="Faktor Risiko Karies Saliva Dengan Stimulasi Kapasitas Buffer"
-                                                    required
-                                                    hide-details
-                                                    variant="outlined"
                                                     :items="[
                                                         'M. 0-5',
                                                         'K. 6-9',
                                                         'H. 10-12',
-                                                    ]"></v-select>
+                                                    ]"
+                                                    label="Faktor Risiko Karies Saliva Dengan Stimulasi Kapasitas Buffer"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getSalivaBefore('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -2480,15 +3171,17 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.sblmperawatanfaktorrisikokaries_saliva_denganstimulasi_pH
                                                     "
-                                                    label="Faktor Risiko Karies Saliva Dengan Stimulasi pH"
-                                                    required
-                                                    hide-details
-                                                    variant="outlined"
                                                     :items="[
                                                         'M. 5,0-5,8',
                                                         'K. 6,0-6,6',
                                                         'H. 6,8-7,8',
-                                                    ]"></v-select>
+                                                    ]"
+                                                    label="Faktor Risiko Karies Saliva Dengan Stimulasi pH"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getSalivaBefore('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -2502,15 +3195,17 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.sblmperawatanfaktorrisikokaries_plak_pH
                                                     "
-                                                    label="Faktor Risiko Karies Plak pH"
-                                                    required
-                                                    hide-details
-                                                    variant="outlined"
                                                     :items="[
                                                         'M. <= 5,5',
                                                         'K. 6,0-6,5',
                                                         'H. >= 7,0',
-                                                    ]"></v-select>
+                                                    ]"
+                                                    label="Faktor Risiko Karies Plak pH"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getPlakBefore('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -2525,57 +3220,130 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.sblmperawatanfaktorrisikokaries_plak_aktivitas
                                                     "
-                                                    label="Faktor Risiko Karies Plak Aktivitas"
-                                                    required
-                                                    hide-details
-                                                    variant="outlined"
                                                     :items="[
                                                         'M. Stain Biru',
                                                         'K. Merah Kebiruan',
                                                         'H. Stain Merah',
-                                                    ]"></v-select>
+                                                    ]"
+                                                    label="Faktor Risiko Karies Plak Aktivitas"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getPlakBefore('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <v-row>
                                             <v-col cols="12" md="6">
                                                 <h2>
                                                     Faktor Risiko Karies Fluor
+                                                    Pasta Gigi
                                                 </h2>
                                             </v-col>
                                             <v-col cols="12" md="6">
                                                 <v-select
                                                     v-model="
-                                                        forms.sblmperawatanfaktorrisikokaries_fluor
+                                                        forms.sblmperawatanfaktorrisikokaries_fluor_pastagigi
                                                     "
-                                                    label="Faktor Risiko Karies Fluor"
-                                                    required
-                                                    hide-details
+                                                    :items="['Ya', 'Tidak']"
+                                                    label="Faktor Risiko Karies Fluor Pasta Gigi"
                                                     variant="outlined"
-                                                    :items="[
-                                                        'Ya',
-                                                        'Tidak',
-                                                    ]"></v-select>
+                                                    required
+                                                    @update:modelValue="
+                                                        getFluorBefore('uhuy')
+                                                    "></v-select>
+                                            </v-col>
+                                        </v-row>
+                                        <v-row>
+                                            <v-col cols="12" md="6">
+                                                <h2>
+                                                    Faktor Risiko Karies Fluor
+                                                    Air Minum
+                                                </h2>
+                                            </v-col>
+                                            <v-col cols="12" md="6">
+                                                <v-select
+                                                    v-model="
+                                                        forms.sblmperawatanfaktorrisikokaries_fluor_airminum
+                                                    "
+                                                    :items="['Ya', 'Tidak']"
+                                                    label="Faktor Risiko Karies Fluor Air Minum"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getFluorBefore('uhuy')
+                                                    "></v-select>
+                                            </v-col>
+                                        </v-row>
+                                        <v-row>
+                                            <v-col cols="12" md="6">
+                                                <h2>
+                                                    Faktor Risiko Karies Fluor
+                                                    Topikal
+                                                </h2>
+                                            </v-col>
+                                            <v-col cols="12" md="6">
+                                                <v-select
+                                                    v-model="
+                                                        forms.sblmperawatanfaktorrisikokaries_fluor_topikal
+                                                    "
+                                                    :items="['Ya', 'Tidak']"
+                                                    label="Faktor Risiko Karies Fluor Topikal"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getFluorBefore('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <v-row>
                                             <v-col cols="12" md="6">
                                                 <h2>
                                                     Faktor Risiko Karies Diet
+                                                    Gula
                                                 </h2>
                                             </v-col>
                                             <v-col cols="12" md="6">
                                                 <v-select
                                                     v-model="
-                                                        forms.sblmperawatanfaktorrisikokaries_diet
+                                                        forms.sblmperawatanfaktorrisikokaries_diet_gula
                                                     "
-                                                    label="Faktor Risiko Karies Diet"
-                                                    required
-                                                    hide-details
-                                                    variant="outlined"
                                                     :items="[
-                                                        'Ya',
-                                                        'Tidak',
-                                                    ]"></v-select>
+                                                        'M. >2x/hr',
+                                                        'K. 1-2x/hr',
+                                                        'H. Tidak',
+                                                    ]"
+                                                    label="Faktor Risiko Karies Diet Gula"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getDietBefore('uhuy')
+                                                    "></v-select>
+                                            </v-col>
+                                        </v-row>
+                                        <v-row>
+                                            <v-col cols="12" md="6">
+                                                <h2>
+                                                    Faktor Risiko Karies Diet
+                                                    Asam
+                                                </h2>
+                                            </v-col>
+                                            <v-col cols="12" md="6">
+                                                <v-select
+                                                    v-model="
+                                                        forms.sblmperawatanfaktorrisikokaries_diet_asam
+                                                    "
+                                                    :items="[
+                                                        'M. >2x/hr',
+                                                        'K. 1-2x/hr',
+                                                        'H. Tidak',
+                                                    ]"
+                                                    label="Faktor Risiko Karies Diet Asam"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getDietBefore('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <br />
@@ -2597,14 +3365,13 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.sblmperawatanfaktorrisikokaries_faktormodifikasi_obatpeningkata
                                                     "
+                                                    :items="['Ya', 'Tidak']"
                                                     label="Faktor Modifikasi Obat Peningkat Aliran Saliva"
-                                                    required
-                                                    hide-details
                                                     variant="outlined"
-                                                    :items="[
-                                                        'Ya',
-                                                        'Tidak',
-                                                    ]"></v-select>
+                                                    required
+                                                    @update:modelValue="
+                                                        getModifBefore('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -2619,14 +3386,13 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.sblmperawatanfaktorrisikokaries_faktormodifikasi_penyakitpenyeb
                                                     "
+                                                    :items="['Ya', 'Tidak']"
                                                     label="Faktor Modifikasi Penyakit Penyebab Mulut Kering"
-                                                    required
-                                                    hide-details
                                                     variant="outlined"
-                                                    :items="[
-                                                        'Ya',
-                                                        'Tidak',
-                                                    ]"></v-select>
+                                                    required
+                                                    @update:modelValue="
+                                                        getModifBefore('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -2641,14 +3407,13 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.sblmperawatanfaktorrisikokaries_faktormodifikasi_protesa
                                                     "
+                                                    :items="['Ya', 'Tidak']"
                                                     label="Faktor Modifikasi Protesa / Alat Orthodonsi"
-                                                    required
-                                                    hide-details
                                                     variant="outlined"
-                                                    :items="[
-                                                        'Ya',
-                                                        'Tidak',
-                                                    ]"></v-select>
+                                                    required
+                                                    @update:modelValue="
+                                                        getModifBefore('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -2663,14 +3428,13 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.sblmperawatanfaktorrisikokaries_faktormodifikasi_kariesaktif
                                                     "
+                                                    :items="['Ya', 'Tidak']"
                                                     label="Faktor Modifikasi Karies Aktif"
-                                                    required
-                                                    hide-details
                                                     variant="outlined"
-                                                    :items="[
-                                                        'Ya',
-                                                        'Tidak',
-                                                    ]"></v-select>
+                                                    required
+                                                    @update:modelValue="
+                                                        getModifBefore('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -2682,17 +3446,16 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.sblmperawatanfaktorrisikokaries_faktormodifikasi_sikap
                                                     "
+                                                    :items="['Ya', 'Tidak']"
                                                     label="Faktor Modifikasi Sikap"
-                                                    required
-                                                    hide-details
                                                     variant="outlined"
-                                                    :items="[
-                                                        'Ya',
-                                                        'Tidak',
-                                                    ]"></v-select>
+                                                    required
+                                                    @update:modelValue="
+                                                        getModifBefore('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
-                                        <v-row>
+                                        <!-- <v-row>
                                             <v-col cols="12" md="6">
                                                 <h2>
                                                     Faktor Modifikasi Keterangan
@@ -2713,7 +3476,7 @@ const COMPONENT_APIS = {
                                                         '1 Ya',
                                                     ]"></v-select>
                                             </v-col>
-                                        </v-row>
+                                        </v-row> -->
                                         <br />
                                         <h2
                                             class="font-weight-bold text-center text-basil">
@@ -2728,19 +3491,14 @@ const COMPONENT_APIS = {
                                                 </h2>
                                             </v-col>
                                             <v-col cols="12" md="6">
-                                                <v-select
+                                                <v-text-field
                                                     v-model="
                                                         forms.sblmperawatanfaktorrisikokaries_penilaianakhir_saliva
                                                     "
-                                                    label="Penilaian Akhir Risiko Karies Saliva"
-                                                    required
                                                     hide-details
+                                                    required
                                                     variant="outlined"
-                                                    :items="[
-                                                        'MERAH',
-                                                        'KUNING',
-                                                        'HIJAU',
-                                                    ]"></v-select>
+                                                    readonly></v-text-field>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -2751,19 +3509,14 @@ const COMPONENT_APIS = {
                                                 </h2>
                                             </v-col>
                                             <v-col cols="612" md="6">
-                                                <v-select
+                                                <v-text-field
                                                     v-model="
                                                         forms.sblmperawatanfaktorrisikokaries_penilaianakhir_plak
                                                     "
-                                                    label="Penilaian Akhir Risiko Karies Plak"
-                                                    required
                                                     hide-details
+                                                    required
                                                     variant="outlined"
-                                                    :items="[
-                                                        'MERAH',
-                                                        'KUNING',
-                                                        'HIJAU',
-                                                    ]"></v-select>
+                                                    readonly></v-text-field>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -2774,19 +3527,14 @@ const COMPONENT_APIS = {
                                                 </h2>
                                             </v-col>
                                             <v-col cols="12" md="6">
-                                                <v-select
+                                                <v-text-field
                                                     v-model="
                                                         forms.sblmperawatanfaktorrisikokaries_penilaianakhir_diet
                                                     "
-                                                    label="Penilaian Akhir Risiko Karies Diet"
-                                                    required
                                                     hide-details
+                                                    required
                                                     variant="outlined"
-                                                    :items="[
-                                                        'MERAH',
-                                                        'KUNING',
-                                                        'HIJAU',
-                                                    ]"></v-select>
+                                                    readonly></v-text-field>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -2797,19 +3545,14 @@ const COMPONENT_APIS = {
                                                 </h2>
                                             </v-col>
                                             <v-col cols="12" md="6">
-                                                <v-select
+                                                <v-text-field
                                                     v-model="
                                                         forms.sblmperawatanfaktorrisikokaries_penilaianakhir_fluor
                                                     "
-                                                    label="Penilaian Akhir Risiko Karies Fluor"
-                                                    required
                                                     hide-details
+                                                    required
                                                     variant="outlined"
-                                                    :items="[
-                                                        'MERAH',
-                                                        'KUNING',
-                                                        'HIJAU',
-                                                    ]"></v-select>
+                                                    readonly></v-text-field>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -2820,19 +3563,14 @@ const COMPONENT_APIS = {
                                                 </h2>
                                             </v-col>
                                             <v-col cols="12" md="6">
-                                                <v-select
+                                                <v-text-field
                                                     v-model="
                                                         forms.sblmperawatanfaktorrisikokaries_penilaianakhir_faktormodifikasi
                                                     "
-                                                    label="Penilaian Akhir Risiko Karies Faktor Modifikasi"
-                                                    required
                                                     hide-details
+                                                    required
                                                     variant="outlined"
-                                                    :items="[
-                                                        'MERAH',
-                                                        'KUNING',
-                                                        'HIJAU',
-                                                    ]"></v-select>
+                                                    readonly></v-text-field>
                                             </v-col>
                                         </v-row>
                                     </v-container>
@@ -2903,15 +3641,17 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.ssdhperawatanfaktorrisikokaries_saliva_tanpastimulasi_hidrasi
                                                     "
-                                                    label="Faktor Risiko Karies Saliva Tanpa Stimulasi Hidrasi"
-                                                    required
-                                                    hide-details
-                                                    variant="outlined"
                                                     :items="[
                                                         'M. > dari 60 Detik',
                                                         'K. 30-60 Detik',
                                                         'H. < dari 30 Detik',
-                                                    ]"></v-select>
+                                                    ]"
+                                                    label="Faktor Risiko Karies Saliva Tanpa Stimulasi Hidrasi"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getSalivaAfter('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -2926,15 +3666,17 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.ssdhperawatanfaktorrisikokaries_saliva_tanpastimulasi_viskosita
                                                     "
-                                                    label="Faktor Risiko Karies Saliva Tanpa Stimulasi Viskositas"
-                                                    required
-                                                    hide-details
-                                                    variant="outlined"
                                                     :items="[
                                                         'M. Kental',
                                                         'K. Berbusa',
                                                         'H. Jenrnih, Cair',
-                                                    ]"></v-select>
+                                                    ]"
+                                                    label="Faktor Risiko Karies Saliva Tanpa Stimulasi Viskositas"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getSalivaAfter('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -2949,18 +3691,20 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.ssdhperawatanfaktorrisikokaries_saliva_tanpastimulasi_pH
                                                     "
-                                                    label="Faktor Risiko Karies Saliva Tanpa Stimulasi pH"
-                                                    required
-                                                    hide-details
-                                                    variant="outlined"
                                                     :items="[
                                                         'M. 5,0-5,8',
                                                         'K. 6,0-6,6',
                                                         'H. 6,8-7,8',
-                                                    ]"></v-select>
+                                                    ]"
+                                                    label="Faktor Risiko Karies Saliva Tanpa Stimulasi pH"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getSalivaAfter('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
-                                        <v-row>
+                                        <!-- <v-row>
                                             <v-col cols="12" md="6">
                                                 <h2>
                                                     Faktor Risiko Karies Saliva
@@ -2982,7 +3726,7 @@ const COMPONENT_APIS = {
                                                         'H. < dari 30 Detik',
                                                     ]"></v-select>
                                             </v-col>
-                                        </v-row>
+                                        </v-row> -->
                                         <v-row>
                                             <v-col cols="12" md="6">
                                                 <h2>
@@ -2996,15 +3740,17 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.ssdhperawatanfaktorrisikokaries_saliva_denganstimulasi_kecepata
                                                     "
-                                                    label="Faktor Risiko Karies Saliva Dengan Stimulasi Kecepatan Aliran Per 5 menit"
-                                                    required
-                                                    hide-details
-                                                    variant="outlined"
                                                     :items="[
                                                         'M. < 3,5 ml',
                                                         'K. 3,5-5,0 ml',
                                                         'H. > 5,0 ml',
-                                                    ]"></v-select>
+                                                    ]"
+                                                    label="Faktor Risiko Karies Saliva Dengan Stimulasi Kecepatan Aliran Per 5 menit"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getSalivaAfter('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -3020,15 +3766,17 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.ssdhperawatanfaktorrisikokaries_saliva_denganstimulasi_kapasita
                                                     "
-                                                    label="Faktor Risiko Karies Saliva Dengan Stimulasi Kapasitas Buffer"
-                                                    required
-                                                    hide-details
-                                                    variant="outlined"
                                                     :items="[
                                                         'M. 0-5',
                                                         'K. 6-9',
                                                         'H. 10-12',
-                                                    ]"></v-select>
+                                                    ]"
+                                                    label="Faktor Risiko Karies Saliva Dengan Stimulasi Kapasitas Buffer"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getSalivaAfter('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -3043,15 +3791,17 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.ssdhperawatanfaktorrisikokaries_saliva_denganstimulasi_pH
                                                     "
-                                                    label="Faktor Risiko Karies Saliva Dengan Stimulasi pH"
-                                                    required
-                                                    hide-details
-                                                    variant="outlined"
                                                     :items="[
                                                         'M. 5,0-5,8',
                                                         'K. 6,0-6,6',
                                                         'H. 6,8-7,8',
-                                                    ]"></v-select>
+                                                    ]"
+                                                    label="Faktor Risiko Karies Saliva Dengan Stimulasi pH"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getSalivaAfter('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -3065,15 +3815,17 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.ssdhperawatanfaktorrisikokaries_plak_pH
                                                     "
-                                                    label="Faktor Risiko Karies Plak pH"
-                                                    required
-                                                    hide-details
-                                                    variant="outlined"
                                                     :items="[
                                                         'M. <= 5,5',
                                                         'K. 6,0-6,5',
                                                         'H. >= 7,0',
-                                                    ]"></v-select>
+                                                    ]"
+                                                    label="Faktor Risiko Karies Plak pH"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getPlakAfter('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -3088,57 +3840,130 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.ssdhperawatanfaktorrisikokaries_plak_aktivitas
                                                     "
-                                                    label="Faktor Risiko Karies Plak Aktivitas"
-                                                    required
-                                                    hide-details
-                                                    variant="outlined"
                                                     :items="[
                                                         'M. Stain Biru',
                                                         'K. Merah Kebiruan',
                                                         'H. Stain Merah',
-                                                    ]"></v-select>
+                                                    ]"
+                                                    label="Faktor Risiko Karies Plak Aktivitas"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getPlakAfter('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <v-row>
                                             <v-col cols="12" md="6">
                                                 <h2>
                                                     Faktor Risiko Karies Fluor
+                                                    Pasta Gigi
                                                 </h2>
                                             </v-col>
                                             <v-col cols="12" md="6">
                                                 <v-select
                                                     v-model="
-                                                        forms.ssdhperawatanfaktorrisikokaries_fluor
+                                                        forms.ssdhperawatanfaktorrisikokaries_fluor_pastagigi
                                                     "
-                                                    label="Faktor Risiko Karies Fluor"
-                                                    required
-                                                    hide-details
+                                                    :items="['Ya', 'Tidak']"
+                                                    label="Faktor Risiko Karies Fluor Pasta Gigi"
                                                     variant="outlined"
-                                                    :items="[
-                                                        'Ya',
-                                                        'Tidak',
-                                                    ]"></v-select>
+                                                    required
+                                                    @update:modelValue="
+                                                        getFluorAfter('uhuy')
+                                                    "></v-select>
+                                            </v-col>
+                                        </v-row>
+                                        <v-row>
+                                            <v-col cols="12" md="6">
+                                                <h2>
+                                                    Faktor Risiko Karies Fluor
+                                                    Air Minum
+                                                </h2>
+                                            </v-col>
+                                            <v-col cols="12" md="6">
+                                                <v-select
+                                                    v-model="
+                                                        forms.ssdhperawatanfaktorrisikokaries_fluor_airminum
+                                                    "
+                                                    :items="['Ya', 'Tidak']"
+                                                    label="Faktor Risiko Karies Fluor Air Minum"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getFluorAfter('uhuy')
+                                                    "></v-select>
+                                            </v-col>
+                                        </v-row>
+                                        <v-row>
+                                            <v-col cols="12" md="6">
+                                                <h2>
+                                                    Faktor Risiko Karies Fluor
+                                                    Topikal
+                                                </h2>
+                                            </v-col>
+                                            <v-col cols="12" md="6">
+                                                <v-select
+                                                    v-model="
+                                                        forms.ssdhperawatanfaktorrisikokaries_fluor_topikal
+                                                    "
+                                                    :items="['Ya', 'Tidak']"
+                                                    label="Faktor Risiko Karies Fluor Topikal"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getFluorAfter('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <v-row>
                                             <v-col cols="12" md="6">
                                                 <h2>
                                                     Faktor Risiko Karies Diet
+                                                    Gula
                                                 </h2>
                                             </v-col>
                                             <v-col cols="12" md="6">
                                                 <v-select
                                                     v-model="
-                                                        forms.ssdhperawatanfaktorrisikokaries_diet
+                                                        forms.ssdhperawatanfaktorrisikokaries_diet_gula
                                                     "
-                                                    label="Faktor Risiko Karies Diet"
-                                                    required
-                                                    hide-details
-                                                    variant="outlined"
                                                     :items="[
-                                                        'Ya',
-                                                        'Tidak',
-                                                    ]"></v-select>
+                                                        'M. >2x/hr',
+                                                        'K. 1-2x/hr',
+                                                        'H. Tidak',
+                                                    ]"
+                                                    label="Faktor Risiko Karies Diet Gula"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getDietAfter('uhuy')
+                                                    "></v-select>
+                                            </v-col>
+                                        </v-row>
+                                        <v-row>
+                                            <v-col cols="12" md="6">
+                                                <h2>
+                                                    Faktor Risiko Karies Diet
+                                                    Asam
+                                                </h2>
+                                            </v-col>
+                                            <v-col cols="12" md="6">
+                                                <v-select
+                                                    v-model="
+                                                        forms.ssdhperawatanfaktorrisikokaries_diet_asam
+                                                    "
+                                                    :items="[
+                                                        'M. >2x/hr',
+                                                        'K. 1-2x/hr',
+                                                        'H. Tidak',
+                                                    ]"
+                                                    label="Faktor Risiko Karies Diet Asam"
+                                                    variant="outlined"
+                                                    required
+                                                    @update:modelValue="
+                                                        getDietAfter('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <br />
@@ -3160,14 +3985,13 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.ssdhperawatanfaktorrisikokaries_faktormodifikasi_obatpeningkata
                                                     "
+                                                    :items="['Ya', 'Tidak']"
                                                     label="Faktor Modifikasi Obat Peningkat Aliran Saliva"
-                                                    required
-                                                    hide-details
                                                     variant="outlined"
-                                                    :items="[
-                                                        'Ya',
-                                                        'Tidak',
-                                                    ]"></v-select>
+                                                    required
+                                                    @update:modelValue="
+                                                        getModifAfter('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -3182,14 +4006,13 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.ssdhperawatanfaktorrisikokaries_faktormodifikasi_penyakitpenyeb
                                                     "
+                                                    :items="['Ya', 'Tidak']"
                                                     label="Faktor Modifikasi Penyakit Penyebab Mulut Kering"
-                                                    required
-                                                    hide-details
                                                     variant="outlined"
-                                                    :items="[
-                                                        'Ya',
-                                                        'Tidak',
-                                                    ]"></v-select>
+                                                    required
+                                                    @update:modelValue="
+                                                        getModifAfter('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -3204,14 +4027,13 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.ssdhperawatanfaktorrisikokaries_faktormodifikasi_protesa
                                                     "
+                                                    :items="['Ya', 'Tidak']"
                                                     label="Faktor Modifikasi Protesa / Alat Orthodonsi"
-                                                    required
-                                                    hide-details
                                                     variant="outlined"
-                                                    :items="[
-                                                        'Ya',
-                                                        'Tidak',
-                                                    ]"></v-select>
+                                                    required
+                                                    @update:modelValue="
+                                                        getModifAfter('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -3226,14 +4048,13 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.ssdhperawatanfaktorrisikokaries_faktormodifikasi_kariesaktif
                                                     "
+                                                    :items="['Ya', 'Tidak']"
                                                     label="Faktor Modifikasi Karies Aktif"
-                                                    required
-                                                    hide-details
                                                     variant="outlined"
-                                                    :items="[
-                                                        'Ya',
-                                                        'Tidak',
-                                                    ]"></v-select>
+                                                    required
+                                                    @update:modelValue="
+                                                        getModifAfter('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -3245,17 +4066,16 @@ const COMPONENT_APIS = {
                                                     v-model="
                                                         forms.ssdhperawatanfaktorrisikokaries_faktormodifikasi_sikap
                                                     "
+                                                    :items="['Ya', 'Tidak']"
                                                     label="Faktor Modifikasi Sikap"
-                                                    required
-                                                    hide-details
                                                     variant="outlined"
-                                                    :items="[
-                                                        'Ya',
-                                                        'Tidak',
-                                                    ]"></v-select>
+                                                    required
+                                                    @update:modelValue="
+                                                        getModifAfter('uhuy')
+                                                    "></v-select>
                                             </v-col>
                                         </v-row>
-                                        <v-row>
+                                        <!-- <v-row>
                                             <v-col cols="12" md="6">
                                                 <h2>
                                                     Faktor Modifikasi Keterangan
@@ -3276,7 +4096,7 @@ const COMPONENT_APIS = {
                                                         '1 Ya',
                                                     ]"></v-select>
                                             </v-col>
-                                        </v-row>
+                                        </v-row> -->
                                         <br />
                                         <h2
                                             class="font-weight-bold text-center text-basil">
@@ -3961,3 +4781,5 @@ const COMPONENT_APIS = {
         </v-card-actions>
     </v-form>
 </template>
+
+<script></script>
