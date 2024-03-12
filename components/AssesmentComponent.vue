@@ -133,10 +133,7 @@ const setAnItem = async (target) =>
     ("/v1/transaction/assesment/updatedetailsbyitem", "post", "application/json", 
     {data: formTarget,  } , tokenData);
 
-   
-
     if(updatedata.data.data.status){
-        console.log(updatedata.data.data.data.id)
         datatableBody.items[findItem (updatedata.data.data.data.id)] = updatedata.data.data.data;
         closeDialog ();
         clearForms ();
@@ -170,6 +167,36 @@ const setItems = async (target) =>
         getItems();
         clearForms ();
         closeDialog ();
+    },
+    error => {
+        alert(error.data.message)
+    });
+};
+
+const setFinish = async (target) =>
+{
+    const
+
+    { token: tokenData, } = await useAuth (),
+    { getItem, setItem, } = useItem (tokenData),
+    formTarget = {
+        "id" : props.idemr,
+        "studentid" : props.forms.studentid,
+        "lectureid" : props.forms.lectureid,
+        "yearid" : props.forms.yearid,
+        "semesterid" : props.forms.semesterid,
+        "specialistid" : props.forms.specialistid
+    };
+
+    await setItem (props.apis.setFinish, "",
+    formTarget,
+    (success) =>
+    {
+        if(success.code == 200){
+            alert(success.message)
+        }else{
+            alert(success.message)
+        }
     },
     error => {
         alert(error.data.message)
@@ -243,4 +270,14 @@ onMounted (async () =>
             </template>
         </v-data-table-server>
     </v-layout>
+    <v-card-actions>
+            <v-spacer></v-spacer>
+            <!-- <v-btn color="primary" variant="outlined">{{
+                $t("action.button.lanjut")
+            }}</v-btn>
+            &nbsp&nbsp&nbsp&nbsp -->
+             <v-btn @click="setFinish ();" color="primary" variant="flat">{{
+                $t("action.button.kirimdanfinish")
+            }}</v-btn>
+        </v-card-actions>
 </template>

@@ -57,7 +57,11 @@ const getAnItem2 = async (target) =>
         forms2.assesmenttype = success.data.assesmenttype;
         forms2.kodesub = success.data.kodesub;
         forms2.index_sub = success.data.index_sub;
-        console.log(success.data,'ff')
+        COMPONENT_FORMS.semesterid=success.data.semesterid;
+        COMPONENT_FORMS.yearid=success.data.yearid;
+        COMPONENT_FORMS.studentid=success.data.studentid;
+        COMPONENT_FORMS.lectureid=success.data.lectureid;
+        COMPONENT_FORMS.specialistid=success.data.specialistid;
 
     },
     error => {});
@@ -125,6 +129,11 @@ const COMPONENT_FORMS =
     active : "",
     assesmentbobotvalue : "0",
     grandotal : "0",
+    studentid: "",
+    yearid:"",
+    semesterid:"",
+    lectureid:"",
+    specialistid:"",
 };
 
 const COMPONENT_APIS =
@@ -135,7 +144,7 @@ const COMPONENT_APIS =
     getItem: "/v1/emr/periodonti/soap/showbyid",
     createItem: "/v1/emr/periodonti/soap/create",
     updateItem: "/v1/transaction/assesment/updatedetailsbyitem",
-    deleteItem: "/v1/emr/periodonti/soap/delete",
+    setFinish: "/v1/transaction/recapitulation/generate",
 };
 
 const COMPONENT_IDEMR = useRouter().currentRoute.value.query.uuid;

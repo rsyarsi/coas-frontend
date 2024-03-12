@@ -28,7 +28,7 @@ const forms2 = reactive({
     grandotal:"",
     kodesub: "",
     index_sub: "",
-    assesmenttype:""
+    assesmenttype:"",
 });
 
 const ListComponent = ref(null);
@@ -58,7 +58,6 @@ const getAnItem2 = async (target) =>
         forms2.assesmenttype = success.data.assesmenttype;
         forms2.kodesub = success.data.kodesub;
         forms2.index_sub = success.data.index_sub;
-        console.log(success.data,'ff')
 
     },
     error => {});
@@ -126,6 +125,10 @@ const COMPONENT_FORMS =
     active : "",
     assesmentbobotvalue : "0",
     grandotal : "0",
+    nilaitindakan_awal:"",
+    nilaisikap_awal:"",
+    nilaitindakan_akhir:"",
+    nilaisikap_akhir:""
 };
 
 const COMPONENT_APIS =
@@ -265,7 +268,7 @@ onMounted (async () =>
                                     <v-textarea v-model="forms.assesmentdescription" variant="outlined" readonly label="Deskripsi Penilaian"></v-textarea> 
                                 </v-col> 
                             </v-row>
-                            <v-row>
+                            <!-- <v-row>
                                 <v-col cols="12" md="12">
                                     <v-text-field 
                                     label="Assesmenttype"
@@ -294,19 +297,9 @@ onMounted (async () =>
                                     hide-details
                                     variant="outlined"></v-text-field>
                                 </v-col> 
-                            </v-row>
-                            <v-row>
+                            </v-row> -->
+                            <v-row v-if="forms.kode_sub_name != 'PLAK KONTROL SKELING MANUAL'">
                               <v-col cols="12" md="6"> 
-                                    <v-text-field 
-                                        label="Bobot"
-                                        
-                                        v-model="forms.assesmentbobotvalue"
-                                        hide-details
-                                        variant="outlined"></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="6">
- 
-
                                     <v-text-field 
                                         label="Bobot"
                                         
@@ -319,6 +312,39 @@ onMounted (async () =>
                                         label="Nilai" 
                                         v-model="forms.assementvalue"
                                         hide-details
+                                        variant="outlined"></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-row v-if="forms.kode_sub_name == 'PLAK KONTROL SKELING MANUAL'">
+                              <v-col cols="6" md="6"> 
+                                    <v-text-field 
+                                        label="Nilai Tindakan Awal (60-80)"
+                                        v-model="forms.nilaitindakan_awal"
+                                        hide-details
+                                        variant="outlined"></v-text-field>
+                                </v-col>
+                                <v-col cols="6" md="6">
+                                    <v-text-field 
+                                        label="Nilai Sikap Awal (0-80)" 
+                                        v-model="forms.nilaisikap_awal"
+                                        hide-details
+                                        variant="outlined"></v-text-field>
+                                </v-col>
+
+                                <v-col cols="6" md="6"> 
+                                    <v-text-field 
+                                        label="Nilai Tindakan Akhir"
+                                        v-model="forms.nilaitindakan_akhir"
+                                        hide-details
+                                        readonly
+                                        variant="outlined"></v-text-field>
+                                </v-col>
+                                <v-col cols="6" md="6">
+                                    <v-text-field 
+                                        label="Nilai Sikap Akhir" 
+                                        v-model="forms.nilaisikap_akhir"
+                                        hide-details
+                                        readonly
                                         variant="outlined"></v-text-field>
                                 </v-col>
                             </v-row>
