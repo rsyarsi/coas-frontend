@@ -51,8 +51,11 @@ export default (token: string) =>
 
         if (data) {
 
-            let dataObject = window.URL.createObjectURL (new Blob ([ data.data, ])),
+            let dataType,
+                dataObject,
                 link = document.createElement ("a");
+
+            dataObject = window.URL.createObjectURL (new Blob ([ data.data, ]));
 
             link.href = dataObject;
             link.download = `${+ new Date()}.${extension}`;

@@ -53,6 +53,15 @@ export default async (url: string, method: string, contentType: string, content:
             data: content,
         }; 
 
+    } else if (contentType == "blob") {
+
+        detail = {
+
+            url,
+            method,
+            responseType: "arraybuffer",
+        };
+
     } else {
 
         detail = {
@@ -61,9 +70,7 @@ export default async (url: string, method: string, contentType: string, content:
             method,
             headers: { "Content-Type": contentType, },
             ...content,
-        };
-
-        
+        };  
     }
 
     await instance (detail)
