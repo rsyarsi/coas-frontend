@@ -6,6 +6,10 @@ const props = defineProps (
     header: Array,
     forms: Object,
     apis: Object,
+
+    fnApiGetItem: Function,
+    fnUpdateItem: Function,
+    fnApiExportItems: Function,
 });
 
 const datatableBody = reactive (
@@ -184,7 +188,23 @@ const setItems = async (target) =>
     error => {});
 };
 
-const exportItems = async (extension) =>
+//
+
+const fnApiGetItem = props.apis.fnApiGetItem ?? (async (item) =>
+{
+    datatableBody.isAccessorDialog = true;
+
+    await getAnItem (item.id);
+});
+
+const fnUpdateItem = props.apis.fnUpdateItem ?? (async (item) => {
+
+    showDialog ();
+
+    await getAnItem (item.id);
+});
+
+const fnApiExportItems = props.apis.fnApiExportItems ?? (async (extension) =>
 {
     const
 
@@ -193,7 +213,7 @@ const exportItems = async (extension) =>
     url = props.apis.exportItem + "?file=" + extension;
 
     await downloadItem (url, extension);
-};
+});
 
 onBeforeMount (async () =>
 {
@@ -242,9 +262,9 @@ onMounted (async () =>
                     <v-text-field v-model="datatableBody.search" variant="outlined" density="compact" placeholder="Filter" single-line hide-details></v-text-field>
                     <v-select v-model="datatableBody.searchBy" :items="datatableBody.searchables" item-title="title" item-value="key" class="mx-2" variant="plain" density="compact" style="max-width: 33px" single-line hide-details></v-select>
                     <v-btn-toggle v-if="props?.apis?.exportItem" variant="outlined" rounded="xl" density="compact" divided>
-                        <v-btn @click="exportItems ('csv')"><span class="font-weight-medium text-caption text-white">CSV</span></v-btn>
-                        <v-btn @click="exportItems ('xls')"><span class="font-weight-medium text-caption text-white">XLS</span></v-btn>
-                        <v-btn @click="exportItems ('xlsx')"><span class="font-weight-medium text-caption text-white">XLSX</span></v-btn>
+                        <v-btn @click="fnApiExportItems ('csv')"><span class="font-weight-medium text-caption text-white">CSV</span></v-btn>
+                        <v-btn @click="fnApiExportItems ('xls')"><span class="font-weight-medium text-caption text-white">XLS</span></v-btn>
+                        <v-btn @click="fnApiExportItems ('xlsx')"><span class="font-weight-medium text-caption text-white">XLSX</span></v-btn>
                     </v-btn-toggle>
                     <v-dialog v-model="datatableBody.isMutatorDialog" transition="dialog-top-transition" fullscreen>
                         <template v-if="props.apis.createItem" v-slot:activator="{ properties, }">
@@ -291,8 +311,8 @@ onMounted (async () =>
                         </v-card>
                     </template>
                 </v-dialog>
-                <v-btn v-if="props.apis.getItem" @click="datatableBody.isAccessorDialog = true; getAnItem (item.id)" icon="mdi-eye" color="indigo-darken-4" class="mx-2" variant="text" density="compact"></v-btn>
-                <v-btn v-if="props.apis.updateItem" @click="showDialog (); getAnItem (item.id)" icon="mdi-pencil" color="lime-darken-4" class="mx-2" variant="text" density="compact"></v-btn>
+                <v-btn v-if="props.apis.getItem" @click="fnApiGetItem (item)" icon="mdi-eye" color="indigo-darken-4" class="mx-2" variant="text" density="compact"></v-btn>
+                <v-btn v-if="props.apis.updateItem" @click="fnUpdateItem (item)" icon="mdi-pencil" color="lime-darken-4" class="mx-2" variant="text" density="compact"></v-btn>
             </template>
         </v-data-table-server>
     </v-layout>
