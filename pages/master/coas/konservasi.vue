@@ -206,29 +206,49 @@ const COMPONENT_APIS = {
 const getSalivaBefore = async (target) => {
     var tanpastimulasi_hidrasi =
         forms.sblmperawatanfaktorrisikokaries_saliva_tanpastimulasi_hidrasi;
+    if (tanpastimulasi_hidrasi === undefined) {
+        tanpastimulasi_hidrasi = 'NULL';
+    }
     var tanpastimulasi_viskosita =
         forms.sblmperawatanfaktorrisikokaries_saliva_tanpastimulasi_viskosita;
+    if (tanpastimulasi_viskosita === undefined) {
+        tanpastimulasi_viskosita = 'NULL';
+    }
     var tanpastimulasi_pH =
         forms.sblmperawatanfaktorrisikokaries_saliva_tanpastimulasi_pH;
+    if (tanpastimulasi_pH === undefined) {
+        tanpastimulasi_pH = 'NULL';
+    }
     var denganstimulasi_kecepata =
         forms.sblmperawatanfaktorrisikokaries_saliva_denganstimulasi_kecepata;
+    if (denganstimulasi_kecepata === undefined) {
+        denganstimulasi_kecepata = 'NULL';
+    }
     var denganstimulasi_kapasita =
         forms.sblmperawatanfaktorrisikokaries_saliva_denganstimulasi_kapasita;
+    if (denganstimulasi_kapasita === undefined) {
+        denganstimulasi_kapasita = 'NULL';
+    }
     var denganstimulasi_pH =
         forms.sblmperawatanfaktorrisikokaries_saliva_denganstimulasi_pH;
-    if (
-        tanpastimulasi_hidrasi === undefined ||
-        tanpastimulasi_viskosita === undefined ||
-        tanpastimulasi_pH === undefined ||
-        denganstimulasi_kecepata === undefined ||
-        denganstimulasi_kapasita === undefined ||
-        denganstimulasi_pH === undefined
-    ) {
-        forms.sblmperawatanfaktorrisikokaries_penilaianakhir_saliva =
-            "PROSESSS.......";
+    if (denganstimulasi_pH === undefined) {
+        denganstimulasi_pH = 'NULL';
     }
+
+
+    // if (
+    //     tanpastimulasi_hidrasi === undefined ||
+    //     tanpastimulasi_viskosita === undefined ||
+    //     tanpastimulasi_pH === undefined ||
+    //     denganstimulasi_kecepata === undefined ||
+    //     denganstimulasi_kapasita === undefined ||
+    //     denganstimulasi_pH === undefined
+    // ) {
+    //     forms.sblmperawatanfaktorrisikokaries_penilaianakhir_saliva =
+    //         "PROSESSS.......";
+    // }
     // Data sudah lengkap
-    else {
+    // else {
         var arrTarget = [
             tanpastimulasi_hidrasi.substring(0, 1),
             tanpastimulasi_viskosita.substring(0, 1),
@@ -285,22 +305,28 @@ const getSalivaBefore = async (target) => {
                 "AU AH";
         }
         console.log(hasil);
-    }
+    // }
 };
 
 const getPlakBefore = async (target) => {
     var risikokaries_plak_pH = forms.sblmperawatanfaktorrisikokaries_plak_pH;
+    if (risikokaries_plak_pH === undefined) {
+        risikokaries_plak_pH = 'NULL';
+    }
     var risikokaries_plak_aktivitas =
         forms.sblmperawatanfaktorrisikokaries_plak_aktivitas;
-    if (
-        risikokaries_plak_pH === undefined ||
-        risikokaries_plak_aktivitas === undefined
-    ) {
-        forms.sblmperawatanfaktorrisikokaries_penilaianakhir_plak =
-            "PROSESSS.......";
+    if (risikokaries_plak_aktivitas === undefined) {
+        risikokaries_plak_aktivitas = 'NULL';
     }
+    // if (
+    //     risikokaries_plak_pH === undefined ||
+    //     risikokaries_plak_aktivitas === undefined
+    // ) {
+    //     forms.sblmperawatanfaktorrisikokaries_penilaianakhir_plak =
+    //         "PROSESSS.......";
+    // }
     // Data sudah lengkap
-    else {
+    // else {
         var arrTarget = [
             risikokaries_plak_pH.substring(0, 1),
             risikokaries_plak_aktivitas.substring(0, 1),
@@ -350,26 +376,35 @@ const getPlakBefore = async (target) => {
             forms.sblmperawatanfaktorrisikokaries_penilaianakhir_plak = "AU AH";
         }
         console.log(hasil);
-    }
+    // }
 };
 
 const getFluorBefore = async (target) => {
     var risikokaries_fluor_pastagigi =
         forms.sblmperawatanfaktorrisikokaries_fluor_pastagigi;
+    if (risikokaries_fluor_pastagigi === undefined) {
+        risikokaries_fluor_pastagigi = 'NULL';
+    }
     var risikokaries_fluor_airminum =
         forms.sblmperawatanfaktorrisikokaries_fluor_airminum;
+    if (risikokaries_fluor_airminum === undefined) {
+        risikokaries_fluor_airminum = 'NULL';
+    }
     var risikokaries_fluor_topikal =
         forms.sblmperawatanfaktorrisikokaries_fluor_topikal;
-    if (
-        risikokaries_fluor_pastagigi === undefined ||
-        risikokaries_fluor_airminum === undefined ||
-        risikokaries_fluor_topikal === undefined
-    ) {
-        forms.sblmperawatanfaktorrisikokaries_penilaianakhir_fluor =
-            "PROSESSS.......";
+    if (risikokaries_fluor_topikal === undefined) {
+        risikokaries_fluor_topikal = 'NULL';
     }
+    // if (
+    //     risikokaries_fluor_pastagigi === undefined ||
+    //     risikokaries_fluor_airminum === undefined ||
+    //     risikokaries_fluor_topikal === undefined
+    // ) {
+    //     forms.sblmperawatanfaktorrisikokaries_penilaianakhir_fluor =
+    //         "PROSESSS.......";
+    // }
     // Data sudah lengkap
-    else {
+    //else {
         var arrTarget = [
             risikokaries_fluor_pastagigi,
             risikokaries_fluor_airminum,
@@ -405,23 +440,29 @@ const getFluorBefore = async (target) => {
                 "KUNING";
         }
         console.log(hasil);
-    }
+    // }
 };
 
 const getDietBefore = async (target) => {
     var risikokaries_diet_gula =
         forms.sblmperawatanfaktorrisikokaries_diet_gula;
+        if (risikokaries_diet_gula === undefined) {
+            risikokaries_diet_gula = 'NULL';
+    }
     var risikokaries_diet_asam =
         forms.sblmperawatanfaktorrisikokaries_diet_asam;
-    if (
-        risikokaries_diet_gula === undefined ||
-        risikokaries_diet_asam === undefined
-    ) {
-        forms.sblmperawatanfaktorrisikokaries_penilaianakhir_diet =
-            "PROSESSS.......";
+        if (risikokaries_diet_asam === undefined) {
+            risikokaries_diet_asam = 'NULL';
     }
+    // if (
+    //     risikokaries_diet_gula === undefined ||
+    //     risikokaries_diet_asam === undefined
+    // ) {
+    //     forms.sblmperawatanfaktorrisikokaries_penilaianakhir_diet =
+    //         "PROSESSS.......";
+    // }
     // Data sudah lengkap
-    else {
+    // else {
         var arrTarget = [
             risikokaries_diet_gula.substring(0, 1),
             risikokaries_diet_asam.substring(0, 1),
@@ -471,33 +512,48 @@ const getDietBefore = async (target) => {
             forms.sblmperawatanfaktorrisikokaries_penilaianakhir_diet = "AU AH";
         }
         console.log(hasil);
-    }
+    // }
 };
 
 const getModifBefore = async (target) => {
     var faktormodifikasi_obatpeningkata =
         forms.sblmperawatanfaktorrisikokaries_faktormodifikasi_obatpeningkata;
+        if (faktormodifikasi_obatpeningkata === undefined) {
+            faktormodifikasi_obatpeningkata = 'NULL';
+    }
     var faktormodifikasi_penyakitpenyeb =
         forms.sblmperawatanfaktorrisikokaries_faktormodifikasi_penyakitpenyeb;
+        if (faktormodifikasi_penyakitpenyeb === undefined) {
+            faktormodifikasi_penyakitpenyeb = 'NULL';
+    }
     var faktormodifikasi_protesa =
         forms.sblmperawatanfaktorrisikokaries_faktormodifikasi_protesa;
+        if (faktormodifikasi_protesa === undefined) {
+            faktormodifikasi_protesa = 'NULL';
+    }
     var faktormodifikasi_kariesaktif =
         forms.sblmperawatanfaktorrisikokaries_faktormodifikasi_kariesaktif;
+        if (faktormodifikasi_kariesaktif === undefined) {
+            faktormodifikasi_kariesaktif = 'NULL';
+    }
     var faktormodifikasi_sikap =
         forms.sblmperawatanfaktorrisikokaries_faktormodifikasi_sikap;
-
-    if (
-        faktormodifikasi_obatpeningkata === undefined ||
-        faktormodifikasi_penyakitpenyeb === undefined ||
-        faktormodifikasi_protesa === undefined ||
-        faktormodifikasi_kariesaktif === undefined ||
-        faktormodifikasi_sikap === undefined
-    ) {
-        forms.sblmperawatanfaktorrisikokaries_penilaianakhir_faktormodifikasi =
-            "PROSESSS.......";
+        if (faktormodifikasi_sikap === undefined) {
+            faktormodifikasi_sikap = 'NULL';
     }
+
+    // if (
+    //     faktormodifikasi_obatpeningkata === undefined ||
+    //     faktormodifikasi_penyakitpenyeb === undefined ||
+    //     faktormodifikasi_protesa === undefined ||
+    //     faktormodifikasi_kariesaktif === undefined ||
+    //     faktormodifikasi_sikap === undefined
+    // ) {
+    //     forms.sblmperawatanfaktorrisikokaries_penilaianakhir_faktormodifikasi =
+    //         "PROSESSS.......";
+    // }
     // Data sudah lengkap
-    else {
+    // else {
         var arrTarget = [
             faktormodifikasi_obatpeningkata,
             faktormodifikasi_penyakitpenyeb,
@@ -535,34 +591,52 @@ const getModifBefore = async (target) => {
                 "KUNING";
         }
         console.log(hasil);
-    }
+    // }
 };
 const getSalivaAfter = async (target) => {
     var tanpastimulasi_hidrasi =
         forms.ssdhperawatanfaktorrisikokaries_saliva_tanpastimulasi_hidrasi;
+        if (tanpastimulasi_hidrasi === undefined) {
+            tanpastimulasi_hidrasi = 'NULL';
+    }
     var tanpastimulasi_viskosita =
         forms.ssdhperawatanfaktorrisikokaries_saliva_tanpastimulasi_viskosita;
+        if (tanpastimulasi_viskosita === undefined) {
+            tanpastimulasi_viskosita = 'NULL';
+    }
     var tanpastimulasi_pH =
         forms.ssdhperawatanfaktorrisikokaries_saliva_tanpastimulasi_pH;
+        if (tanpastimulasi_pH === undefined) {
+            tanpastimulasi_pH = 'NULL';
+    }
     var denganstimulasi_kecepata =
         forms.ssdhperawatanfaktorrisikokaries_saliva_denganstimulasi_kecepata;
+        if (denganstimulasi_kecepata === undefined) {
+            denganstimulasi_kecepata = 'NULL';
+    }
     var denganstimulasi_kapasita =
         forms.ssdhperawatanfaktorrisikokaries_saliva_denganstimulasi_kapasita;
+        if (denganstimulasi_kapasita === undefined) {
+            denganstimulasi_kapasita = 'NULL';
+    }
     var denganstimulasi_pH =
         forms.ssdhperawatanfaktorrisikokaries_saliva_denganstimulasi_pH;
-    if (
-        tanpastimulasi_hidrasi === undefined ||
-        tanpastimulasi_viskosita === undefined ||
-        tanpastimulasi_pH === undefined ||
-        denganstimulasi_kecepata === undefined ||
-        denganstimulasi_kapasita === undefined ||
-        denganstimulasi_pH === undefined
-    ) {
-        forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_saliva =
-            "PROSESSS.......";
+        if (denganstimulasi_pH === undefined) {
+            denganstimulasi_pH = 'NULL';
     }
+    // if (
+    //     tanpastimulasi_hidrasi === undefined ||
+    //     tanpastimulasi_viskosita === undefined ||
+    //     tanpastimulasi_pH === undefined ||
+    //     denganstimulasi_kecepata === undefined ||
+    //     denganstimulasi_kapasita === undefined ||
+    //     denganstimulasi_pH === undefined
+    // ) {
+    //     forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_saliva =
+    //         "PROSESSS.......";
+    // }
     // Data sudah lengkap
-    else {
+    // else {
         var arrTarget = [
             tanpastimulasi_hidrasi.substring(0, 1),
             tanpastimulasi_viskosita.substring(0, 1),
@@ -604,36 +678,42 @@ const getSalivaAfter = async (target) => {
             arrTargetKuning >= arrTargetHijau
         ) {
             var hasil = "KUNING";
-            forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_plak =
+            forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_saliva =
                 "KUNING";
         } else if (
             arrTargetHijau > arrTargetKuning &&
             arrTargetHijau > arrTargetMerah
         ) {
             var hasil = "HIJAU";
-            forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_diet = "HIJAU";
+            forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_saliva = "HIJAU";
         } else {
             var hasil = "AU AH";
-            forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_fluor =
+            forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_saliva =
                 "AU AH";
         }
         console.log(hasil);
-    }
+    // }
 };
 
 const getPlakAfter = async (target) => {
     var risikokaries_plak_pH = forms.ssdhperawatanfaktorrisikokaries_plak_pH;
+    if (risikokaries_plak_pH === undefined) {
+        risikokaries_plak_pH = 'NULL';
+    }
     var risikokaries_plak_aktivitas =
         forms.ssdhperawatanfaktorrisikokaries_plak_aktivitas;
-    if (
-        risikokaries_plak_pH === undefined ||
-        risikokaries_plak_aktivitas === undefined
-    ) {
-        forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_plak =
-            "PROSESSS.......";
+    if (risikokaries_plak_aktivitas === undefined) {
+            risikokaries_plak_aktivitas = 'NULL';
     }
+    // if (
+    //     risikokaries_plak_pH === undefined ||
+    //     risikokaries_plak_aktivitas === undefined
+    // ) {
+    //     forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_plak =
+    //         "PROSESSS.......";
+    // }
     // Data sudah lengkap
-    else {
+    // else {
         var arrTarget = [
             risikokaries_plak_pH.substring(0, 1),
             risikokaries_plak_aktivitas.substring(0, 1),
@@ -683,26 +763,35 @@ const getPlakAfter = async (target) => {
             forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_plak = "AU AH";
         }
         console.log(hasil);
-    }
+    // }
 };
 
 const getFluorAfter = async (target) => {
     var risikokaries_fluor_pastagigi =
         forms.ssdhperawatanfaktorrisikokaries_fluor_pastagigi;
+        if (risikokaries_fluor_pastagigi === undefined) {
+            risikokaries_fluor_pastagigi = 'NULL';
+    }
     var risikokaries_fluor_airminum =
         forms.ssdhperawatanfaktorrisikokaries_fluor_airminum;
+        if (risikokaries_fluor_airminum === undefined) {
+            risikokaries_fluor_airminum = 'NULL';
+    }
     var risikokaries_fluor_topikal =
         forms.ssdhperawatanfaktorrisikokaries_fluor_topikal;
-    if (
-        risikokaries_fluor_pastagigi === undefined ||
-        risikokaries_fluor_airminum === undefined ||
-        risikokaries_fluor_topikal === undefined
-    ) {
-        forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_fluor =
-            "PROSESSS.......";
+        if (risikokaries_fluor_topikal === undefined) {
+            risikokaries_fluor_topikal = 'NULL';
     }
+    // if (
+    //     risikokaries_fluor_pastagigi === undefined ||
+    //     risikokaries_fluor_airminum === undefined ||
+    //     risikokaries_fluor_topikal === undefined
+    // ) {
+    //     forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_fluor =
+    //         "PROSESSS.......";
+    // }
     // Data sudah lengkap
-    else {
+    // else {
         var arrTarget = [
             risikokaries_fluor_pastagigi,
             risikokaries_fluor_airminum,
@@ -738,23 +827,29 @@ const getFluorAfter = async (target) => {
                 "KUNING";
         }
         console.log(hasil);
-    }
+    // }
 };
 
 const getDietAfter = async (target) => {
     var risikokaries_diet_gula =
         forms.ssdhperawatanfaktorrisikokaries_diet_gula;
+        if (risikokaries_diet_gula === undefined) {
+            risikokaries_diet_gula = 'NULL';
+    }
     var risikokaries_diet_asam =
         forms.ssdhperawatanfaktorrisikokaries_diet_asam;
-    if (
-        risikokaries_diet_gula === undefined ||
-        risikokaries_diet_asam === undefined
-    ) {
-        forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_diet =
-            "PROSESSS.......";
+        if (risikokaries_diet_asam === undefined) {
+            risikokaries_diet_asam = 'NULL';
     }
+    // if (
+    //     risikokaries_diet_gula === undefined ||
+    //     risikokaries_diet_asam === undefined
+    // ) {
+    //     forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_diet =
+    //         "PROSESSS.......";
+    // }
     // Data sudah lengkap
-    else {
+    // else {
         var arrTarget = [
             risikokaries_diet_gula.substring(0, 1),
             risikokaries_diet_asam.substring(0, 1),
@@ -804,33 +899,48 @@ const getDietAfter = async (target) => {
             forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_diet = "AU AH";
         }
         console.log(hasil);
-    }
+    //}
 };
 
 const getModifAfter = async (target) => {
     var faktormodifikasi_obatpeningkata =
         forms.ssdhperawatanfaktorrisikokaries_faktormodifikasi_obatpeningkata;
+        if (faktormodifikasi_obatpeningkata === undefined) {
+            faktormodifikasi_obatpeningkata = 'NULL';
+    }
     var faktormodifikasi_penyakitpenyeb =
         forms.ssdhperawatanfaktorrisikokaries_faktormodifikasi_penyakitpenyeb;
+        if (faktormodifikasi_penyakitpenyeb === undefined) {
+            faktormodifikasi_penyakitpenyeb = 'NULL';
+    }
     var faktormodifikasi_protesa =
         forms.ssdhperawatanfaktorrisikokaries_faktormodifikasi_protesa;
+        if (faktormodifikasi_protesa === undefined) {
+            faktormodifikasi_protesa = 'NULL';
+    }
     var faktormodifikasi_kariesaktif =
         forms.ssdhperawatanfaktorrisikokaries_faktormodifikasi_kariesaktif;
+        if (faktormodifikasi_kariesaktif === undefined) {
+            faktormodifikasi_kariesaktif = 'NULL';
+    }
     var faktormodifikasi_sikap =
         forms.ssdhperawatanfaktorrisikokaries_faktormodifikasi_sikap;
-
-    if (
-        faktormodifikasi_obatpeningkata === undefined ||
-        faktormodifikasi_penyakitpenyeb === undefined ||
-        faktormodifikasi_protesa === undefined ||
-        faktormodifikasi_kariesaktif === undefined ||
-        faktormodifikasi_sikap === undefined
-    ) {
-        forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_faktormodifikasi =
-            "PROSESSS.......";
+        if (faktormodifikasi_sikap === undefined) {
+            faktormodifikasi_sikap = 'NULL';
     }
+
+    // if (
+    //     faktormodifikasi_obatpeningkata === undefined ||
+    //     faktormodifikasi_penyakitpenyeb === undefined ||
+    //     faktormodifikasi_protesa === undefined ||
+    //     faktormodifikasi_kariesaktif === undefined ||
+    //     faktormodifikasi_sikap === undefined
+    // ) {
+    //     forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_faktormodifikasi =
+    //         "PROSESSS.......";
+    // }
     // Data sudah lengkap
-    else {
+   // else {
         var arrTarget = [
             faktormodifikasi_obatpeningkata,
             faktormodifikasi_penyakitpenyeb,
@@ -868,7 +978,7 @@ const getModifAfter = async (target) => {
                 "KUNING";
         }
         console.log(hasil);
-    }
+    // }
 };
 </script>
 
@@ -1695,663 +1805,6 @@ const getModifAfter = async (target) => {
                                                 </v-container>
                                             </v-col>
                                         </v-row>
-                                    </v-container>
-                                </v-window-item>
-                            </v-window>
-                            <v-window v-model="tab2">
-                                <v-window-item :value="3">
-                                    <v-container fluid>
-                                        <h1
-                                            class="font-weight-bold text-center text-basil">
-                                            PEMERIKSAAN KASUS RESTORASI
-                                        </h1>
-                                        <h2>Sesudah Perawatan</h2>
-                                        <v-table
-                                            density="compact"
-                                            class="border">
-                                            <thead>
-                                                <tr>
-                                                    <th
-                                                        class="text-center"></th>
-                                                    <th
-                                                        colspan="10"
-                                                        class="text-center">
-                                                        PEMERIKSAAN GIGI DAN
-                                                        RENCANA PERAWATAN
-                                                        INVASIF
-                                                    </th>
-                                                </tr>
-                                                <tr>
-                                                    <th class="text-center">
-                                                        Elemen
-                                                    </th>
-                                                    <th
-                                                        class="text-center"></th>
-                                                    <th class="text-center">
-                                                        TV
-                                                    </th>
-                                                    <th class="text-center">
-                                                        DIAGNOSA
-                                                    </th>
-                                                    <th class="text-center">
-                                                        RENCANA PERAWATAN
-                                                    </th>
-                                                    <th class="text-center">
-                                                        Elemen
-                                                    </th>
-                                                    <th
-                                                        class="text-center"></th>
-                                                    <th class="text-center">
-                                                        TV
-                                                    </th>
-                                                    <th class="text-center">
-                                                        DIAGNOSA
-                                                    </th>
-                                                    <th class="text-center">
-                                                        RENCANA PERAWATAN
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td
-                                                        colspan="1"
-                                                        class="text-left">
-                                                        18
-                                                    </td>
-                                                    <td
-                                                        colspan="1"
-                                                        class="text-left"></td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_18_tv
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_18_diagnosis
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_18_rencanaperawatan
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-left">
-                                                        21
-                                                    </td>
-                                                    <td class="text-left">
-                                                        61
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_21_61_tv
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_21_61_diagnosis
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_21_61_rencanaperawatan
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td
-                                                        colspan="1"
-                                                        class="text-left">
-                                                        17
-                                                    </td>
-                                                    <td
-                                                        colspan="1"
-                                                        class="text-left"></td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_17_tv
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_17_diagnosis
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_17_rencanaperawatan
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-left">
-                                                        22
-                                                    </td>
-                                                    <td class="text-left">
-                                                        62
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_22_62_tv
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_22_62_diagnosis
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_22_62_rencanaperawatan
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td
-                                                        colspan="1"
-                                                        class="text-left">
-                                                        16
-                                                    </td>
-                                                    <td
-                                                        colspan="1"
-                                                        class="text-left"></td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_16_tv
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_16_diagnosis
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_16_rencanaperawatan
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-left">
-                                                        23
-                                                    </td>
-                                                    <td class="text-left">
-                                                        63
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_23_63_tv
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_23_63_diagnosis
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_23_63_rencanaperawatan
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td
-                                                        colspan="1"
-                                                        class="text-left">
-                                                        15
-                                                    </td>
-                                                    <td
-                                                        colspan="1"
-                                                        class="text-left">
-                                                        55
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_15_55_tv
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_15_55_diagnosis
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_15_55_rencanaperawatan
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-left">
-                                                        24
-                                                    </td>
-                                                    <td class="text-left">
-                                                        64
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_24_64_tv
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_24_64_diagnosis
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_24_64_rencanaperawatan
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td
-                                                        colspan="1"
-                                                        class="text-left">
-                                                        14
-                                                    </td>
-                                                    <td
-                                                        colspan="1"
-                                                        class="text-left">
-                                                        54
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_14_54_tv
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_14_54_diagnosis
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_14_54_rencanaperawatan
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-left">
-                                                        25
-                                                    </td>
-                                                    <td class="text-left">
-                                                        65
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_25_65_tv
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_25_65_diagnosis
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_25_65_rencanaperawatan
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td
-                                                        colspan="1"
-                                                        class="text-left">
-                                                        13
-                                                    </td>
-                                                    <td
-                                                        colspan="1"
-                                                        class="text-left">
-                                                        53
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_13_53_tv
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_13_53_diagnosis
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_13_53_rencanaperawatan
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-left">
-                                                        26
-                                                    </td>
-                                                    <td class="text-left"></td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_26_tv
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_26_diagnosis
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_26_rencanaperawatan
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td
-                                                        colspan="1"
-                                                        class="text-left">
-                                                        12
-                                                    </td>
-                                                    <td
-                                                        colspan="1"
-                                                        class="text-left">
-                                                        52
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_12_52_tv
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_12_52_diagnosis
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_12_52_rencanaperawatan
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-left">
-                                                        27
-                                                    </td>
-                                                    <td class="text-left"></td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_27_tv
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_27_diagnosis
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_27_rencanaperawatan
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td
-                                                        colspan="1"
-                                                        class="text-left">
-                                                        11
-                                                    </td>
-                                                    <td
-                                                        colspan="1"
-                                                        class="text-left">
-                                                        51
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_11_51_tv
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_11_51_diagnosis
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_11_51_rencanaperawatan
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-left">
-                                                        28
-                                                    </td>
-                                                    <td class="text-left"></td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_28_tv
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_28_diagnosis
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.ssdhperawatanpemeriksaangigi_28_rencanaperawatan
-                                                            ">
-                                                        </v-text-field>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </v-table>
-                                        <br />
-
-                                        <v-row>
-                                            <v-col cols="12" md="12">
-                                                <v-dialog width="500">
-                                                    <template
-                                                        v-slot:activator="{
-                                                            props,
-                                                        }">
-                                                        <v-btn
-                                                            v-bind="props"
-                                                            text="Upload foto gigi sesudah perawatan">
-                                                        </v-btn>
-                                                    </template>
-
-                                                    <template
-                                                        v-slot:default="{
-                                                            isActive,
-                                                        }">
-                                                        <v-card
-                                                            title="Upload File">
-                                                            <v-file-input
-                                                                @change="
-                                                                    setUploadFile(
-                                                                        $event,
-                                                                        'uploadrestorasiafter',
-                                                                        '/v1/emr/konservasi/uploadrestorasiafter',
-                                                                        forms.id,
-                                                                        '-'
-                                                                    )
-                                                                "
-                                                                show-size
-                                                                counter
-                                                                label="File input"></v-file-input>
-
-                                                            <v-card-actions>
-                                                                <v-spacer></v-spacer>
-
-                                                                <v-btn
-                                                                    text="Close Dialog"
-                                                                    @click="
-                                                                        isActive.value = false
-                                                                    "></v-btn>
-                                                            </v-card-actions>
-                                                        </v-card>
-                                                    </template>
-                                                </v-dialog>
-                                            </v-col>
-                                        </v-row>
-
-                                        <v-row>
-                                            <v-col cols="12" md="12">
-                                                <v-container
-                                                    class="fill-height"
-                                                    fluid
-                                                    style="min-height: 434px">
-                                                    <v-fade-transition
-                                                        mode="out-in">
-                                                        <v-row>
-                                                            <v-col cols="10">
-                                                                <v-card>
-                                                                    <v-img
-                                                                        :src="
-                                                                            forms.uploadrestorasiafter
-                                                                        "
-                                                                        height="300"
-                                                                        class="bg-grey-lighten-2"></v-img>
-                                                                </v-card>
-                                                            </v-col>
-                                                        </v-row>
-                                                    </v-fade-transition>
-                                                </v-container>
-                                            </v-col>
-                                        </v-row>
-
-                                        <!-- <v-img
-                :width="1500"
-                aspect-ratio="16/9"
-                cover
-                src="/img/gambar.png"></v-img>
-            <br /> -->
 
                                         <v-table
                                             density="compact"
@@ -2918,8 +2371,669 @@ const getModifAfter = async (target) => {
                                                 </tr>
                                             </tbody>
                                         </v-table>
+
+
+                                    </v-container>
+                                </v-window-item>
+                            </v-window>
+                            <v-window v-model="tab2">
+                                <v-window-item :value="3">
+                                    <v-container fluid>
+                                        <h1
+                                            class="font-weight-bold text-center text-basil">
+                                            PEMERIKSAAN KASUS RESTORASI
+                                        </h1>
+                                        <h2>Sesudah Perawatan</h2>
+                                        <!-- <v-table
+                                            density="compact"
+                                            class="border">
+                                            <thead>
+                                                <tr>
+                                                    <th
+                                                        class="text-center"></th>
+                                                    <th
+                                                        colspan="10"
+                                                        class="text-center">
+                                                        PEMERIKSAAN GIGI DAN
+                                                        RENCANA PERAWATAN
+                                                        INVASIF
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th class="text-center">
+                                                        Elemen
+                                                    </th>
+                                                    <th
+                                                        class="text-center"></th>
+                                                    <th class="text-center">
+                                                        TV
+                                                    </th>
+                                                    <th class="text-center">
+                                                        DIAGNOSA
+                                                    </th>
+                                                    <th class="text-center">
+                                                        RENCANA PERAWATAN
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Elemen
+                                                    </th>
+                                                    <th
+                                                        class="text-center"></th>
+                                                    <th class="text-center">
+                                                        TV
+                                                    </th>
+                                                    <th class="text-center">
+                                                        DIAGNOSA
+                                                    </th>
+                                                    <th class="text-center">
+                                                        RENCANA PERAWATAN
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        18
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left"></td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_18_tv
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_18_diagnosis
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_18_rencanaperawatan
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        21
+                                                    </td>
+                                                    <td class="text-left">
+                                                        61
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_21_61_tv
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_21_61_diagnosis
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_21_61_rencanaperawatan
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        17
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left"></td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_17_tv
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_17_diagnosis
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_17_rencanaperawatan
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        22
+                                                    </td>
+                                                    <td class="text-left">
+                                                        62
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_22_62_tv
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_22_62_diagnosis
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_22_62_rencanaperawatan
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        16
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left"></td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_16_tv
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_16_diagnosis
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_16_rencanaperawatan
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        23
+                                                    </td>
+                                                    <td class="text-left">
+                                                        63
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_23_63_tv
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_23_63_diagnosis
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_23_63_rencanaperawatan
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        15
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        55
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_15_55_tv
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_15_55_diagnosis
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_15_55_rencanaperawatan
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        24
+                                                    </td>
+                                                    <td class="text-left">
+                                                        64
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_24_64_tv
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_24_64_diagnosis
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_24_64_rencanaperawatan
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        14
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        54
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_14_54_tv
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_14_54_diagnosis
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_14_54_rencanaperawatan
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        25
+                                                    </td>
+                                                    <td class="text-left">
+                                                        65
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_25_65_tv
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_25_65_diagnosis
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_25_65_rencanaperawatan
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        13
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        53
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_13_53_tv
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_13_53_diagnosis
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_13_53_rencanaperawatan
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        26
+                                                    </td>
+                                                    <td class="text-left"></td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_26_tv
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_26_diagnosis
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_26_rencanaperawatan
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        12
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        52
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_12_52_tv
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_12_52_diagnosis
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_12_52_rencanaperawatan
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        27
+                                                    </td>
+                                                    <td class="text-left"></td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_27_tv
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_27_diagnosis
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_27_rencanaperawatan
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        11
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        51
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_11_51_tv
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_11_51_diagnosis
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_11_51_rencanaperawatan
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        28
+                                                    </td>
+                                                    <td class="text-left"></td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_28_tv
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_28_diagnosis
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.ssdhperawatanpemeriksaangigi_28_rencanaperawatan
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </v-table> -->
                                         <br />
-                                        <h5>
+
+                                        <v-row>
+                                            <v-col cols="12" md="12">
+                                                <v-dialog width="500">
+                                                    <template
+                                                        v-slot:activator="{
+                                                            props,
+                                                        }">
+                                                        <v-btn
+                                                            v-bind="props"
+                                                            text="Upload foto gigi sesudah perawatan">
+                                                        </v-btn>
+                                                    </template>
+
+                                                    <template
+                                                        v-slot:default="{
+                                                            isActive,
+                                                        }">
+                                                        <v-card
+                                                            title="Upload File">
+                                                            <v-file-input
+                                                                @change="
+                                                                    setUploadFile(
+                                                                        $event,
+                                                                        'uploadrestorasiafter',
+                                                                        '/v1/emr/konservasi/uploadrestorasiafter',
+                                                                        forms.id,
+                                                                        '-'
+                                                                    )
+                                                                "
+                                                                show-size
+                                                                counter
+                                                                label="File input"></v-file-input>
+
+                                                            <v-card-actions>
+                                                                <v-spacer></v-spacer>
+
+                                                                <v-btn
+                                                                    text="Close Dialog"
+                                                                    @click="
+                                                                        isActive.value = false
+                                                                    "></v-btn>
+                                                            </v-card-actions>
+                                                        </v-card>
+                                                    </template>
+                                                </v-dialog>
+                                            </v-col>
+                                        </v-row>
+
+                                        <v-row>
+                                            <v-col cols="12" md="12">
+                                                <v-container
+                                                    class="fill-height"
+                                                    fluid
+                                                    style="min-height: 434px">
+                                                    <v-fade-transition
+                                                        mode="out-in">
+                                                        <v-row>
+                                                            <v-col cols="10">
+                                                                <v-card>
+                                                                    <v-img
+                                                                        :src="
+                                                                            forms.uploadrestorasiafter
+                                                                        "
+                                                                        height="300"
+                                                                        class="bg-grey-lighten-2"></v-img>
+                                                                </v-card>
+                                                            </v-col>
+                                                        </v-row>
+                                                    </v-fade-transition>
+                                                </v-container>
+                                            </v-col>
+                                        </v-row>
+
+                                        <!-- <v-img
+                :width="1500"
+                aspect-ratio="16/9"
+                cover
+                src="/img/gambar.png"></v-img>
+            <br /> -->
+
+                                       
+                                        <br />
+                                        <!-- <h5>
                                             KETERANGAN: Coret yang tidak perlu,
                                             TV= Tes Vitalitas : +/-, Diagnosis :
                                             Kelainan jaringan pulpa dan
@@ -2928,7 +3042,7 @@ const getModifAfter = async (target) => {
                                             Rencana Perawatan Non
                                             Invasif/Invasif (Restorasi/PSA
                                             disertai Restorasi Paska PSA)
-                                        </h5>
+                                        </h5> -->
                                         <hr />
                                         <br />
 
@@ -4111,19 +4225,14 @@ const getModifAfter = async (target) => {
                                                 </h2>
                                             </v-col>
                                             <v-col cols="12" md="6">
-                                                <v-select
+                                                    <v-text-field
                                                     v-model="
                                                         forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_saliva
                                                     "
-                                                    label="Penilaian Akhir Risiko Karies Saliva"
-                                                    required
                                                     hide-details
+                                                    required
                                                     variant="outlined"
-                                                    :items="[
-                                                        'MERAH',
-                                                        'KUNING',
-                                                        'HIJAU',
-                                                    ]"></v-select>
+                                                    readonly></v-text-field>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -4134,19 +4243,14 @@ const getModifAfter = async (target) => {
                                                 </h2>
                                             </v-col>
                                             <v-col cols="12" md="6">
-                                                <v-select
+                                                 <v-text-field
                                                     v-model="
                                                         forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_plak
                                                     "
-                                                    label="Penilaian Akhir Risiko Karies Plak"
-                                                    required
                                                     hide-details
+                                                    required
                                                     variant="outlined"
-                                                    :items="[
-                                                        'MERAH',
-                                                        'KUNING',
-                                                        'HIJAU',
-                                                    ]"></v-select>
+                                                    readonly></v-text-field>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -4157,19 +4261,14 @@ const getModifAfter = async (target) => {
                                                 </h2>
                                             </v-col>
                                             <v-col cols="12" md="6">
-                                                <v-select
+                                                <v-text-field
                                                     v-model="
                                                         forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_diet
                                                     "
-                                                    label="Penilaian Akhir Risiko Karies Diet"
-                                                    required
                                                     hide-details
+                                                    required
                                                     variant="outlined"
-                                                    :items="[
-                                                        'MERAH',
-                                                        'KUNING',
-                                                        'HIJAU',
-                                                    ]"></v-select>
+                                                    readonly></v-text-field>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -4180,19 +4279,14 @@ const getModifAfter = async (target) => {
                                                 </h2>
                                             </v-col>
                                             <v-col cols="12" md="6">
-                                                <v-select
+                                                    <v-text-field
                                                     v-model="
                                                         forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_fluor
                                                     "
-                                                    label="Penilaian Akhir Risiko Karies Fluor"
-                                                    required
                                                     hide-details
+                                                    required
                                                     variant="outlined"
-                                                    :items="[
-                                                        'MERAH',
-                                                        'KUNING',
-                                                        'HIJAU',
-                                                    ]"></v-select>
+                                                    readonly></v-text-field>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -4203,19 +4297,14 @@ const getModifAfter = async (target) => {
                                                 </h2>
                                             </v-col>
                                             <v-col cols="12" md="6">
-                                                <v-select
+                                                <v-text-field
                                                     v-model="
                                                         forms.ssdhperawatanfaktorrisikokaries_penilaianakhir_faktormodifikasi
                                                     "
-                                                    label="Penilaian Akhir Risiko Karies Faktor Modifikasi"
-                                                    required
                                                     hide-details
+                                                    required
                                                     variant="outlined"
-                                                    :items="[
-                                                        'MERAH',
-                                                        'KUNING',
-                                                        'HIJAU',
-                                                    ]"></v-select>
+                                                    readonly></v-text-field>
                                             </v-col>
                                         </v-row>
                                     </v-container>

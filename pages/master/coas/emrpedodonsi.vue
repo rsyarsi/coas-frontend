@@ -53,14 +53,24 @@ const getAnItem = async (target) => {
         target,
         (success) => {
             forms.tanggal_pemeriksaan = success.Visit_Date;
-            forms.nama_pasien = success.PatientName;
-            forms.no_rekammedik = success.NoMR;
+            forms.namapasien = success.PatientName;
+            //forms.no_rekammedik = success.NoMR;
             forms.alamat = success.Address;
             forms.no_telephone_pasien = success.MobilePhone;
             forms.noregister = success.NoRegistrasi;
             forms.noepisode = success.NoEpisode;
             forms.jenis_kelamin_pasien = success.Gander;
             forms.konsuldari = success.NamaDokter;
+            forms.usiapasien = success.Usia;
+            forms.pendidikan = success.Education;
+            forms.jeniskelamin = success.Gander;
+            forms.tgllahirpasien = success.Date_of_birth;
+            forms.namaorangtua = '';
+            forms.alamatpasien = success.Address;
+            forms.telephone = success.MobilePhone;
+            forms.pekerjaan = success.pekerjaan;
+            forms.dokteranak = success.NamaDokter;
+            forms.dokteranak = success.NamaDokter;
              ListComponent.value.getItems();
             // ListComponent2.value.getItems('');
             // console.log(success.);
@@ -251,7 +261,8 @@ const COMPONENT_APIS2 = {
                                                     background="transparent"
                                                     v-model="forms.id"
                                                     hide-details
-                                                    required></v-text-field>
+                                                    required
+                                                    type="hidden"></v-text-field>
                                             </v-col>
                                             <v-col cols="12" md="2">
                                                 <h4><br />No. Registrasi</h4>
@@ -694,20 +705,20 @@ const COMPONENT_APIS2 = {
                                                         ekstrim
                                                     </td>
                                                     <td class="text-left">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.franklscale_definitelynegative_before_treatment
-                                                            ">
-                                                        </v-text-field>
+                                                        <v-select
+                                                        v-model="
+                                                        forms.franklscale_definitelynegative_before_treatment
+                                                        "
+                                                        label=""
+                                                        :items="['Ya', 'Tidak']"></v-select>
                                                     </td>
                                                     <td class="text-left">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.franklscale_definitelynegative_during_treatment
-                                                            ">
-                                                        </v-text-field>
+                                                        <v-select
+                                                        v-model="
+                                                        forms.franklscale_definitelynegative_during_treatment
+                                                        "
+                                                        label=""
+                                                        :items="['Ya', 'Tidak']"></v-select>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -721,20 +732,20 @@ const COMPONENT_APIS2 = {
                                                         negatif terbatas
                                                     </td>
                                                     <td class="text-left">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.franklscale_negative_before_treatment
-                                                            ">
-                                                        </v-text-field>
+                                                        <v-select
+                                                        v-model="
+                                                        forms.franklscale_negative_before_treatment
+                                                        "
+                                                        label=""
+                                                        :items="['Ya', 'Tidak']"></v-select>
                                                     </td>
                                                     <td class="text-left">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.franklscale_negative_during_treatment
-                                                            ">
-                                                        </v-text-field>
+                                                        <v-select
+                                                        v-model="
+                                                        forms.franklscale_negative_during_treatment
+                                                        "
+                                                        label=""
+                                                        :items="['Ya', 'Tidak']"></v-select>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -749,20 +760,20 @@ const COMPONENT_APIS2 = {
                                                         , mengikuti instruksi
                                                     </td>
                                                     <td class="text-left">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.franklscale_positive_before_treatment
-                                                            ">
-                                                        </v-text-field>
+                                                        <v-select
+                                                        v-model="
+                                                        forms.franklscale_positive_before_treatment
+                                                        "
+                                                        label=""
+                                                        :items="['Ya', 'Tidak']"></v-select>
                                                     </td>
                                                     <td class="text-left">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.franklscale_positive_during_treatment
-                                                            ">
-                                                        </v-text-field>
+                                                        <v-select
+                                                        v-model="
+                                                        forms.franklscale_positive_during_treatment
+                                                        "
+                                                        label=""
+                                                        :items="['Ya', 'Tidak']"></v-select>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -778,20 +789,20 @@ const COMPONENT_APIS2 = {
                                                         dental
                                                     </td>
                                                     <td class="text-left">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.franklscale_definitelypositive_before_treatment
-                                                            ">
-                                                        </v-text-field>
+                                                        <v-select
+                                                        v-model="
+                                                        forms.franklscale_definitelypositive_before_treatment
+                                                        "
+                                                        label=""
+                                                        :items="['Ya', 'Tidak']"></v-select>
                                                     </td>
                                                     <td class="text-left">
-                                                        <v-text-field
-                                                            label=""
-                                                            v-model="
-                                                                forms.franklscale_definitelypositive_during_treatment
-                                                            ">
-                                                        </v-text-field>
+                                                        <v-select
+                                                        v-model="
+                                                        forms.franklscale_definitelypositive_during_treatment
+                                                        "
+                                                        label=""
+                                                        :items="['Ya', 'Tidak']"></v-select>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -971,7 +982,7 @@ const COMPONENT_APIS2 = {
                                             <tbody>
                                                 <tr>
                                                     <td class="text-left">
-                                                        Buccal Palatal
+                                                        Buccal
                                                     </td>
                                                     <td
                                                         colspan="1"
@@ -979,7 +990,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_18
+                                                                forms.buccal_18
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -989,7 +1000,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_17
+                                                                forms.buccal_17
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -999,7 +1010,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_16
+                                                                forms.buccal_16
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1009,7 +1020,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_15_55
+                                                                forms.buccal_15
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1019,7 +1030,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_14_54
+                                                                forms.buccal_14
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1029,7 +1040,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_13_53
+                                                                forms.buccal_13
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1039,7 +1050,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_12_52
+                                                                forms.buccal_12
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1049,7 +1060,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_11_51
+                                                                forms.buccal_11
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1059,7 +1070,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_21_61
+                                                                forms.buccal_21
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1069,7 +1080,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_22_62
+                                                                forms.buccal_22
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1079,7 +1090,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_23_63
+                                                                forms.buccal_23
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1089,7 +1100,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_24_64
+                                                                forms.buccal_24
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1099,7 +1110,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_25_65
+                                                                forms.buccal_25
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1109,7 +1120,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_26
+                                                                forms.buccal_26
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1119,7 +1130,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_27
+                                                                forms.buccal_27
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1129,22 +1140,26 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_28
+                                                                forms.buccal_28
                                                             ">
                                                         </v-text-field>
                                                     </td>
                                                 </tr>
+
                                                 <tr>
                                                     <td class="text-left">
-                                                        Buccal Palatal
+                                                         Palatal
                                                     </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
                                                     <td
                                                         colspan="1"
                                                         class="text-left">
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_48
+                                                                forms.palatal_55
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1154,7 +1169,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_47
+                                                                forms.palatal_54
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1164,7 +1179,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_46
+                                                                forms.palatal_53
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1174,7 +1189,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_45_85
+                                                                forms.palatal_52
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1184,7 +1199,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_44_84
+                                                                forms.palatal_51
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1194,7 +1209,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_43_83
+                                                                forms.palatal_61
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1204,7 +1219,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_42_82
+                                                                forms.palatal_62
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1214,7 +1229,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_41_81
+                                                                forms.palatal_63
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1224,7 +1239,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_31_71
+                                                                forms.palatal_64
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1234,7 +1249,30 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_32_72
+                                                                forms.palatal_65
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+
+
+                                                <tr>
+                                                    <td class="text-left">
+                                                        Buccal
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.buccal_85
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1244,7 +1282,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_33_73
+                                                                forms.buccal_84
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1254,7 +1292,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_34_74
+                                                                forms.buccal_83
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1264,7 +1302,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_35_75
+                                                                forms.buccal_82
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1274,7 +1312,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_36
+                                                                forms.buccal_81
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1284,7 +1322,7 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_37
+                                                                forms.buccal_71
                                                             ">
                                                         </v-text-field>
                                                     </td>
@@ -1294,11 +1332,212 @@ const COMPONENT_APIS2 = {
                                                         <v-text-field
                                                             label=""
                                                             v-model="
-                                                                forms.buccalpalatal_38
+                                                                forms.buccal_72
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.buccal_73
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.buccal_74
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.buccal_75
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="text-left">
+                                                         Palatal
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.palatal_48
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.palatal_47
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.palatal_46
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.palatal_45
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.palatal_44
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.palatal_43
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.palatal_42
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.palatal_41
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.palatal_31
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.palatal_32
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.palatal_33
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.palatal_34
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.palatal_35
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.palatal_36
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.palatal_37
+                                                            ">
+                                                        </v-text-field>
+                                                    </td>
+                                                    <td
+                                                        colspan="1"
+                                                        class="text-left">
+                                                        <v-text-field
+                                                            label=""
+                                                            v-model="
+                                                                forms.palatal_38
                                                             ">
                                                         </v-text-field>
                                                     </td>
                                                 </tr>
+
+                                                
                                             </tbody>
                                             <tfoot>
                                                 <tr>
@@ -1488,33 +1727,38 @@ const COMPONENT_APIS2 = {
                             <br />
                             <v-row>
                                 <v-col cols="12" md="6">
-                                    <v-text-field
+                                        <v-select
                                         v-model="forms.bilateralsymmetry"
-                                        label="a. Bilateral Symmetry / simetri bilateral ________"></v-text-field>
+                                                        label="a. Bilateral Symmetry / simetri bilateral"
+                                                        :items="['Yes', 'No']"></v-select>
                                 </v-col>
                                 <v-col cols="12" md="6">
-                                    <v-text-field
+                                        <v-select
                                         v-model="forms.asymmetry"
-                                        label="Asymmetri / Asimetri ________"></v-text-field>
+                                                        label="Asymmetri / Asimetri"
+                                                        :items="['Yes', 'No']"></v-select>
                                 </v-col>
                             </v-row>
                             <v-row>
                                 <v-col cols="12" md="6">
-                                    <v-text-field
+                                        <v-select
                                         v-model="forms.straight"
-                                        label="b. Profile / profil : straight / lurus ________"></v-text-field>
+                                                        label="b. Profile / profil : straight / lurus"
+                                                        :items="['Yes', 'No']"></v-select>
                                 </v-col>
                                 <v-col cols="12" md="6">
-                                    <v-text-field
+                                        <v-select
                                         v-model="forms.convex"
-                                        label="convex / cembung ________"></v-text-field>
+                                                        label="convex / cembung"
+                                                        :items="['Yes', 'No']"></v-select>
                                 </v-col>
                             </v-row>
                             <v-row>
                                 <v-col cols="12" md="6">
-                                    <v-text-field
+                                        <v-select
                                         v-model="forms.concave"
-                                        label="concave / cekung ________"></v-text-field>
+                                                        label="concave / cekung"
+                                                        :items="['Yes', 'No']"></v-select>
                                 </v-col>
                             </v-row>
 
@@ -1727,7 +1971,7 @@ const COMPONENT_APIS2 = {
                                     </v-container>
                                 </v-col>
                             </v-row>
-                            <h4>Palatal</h4>
+                            <h4>Rahang Atas</h4>
                             <br />
                             <v-row>
                                 <v-col cols="12" md="3">
@@ -1753,7 +1997,7 @@ const COMPONENT_APIS2 = {
                                         "></v-text-field>
                                 </v-col>
                             </v-row>
-                            <h4>Lingual</h4>
+                            <h4>Rahang Bawah</h4>
                             <br />
                             <v-row>
                                 <v-col cols="12" md="3">
