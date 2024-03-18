@@ -52,6 +52,7 @@ const COMPONENT_APIS =
     getItem: "/v1/masterdata/hospitals/view/id",
     createItem: "/v1/masterdata/hospitals/create",
     updateItem: "/v1/masterdata/hospitals/update",
+    exportItem: "/v1/masterdata/hospitals/export",
 };
 
 </script>
