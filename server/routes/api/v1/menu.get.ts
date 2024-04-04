@@ -104,7 +104,37 @@ export default defineEventHandler ((event) => [
 
             {
                 for: [ "admin", "dosen", "mahasiswa", ],
-                title: "Pasien",
+                title: "Konservasi",
+                icon: "mdi-account-injury",
+                to: "/master/coas/patient",
+            },
+            {
+                for: [ "admin", "dosen", "mahasiswa", ],
+                title: "Orthodonsi",
+                icon: "mdi-account-injury",
+                to: "/master/coas/patient",
+            },
+            {
+                for: [ "admin", "dosen", "mahasiswa", ],
+                title: "Pedodonsi",
+                icon: "mdi-account-injury",
+                to: "/master/coas/patient",
+            },
+            {
+                for: [ "admin", "dosen", "mahasiswa", ],
+                title: "Periodonsi",
+                icon: "mdi-account-injury",
+                to: "/master/coas/patient",
+            },
+            {
+                for: [ "admin", "dosen", "mahasiswa", ],
+                title: "Prostodonsi",
+                icon: "mdi-account-injury",
+                to: "/master/coas/patient",
+            },
+            {
+                for: [ "admin", "dosen", "mahasiswa", ],
+                title: "Radiologi",
                 icon: "mdi-account-injury",
                 to: "/master/coas/patient",
             },
