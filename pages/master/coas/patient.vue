@@ -10,7 +10,7 @@ definePageMeta (
 
 const router = useRouter ();
 
-const COMPONENT_BADGE = [ "Master", "Mahasiswa/i", "Pasien", ];
+const COMPONENT_BADGE = ref ([ "Master", "Mahasiswa/i", ]);
 
 const COMPONENT_HEADER =
 [
@@ -49,13 +49,6 @@ const COMPONENT_HEADER =
         headerProps: { class: "font-weight-bold", },
     },
     {
-        key: "visit_date",
-        title: "Waktu Kunjungan",
-        sortable: true,
-        align: "start",
-        headerProps: { class: "font-weight-bold", },
-    },
-    {
         key: "namaunit",
         title: "Poliklinik",
         sortable: true,
@@ -85,39 +78,60 @@ const COMPONENT_HEADER =
     },
 ];
 
-const COMPONENT_APIS =
+const COMPONENT_APIS = reactive (
 {
     getAllItems: "/v1/transaction/patient/listksmgigi",
     getItem: true,
+});
+
+const unit = (idunit) =>
+{
+    if (idunit == 46) {
+
+        return "emrortodonsi";
+
+    } else if (idunit == 58) {
+
+        return "emrpedodonsi";
+
+    } else if (idunit == 59) {
+
+        return "emrperiodonsi";
+
+    } else if (idunit == 60) {
+
+        return "prostodonsia";
+
+    } else if (idunit == 137) {
+
+        return "konservasi";
+
+    } else if (idunit == 10) {
+
+        return "radiologi";
+    }
 };
 
 const fnApiGetItem = (async (item) =>
 {
     const { noregistrasi, idunit, } = item;
-    var path = "";
 
-    if (idunit == 46) {
+    router.push({ path: "/master/coas/" + unit (idunit), query: { noreg: noregistrasi, }, });
+});
 
-        path = "emrortodonsi";
+onMounted (async () =>
+{
+    const { idunit, } = router.currentRoute.value.query, unitname = unit (idunit);
 
-    } else if (idunit == 58) {
+    if (idunit) {
 
-        path = "emrpedodonsi";
+        COMPONENT_BADGE.value.push ("Pasien " + unitname[0].toUpperCase () + unitname.slice (1));
+        COMPONENT_APIS.getAllItems = COMPONENT_APIS.getAllItems + "?idunit=" + router.currentRoute.value.query.idunit;
 
-    } else if (idunit == 59) {
+    } else {
 
-        path = "emrperiodonsi";
-
-    } else if (idunit == 60) {
-
-        path = "prostodonsia";
-
-    } else if (idunit == 137) {
-
-        path = "konservasi";
+        COMPONENT_BADGE.value.push ("Pasien");
     }
-
-    router.push({ path: "/master/coas/" + path, query: { noreg: noregistrasi, }, });
 });
 
 </script>

@@ -97,48 +97,98 @@ export default defineEventHandler ((event) => [
         ],
     },
     {
-        for: [ "admin", "dosen", "mahasiswa", ],
+        for: [ "admin", ],
         title: "Mahasiswa/i",
         icon: "mdi-account-school",
         to: [
 
             {
-                for: [ "admin", "dosen", "mahasiswa", ],
-                title: "Konservasi",
-                icon: "mdi-account-injury",
-                to: "/master/coas/patient",
-            },
-            {
-                for: [ "admin", "dosen", "mahasiswa", ],
-                title: "Orthodonsi",
-                icon: "mdi-account-injury",
-                to: "/master/coas/patient",
-            },
-            {
-                for: [ "admin", "dosen", "mahasiswa", ],
-                title: "Pedodonsi",
-                icon: "mdi-account-injury",
-                to: "/master/coas/patient",
-            },
-            {
-                for: [ "admin", "dosen", "mahasiswa", ],
-                title: "Periodonsi",
-                icon: "mdi-account-injury",
-                to: "/master/coas/patient",
-            },
-            {
-                for: [ "admin", "dosen", "mahasiswa", ],
-                title: "Prostodonsi",
-                icon: "mdi-account-injury",
-                to: "/master/coas/patient",
-            },
-            {
-                for: [ "admin", "dosen", "mahasiswa", ],
-                title: "Radiologi",
+                for: [ "admin", ],
+                title: "Pasien",
                 icon: "mdi-account-injury",
                 to: "/master/coas/patient",
             },
         ],
+    },
+    {
+        for: [ "dosen", ],
+        title: "Mahasiswa/i",
+        icon: "mdi-account-school",
+        to: [
+
+            {
+                for: [ "mahasiswa", ],
+                title: "Konservasi",
+                icon: "mdi-account-injury",
+                to: "/master/coas/patient?idunit=137",
+            },
+            {
+                for: [ "mahasiswa", ],
+                title: "Orthodonsi",
+                icon: "mdi-account-injury",
+                to: "/master/coas/patient?idunit=46",
+            },
+            {
+                for: [ "mahasiswa", ],
+                title: "Pedodonsi",
+                icon: "mdi-account-injury",
+                to: "/master/coas/patient?idunit=58",
+            },
+            {
+                for: [ "mahasiswa", ],
+                title: "Periodonsi",
+                icon: "mdi-account-injury",
+                to: "/master/coas/patient?idunit=59",
+            },
+            {
+                for: [ "mahasiswa", ],
+                title: "Prostodonsi",
+                icon: "mdi-account-injury",
+                to: "/master/coas/patient?idunit=60",
+            },
+            {
+                for: [ "mahasiswa", ],
+                title: "Radiologi",
+                icon: "mdi-account-injury",
+                to: "/master/coas/patient?idunit=10",
+            },
+        ],
+    },
+    {
+        for: [ "mahasiswa", ],
+        title: "Konservasi",
+        icon: "mdi-account-injury",
+        to: "/master/coas/patient?idunit=137",
+    },
+    {
+        for: [ "mahasiswa", ],
+        title: "Orthodonsi",
+        icon: "mdi-account-injury",
+        to: "/master/coas/patient?idunit=46",
+    },
+    {
+        for: [ "mahasiswa", ],
+        title: "Pedodonsi",
+        icon: "mdi-account-injury",
+        to: "/master/coas/patient?idunit=58",
+    },
+    {
+        for: [ "mahasiswa", ],
+        title: "Periodonsi",
+        icon: "mdi-account-injury",
+        to: "/master/coas/patient?idunit=59",
+    },
+    {
+        for: [ "mahasiswa", ],
+        title: "Prostodonsi",
+        icon: "mdi-account-injury",
+        to: "/master/coas/patient?idunit=60",
+    },
+    {
+        for: [ "mahasiswa", ],
+        title: "Radiologi",
+        icon: "mdi-account-injury",
+        to: "/master/coas/patient?idunit=10",
     },
     {
         for: [ "admin", "dosen", ],

@@ -71,13 +71,13 @@ onMounted (async () =>
             <v-list-item :title="user.name" :subtitle="user.role" :prepend-avatar="user.avatar" class="text-center"></v-list-item>
             <v-divider></v-divider>
             <v-list density="compact" nav>
-                <template v-for="(item, index) in dashboardSidebar.items" :key="item.title">
-                    <v-list-item v-if="! Array.isArray (item.to)" :prepend-icon="item.icon" :title="item.title" :value="item.title" :to="item.to" rounded="xl"></v-list-item>
+                <template v-for="(item, index) in dashboardSidebar.items">
+                    <v-list-item v-if="! Array.isArray (item.to)" :key="item.title" :prepend-icon="item.icon" :title="item.title" :value="item.title" :href="item.to" rounded="xl"></v-list-item>
                     <v-list-group v-else>
                         <template v-slot:activator="{ props, }">
                             <v-list-item v-bind="props" :prepend-icon="item.icon" :title="item.title" :value="item.title" rounded="xl"></v-list-item>
                         </template>
-                        <v-list-item v-for="(child_item, child_index) in item.to" :key="child_item.title" :prepend-icon="child_item.icon" :title="child_item.title" :value="child_item.title" :to="child_item.to" rounded="xl"></v-list-item>
+                        <v-list-item v-for="(child_item, child_index) in item.to" :key="child_item.title" :prepend-icon="child_item.icon" :title="child_item.title" :value="child_item.title" :href="child_item.to" rounded="xl"></v-list-item>
                     </v-list-group>
                 </template>
             </v-list>

@@ -127,7 +127,9 @@ const getItems = props.fnApiGetAllItems ?? (async (target) =>
         }
     };
 
-    await getItem (props.apis.getAllItems + "?"
+    let to = (! String (props.apis.getAllItems).includes ("?") ? props.apis.getAllItems + "?" : props.apis.getAllItems + "&");
+
+    await getItem (to
     + orderBy ()
     + filterBy ()
     + limitBy ()
