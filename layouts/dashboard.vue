@@ -93,7 +93,7 @@ onMounted (async () =>
                     <v-icon v-if="dashboardSidebar.isRail">mdi-chevron-left</v-icon>
                     <v-icon v-else>mdi-chevron-right</v-icon>
                 </v-btn>
-                <v-autocomplete @update:modelValue="navigateTo ($event?.to)" :items="dashboardSidebar.search" prepend-inner-icon="mdi-magnify" density="compact" class="mt-5" variant="solo" :menu-props="{ margin: '10px', }" style="width: 5px;" clearable return-object></v-autocomplete>
+                <v-autocomplete @update:modelValue="navigateTo ($event?.to, { open: { target: '_self' } })" :items="dashboardSidebar.search" prepend-inner-icon="mdi-magnify" density="compact" class="mt-5" variant="solo" :menu-props="{ margin: '10px', }" style="width: 5px;" clearable return-object></v-autocomplete>
                 <v-spacer></v-spacer>
                 <v-btn @click="logout" icon="mdi-logout"></v-btn>
             </v-app-bar>

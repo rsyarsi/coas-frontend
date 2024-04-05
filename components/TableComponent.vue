@@ -253,6 +253,8 @@ defineExpose (
 
     findItemIndex,
     findItemValue,
+
+    getItems,
 });
 
 </script>
@@ -293,6 +295,8 @@ defineExpose (
                             <v-icon icon="mdi-forward"></v-icon>
                         </template>
                     </v-breadcrumbs>
+                    <v-spacer></v-spacer>
+                    <slot name="field" />
                     <v-spacer></v-spacer>
                     <v-text-field v-model="datatableBody.search" variant="outlined" density="compact" placeholder="Filter" single-line hide-details></v-text-field>
                     <v-select v-model="datatableBody.searchBy" :items="datatableBody.searchables" item-title="title" item-value="key" class="mx-2" variant="plain" density="compact" style="max-width: 33px" single-line hide-details></v-select>
@@ -346,8 +350,8 @@ defineExpose (
                         </v-card>
                     </template>
                 </v-dialog>
-                <v-btn v-if="props.apis.getItem" @click="fnApiGetItem (item)" icon="mdi-eye" color="indigo-darken-4" class="mx-2" variant="text" density="compact"></v-btn>
-                <v-btn v-if="props.apis.updateItem" @click="fnUpdateItem (item)" icon="mdi-pencil" color="lime-darken-4" class="mx-2" variant="text" density="compact"></v-btn>
+                <v-btn v-if="props.apis.getItem" @click="fnApiGetItem (item)" :icon="props.apis.getItemIcon ?? 'mdi-eye'" :disabled="props.apis.fnGetItemIconIsDisabled ? props.apis.fnGetItemIconIsDisabled (item) : false" color="indigo-darken-4" class="mx-2" variant="text" density="compact"></v-btn>
+                <v-btn v-if="props.apis.updateItem" @click="fnUpdateItem (item)" :icon="props.apis.updateItemIcon ?? 'mdi-pencil'" :disabled="props.apis.fnUpdateItemIconIsDisabled ? props.apis.fnUpdateItemIconIsDisabled (item) : false" color="lime-darken-4" class="mx-2" variant="text" density="compact"></v-btn>
             </template>
         </v-data-table-server>
     </v-layout>
