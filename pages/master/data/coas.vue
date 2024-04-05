@@ -35,6 +35,7 @@ const COMPONENT_HEADER =
         value: item => group_specialist (item.specialistid),
         title: "Spesialis",
         sortable: true,
+        searchable: false,
         align: "start",
         headerProps: { class: "font-weight-bold", },
     },
@@ -43,6 +44,7 @@ const COMPONENT_HEADER =
         value: item => group_university (item.university),
         title: "Universitas",
         sortable: true,
+        searchable: false,
         align: "start",
         headerProps: { class: "font-weight-bold", },
     },
@@ -51,6 +53,7 @@ const COMPONENT_HEADER =
         value: item => group_semester (item.semesterid),
         title: "Semester",
         sortable: true,
+        searchable: false,
         align: "start",
         headerProps: { class: "font-weight-bold", },
     },
@@ -59,6 +62,7 @@ const COMPONENT_HEADER =
         value: item => item.active ? "Aktif" : "Tidak Aktif",
         title: "Status",
         sortable: true,
+        searchable: false,
         align: "center",
         headerProps: { class: "font-weight-bold", },
     },
@@ -124,7 +128,7 @@ onMounted (async () =>
 </script>
 
 <template>
-    <ItemComponent :badge="COMPONENT_BADGE" :header="COMPONENT_HEADER" :forms="COMPONENT_FORMS" :apis="COMPONENT_APIS">
+    <TableComponent :badge="COMPONENT_BADGE" :header="COMPONENT_HEADER" :forms="COMPONENT_FORMS" :apis="COMPONENT_APIS">
         <template v-slot:form="{ forms, }">
             <v-form>
                 <v-text-field v-model="forms.nim" label="Nomor Induk"></v-text-field>
@@ -177,5 +181,5 @@ onMounted (async () =>
                 </v-container>
             </v-form>
         </template>
-    </ItemComponent>
+    </TableComponent>
 </template>

@@ -54,14 +54,6 @@ onMounted (async () =>
     dashboardSidebar.items = menuData.value.filter (item => item.for.includes (user.role));
 });
 
-// const sb = reactive (
-// {
-//     snackbar: false,
-//     text: "",
-//     color:"blue-grey",
-//     rounded:"pill"
-// });
-
 </script>
 
 <style scoped>
@@ -106,24 +98,10 @@ onMounted (async () =>
                 <v-btn @click="logout" icon="mdi-logout"></v-btn>
             </v-app-bar>
             <v-container fluid>
-                <v-card  
-                    outlined
-                    tile>
+                <v-card outlined tile>
                     <slot />
                 </v-card>
             </v-container>
         </v-main>
-        <!-- <v-snackbar v-model="sb.snackbar" >
-            {{ sb.text }}
-            <template v-slot:actions>
-                <v-btn
-                color="red"
-                variant="text"
-                @click="snackbar = false"
-                >
-                Close
-                </v-btn>
-            </template>
-            </v-snackbar> -->
     </v-layout>
 </template>

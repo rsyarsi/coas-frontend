@@ -94,7 +94,7 @@ export default (token: string) =>
 
             if (Object.keys (data).length) {
 
-                fnSuccess (data.data.data[0]);
+                fnSuccess (data?.data?.data?.[0]);
 
             } else if (Object.keys (error).length) {
 
@@ -115,8 +115,6 @@ export default (token: string) =>
             const { data, error, } = await useCall (url, "post", "application/json", { data: items, }, token);
 
             if (Object.keys (data).length) {
-
-                // fnSuccess (data.data.data); //
 
                 fnSuccess (data.data);
 

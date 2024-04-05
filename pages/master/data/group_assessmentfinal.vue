@@ -28,6 +28,7 @@ const COMPONENT_HEADER =
         value: item => item.active ? "Aktif" : "Tidak Aktif",
         title: "Status",
         sortable: true,
+        searchable: false,
         align: "center",
         headerProps: { class: "font-weight-bold", },
     },
@@ -69,8 +70,7 @@ onMounted (async () =>
     const
 
     { token: tokenData, } = await useAuth (),
-    { data: { data: { data: datas = [], } = {}, error, } = {}, } = await useCall ("/v1/masterdata/specialists/viewallwithotpaging", "get", "application/json", {}, tokenData)
-    ;
+    { data: { data: { data: datas = [], } = {}, error, } = {}, } = await useCall ("/v1/masterdata/specialists/viewallwithotpaging", "get", "application/json", {}, tokenData);
 
     groups.value = datas;
 });
@@ -78,7 +78,7 @@ onMounted (async () =>
 </script>
 
 <template>
-    <ItemComponent :badge="COMPONENT_BADGE" :header="COMPONENT_HEADER" :forms="COMPONENT_FORMS" :apis="COMPONENT_APIS">
+    <TableComponent :badge="COMPONENT_BADGE" :header="COMPONENT_HEADER" :forms="COMPONENT_FORMS" :apis="COMPONENT_APIS">
         <template v-slot:form="{ forms, }">
             <v-form>
                 <v-text-field v-model="forms.name" label="Nama"></v-text-field>
@@ -121,5 +121,5 @@ onMounted (async () =>
                 </v-container>
             </v-form>
         </template>
-    </ItemComponent>
+    </TableComponent>
 </template>

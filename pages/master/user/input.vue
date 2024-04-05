@@ -77,7 +77,7 @@ onMounted (async () =>
 </script>
 
 <template>
-    <ItemComponent :badge="COMPONENT_BADGE" :header="COMPONENT_HEADER" :forms="COMPONENT_FORMS" :apis="COMPONENT_APIS">
+    <TableComponent :badge="COMPONENT_BADGE" :header="COMPONENT_HEADER" :forms="COMPONENT_FORMS" :apis="COMPONENT_APIS">
         <template v-slot:form="{ forms, }">
             <v-form>
                 <v-text-field v-model="forms.username" label="Nomor Induk" disabled></v-text-field>
@@ -107,5 +107,5 @@ onMounted (async () =>
                 </v-container>
             </v-form>
         </template>
-    </ItemComponent>
+    </TableComponent>
 </template>

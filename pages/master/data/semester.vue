@@ -28,6 +28,7 @@ const COMPONENT_HEADER =
         value: item => item.active ? "Aktif" : "Tidak Aktif",
         title: "Status",
         sortable: true,
+        searchable: false,
         align: "center",
         headerProps: { class: "font-weight-bold", },
     },
@@ -58,7 +59,7 @@ const COMPONENT_APIS =
 </script>
 
 <template>
-    <ItemComponent :badge="COMPONENT_BADGE" :header="COMPONENT_HEADER" :forms="COMPONENT_FORMS" :apis="COMPONENT_APIS">
+    <TableComponent :badge="COMPONENT_BADGE" :header="COMPONENT_HEADER" :forms="COMPONENT_FORMS" :apis="COMPONENT_APIS">
         <template v-slot:form="{ forms, }">
             <v-form>
                 <v-text-field v-model="forms.semestername" label="Nama"></v-text-field>
@@ -99,5 +100,5 @@ const COMPONENT_APIS =
                 </v-container>
             </v-form>
         </template>
-    </ItemComponent>
+    </TableComponent>
 </template>

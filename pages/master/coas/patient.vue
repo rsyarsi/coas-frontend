@@ -1,119 +1,127 @@
 <script setup>
 
+import { useRouter, } from "vue-router";
+
 definePageMeta (
 {
     layout: "dashboard",
     title: "Patient",
 });
 
-const COMPONENT_BADGE = [ "Master", "Coas", "Assesment", ];
+const router = useRouter ();
+
+const COMPONENT_BADGE = [ "Master", "Mahasiswa/i", "Pasien", ];
 
 const COMPONENT_HEADER =
 [
     {
+        key: "id",
+        title: "ID",
+        sortable: true,
+        align: " d-none",
+    },
+    {
         key: "nomr",
-        title: "no mr",
-        sortable: false,
+        title: "Nomor MR",
+        sortable: true,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
     },
     {
         key: "patientname",
-        title: "nama pasien",
-        sortable: false,
-    },
-    {
-        key: "visit_date",
-        title: "tgl kunjungan",
-        sortable: false,
-    },
-    {
-        key: "noepisode",
-        title: "no episode",
-        sortable: false,
+        title: "Nama Pasien",
+        sortable: true,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
     },
     {
         key: "noregistrasi",
-        title: "no registrasi",
-        sortable: false,
+        title: "Nomor Registrasi",
+        sortable: true,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
+    },
+    {
+        key: "noepisode",
+        title: "Nomor Episode",
+        sortable: true,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
+    },
+    {
+        key: "visit_date",
+        title: "Waktu Kunjungan",
+        sortable: true,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
     },
     {
         key: "namaunit",
-        title: "poliklinik",
-        sortable: false,
+        title: "Poliklinik",
+        sortable: true,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
     },
     {
         key: "namadokter",
-        title: "dokter",
-        sortable: false,
+        title: "Dokter",
+        sortable: true,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
     },
     {
         key: "namajaminan",
-        title: "jaminan",
-        sortable: false,
+        title: "Jaminan",
+        sortable: true,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
     },
     {
         key: "actions",
         title: "Aksi",
         sortable: false,
+        align: "center",
+        headerProps: { class: "font-weight-bold", },
     },
 ];
-
-const COMPONENT_FORMS =
-{
-    semestername: "",
-    semestervalue: "",
-    active: 1,
-};
 
 const COMPONENT_APIS =
 {
     getAllItems: "/v1/transaction/patient/listksmgigi",
-    // getItem: "/v1/masterdata/semesters/view/id",
-    // createItem: "/v1/masterdata/semesters/create",
-    // updateItem: "/v1/masterdata/semesters/update",
+    getItem: true,
 };
+
+const fnApiGetItem = (async (item) =>
+{
+    const { noregistrasi, idunit, } = item;
+    var path = "";
+
+    if (idunit == 46) {
+
+        path = "emrortodonsi";
+
+    } else if (idunit == 58) {
+
+        path = "emrpedodonsi";
+
+    } else if (idunit == 59) {
+
+        path = "emrperiodonsi";
+
+    } else if (idunit == 60) {
+
+        path = "prostodonsia";
+
+    } else if (idunit == 137) {
+
+        path = "konservasi";
+    }
+
+    router.push({ path: "/master/coas/" + path, query: { noreg: noregistrasi, }, });
+});
 
 </script>
 
 <template>
-    <ItemComponentEmr :badge="COMPONENT_BADGE" :header="COMPONENT_HEADER" :forms="COMPONENT_FORMS" :apis="COMPONENT_APIS">
-        <template v-slot:form="{ forms, }">
-            <v-form>
-                <v-text-field v-model="forms.semestername" label="Nama"></v-text-field>
-                <v-text-field v-model="forms.semestervalue" label="Nilai"></v-text-field>
-                <v-radio-group v-model="forms.active">
-                    <template v-slot:label>
-                        <div><strong>{{ $t ("action.state") }}</strong></div>
-                    </template>
-                    <v-radio label="Aktif" :value="1"></v-radio>
-                    <v-radio label="Tidak Aktif" :value="0"></v-radio>
-                </v-radio-group>
-            </v-form>
-        </template>
-        <template v-slot:item="{ item, }">
-            <v-form color="success">
-                <v-container>
-                    <v-row>
-                        <v-row>
-                            <v-col>
-                                <v-row><v-text-field color="success" label="ID" variant="underlined" :model-value="item.id"></v-text-field></v-row>
-                                <v-row><v-text-field label="Nama" variant="underlined" :model-value="item.semestername"></v-text-field></v-row>
-                                <v-row><v-text-field label="Nilai" variant="underlined" :model-value="item.semestervalue"></v-text-field></v-row>
-                                <v-row v-if="item.updated_at"><v-text-field label="Tanggal Waktu" variant="underlined" :model-value="item.updated_at"></v-text-field></v-row>
-                            </v-col>
-                            <v-spacer></v-spacer>
-                            <v-col>
-                                <v-radio-group v-model="item.active">
-                                    <template v-slot:label>
-                                        <div><strong>{{ $t ("action.state") }}</strong></div>
-                                    </template>
-                                    <v-radio label="Aktif" :value="1"></v-radio>
-                                    <v-radio label="Tidak Aktif" :value="0"></v-radio>
-                                </v-radio-group>
-                            </v-col>
-                        </v-row>
-                    </v-row>
-                </v-container>
-            </v-form>
-        </template>
-    </ItemComponentEmr>
+    <TableComponent :badge="COMPONENT_BADGE" :header="COMPONENT_HEADER" :apis="COMPONENT_APIS" :fnApiGetItem="fnApiGetItem"></TableComponent>
 </template>

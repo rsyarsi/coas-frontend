@@ -28,6 +28,7 @@ const COMPONENT_HEADER =
         value: item => group (item.specialistid),
         title: "Spesialis",
         sortable: true,
+        searchable: false,
         align: "start",
         headerProps: { class: "font-weight-bold", },
     },
@@ -50,6 +51,7 @@ const COMPONENT_HEADER =
         value: item => item.active ? "Aktif" : "Tidak Aktif",
         title: "Status",
         sortable: true,
+        searchable: false,
         align: "center",
         headerProps: { class: "font-weight-bold", },
     },
@@ -90,19 +92,18 @@ group = (target) =>
     return groups?.value[groups.value.indexOf (groups.value.find (item => item.id == target))]?.specialistname;
 };
 
- const
+const
 
- groupfinals = ref ([])
- ,
+groupfinals = ref ([]),
 groupfinal = (target) =>
 {
     return groupfinals?.value[groupfinals.value.indexOf (groupfinals.value.find (item => item.id == target))]?.name;
-}
-;
+};
 
 const getGroupFinalbySpecialist = async (target) =>
 {
-    COMPONENT_FORMS.idassesmentgroupfinal = null
+    COMPONENT_FORMS.idassesmentgroupfinal = null;
+
     const
     { token: tokenData,getUser } = await useAuth (), userData = await getUser(tokenData),
 
@@ -116,9 +117,9 @@ onMounted (async () =>
     const
 
     { token: tokenData, } = await useAuth (),
-    { data: { data: { data: datas = [], } = {}, error, } = {}, } = await useCall ("/v1/masterdata/specialists/viewallwithotpaging", "get", "application/json", {}, tokenData)
-     ,{ data: { data: { data: datas_groupfinal = [], } = {}, errorx, } = {}, } = await useCall ("/v1/masterdata/assesmentgroupfinals/viewallwithotpaging", "get", "application/json", {}, tokenData)
-    ;
+    { data: { data: { data: datas = [], } = {}, error, } = {}, } = await useCall ("/v1/masterdata/specialists/viewallwithotpaging", "get", "application/json", {}, tokenData),
+    { data: { data: { data: datas_groupfinal = [], } = {}, errorx, } = {}, } = await useCall ("/v1/masterdata/assesmentgroupfinals/viewallwithotpaging", "get", "application/json", {}, tokenData);
+
     groups.value = datas;
     groupfinals.value = datas_groupfinal;
 });
@@ -126,14 +127,19 @@ onMounted (async () =>
 </script>
 
 <template> 
-     <v-alert
-        type="success"
-        title="Informasi"
-        class="multi-line"
-        text="Untuk Type Group isikan : 1. ( ORTHODONSIA & PROSTODONSIA ), 3. ( PEDODONTIA ), 4. ( KONSERVASI ), 5. ( PERIODONSIA ), 6. ( Kontrol Orthodonti ), 7. ( Penilaian Hasil Perawatan Orthodonti ). Untuk Value Total masukan total Nilai Bobot. "
-    ></v-alert>
-    <br>  
-    <ItemComponent :badge="COMPONENT_BADGE" :header="COMPONENT_HEADER" :forms="COMPONENT_FORMS" :apis="COMPONENT_APIS">
+    <v-alert type="warning" title="Informasi" class="multi-line" style="white-space: pre-line;" text="
+    (*) Untuk type group isikan :
+    
+    1. Orthodonsia & Prostodonsia
+    3. Pedodontia
+    4. Konservasi
+    5. Periodonsia
+    6. Kontrol Orthodonti
+    7. Penilaian Hasil Perawatan Orthodonti
+    
+    (*) Untuk value total masukan total nilai bobot !" closable></v-alert>
+    <br>
+    <TableComponent :badge="COMPONENT_BADGE" :header="COMPONENT_HEADER" :forms="COMPONENT_FORMS" :apis="COMPONENT_APIS">
         <template v-slot:form="{ forms, }">
             <v-form>
                 <v-text-field v-model="forms.assementgroupname" label="Nama"></v-text-field>
@@ -190,5 +196,5 @@ onMounted (async () =>
                 </v-container>
             </v-form>
         </template>
-    </ItemComponent>
+    </TableComponent>
 </template>
