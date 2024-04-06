@@ -21,9 +21,9 @@ const setItems = async (target) => {
     for (let form of Object.keys(forms)) {
         formTarget[form] = forms[form];
     }
-
+    formTarget['jenisradiologi'] = 'PANORAMIK'
     await setItem(
-        "/v1/emr/prostodonti/create/medicaldentalhistory",
+        "/v1/emr/radiologi/create/medicalwaktuperawatan",
         "",
         formTarget,
         (success) => {
@@ -46,15 +46,14 @@ const getAnItem = async (target) => {
         "/v1/transaction/patient/detailbyNoregistrasi",
         target,
         (success) => {
-            forms.tanggal = success.Visit_Date;
+            forms.namadokter = success.NamaDokter;
+            forms.tglpotret = success.Visit_Date;
             forms.namapasien = success.PatientName;
-            forms.jeniskelamin = success.Gander;
-            forms.alamatpasien = success.Address;
-            forms.nomortelpon = success.MobilePhone;
-            forms.noregister = success.NoRegistrasi;
+            forms.alamat = success.Address;
+            forms.noregistrasi = success.NoRegistrasi;
             forms.noepisode = success.NoEpisode;
-            forms.nomorrekammedik = success.NoMR;
-            forms.pekerjaan = success.pekerjaan;
+            forms.nomr = success.NoMR;
+            forms.usia = success.Usia;
             //console.log(forms);
 
             // for (let form of Object.keys (forms)) {
@@ -71,37 +70,24 @@ const getByID = async (noreg) => {
         formTarget = { nim: userData.username, noregister: noreg };
 
     await setItem(
-        "/v1/emr/prostodonti/viewemrbyRegOperator",
+        "/v1/emr/radiologi/viewemrbyRegOperator",
         "",
         formTarget,
         (success) => {
             if (success.code == 200) {
                 if (success.data.noepisode == null) {
                     forms.id = success.data.id;
-                    forms.npm = userData.username;
+                    forms.nim = userData.username;
                     forms.namaoperator = userData.name;
                     getAnItem(noreg);
                     return false;
                 }
+                console.log(success.data)
                 for (const [key, value] of Object.entries(success.data)) {
                     forms[`${key}`] = value;
                 }
-                if (success.data.reliningregiotanggal != null) {
-                    forms.reliningregiotanggal = useDateTime(
-                        success.data.reliningregiotanggal
-                    ).ins.format("YYYY-MM-DD");
-                }
-                if (success.data.reparasiregiotanggal != null) {
-                    forms.reparasiregiotanggal = useDateTime(
-                        success.data.reparasiregiotanggal
-                    ).ins.format("YYYY-MM-DD");
-                }
-                if (success.data.perawatanulanglainlaintanggal != null) {
-                    forms.perawatanulanglainlaintanggal = useDateTime(
-                        success.data.perawatanulanglainlaintanggal
-                    ).ins.format("YYYY-MM-DD");
-                }
-                // image.designngigitext.push(success.data.designngigitext);
+                
+                 //forms.uploadfoto.push(success.data.foto);
             }
         },
         (error) => {
@@ -126,10 +112,9 @@ const setUploadFile = async (event, filetype, fileurl, fileid, deskripsi) => {
             tokenData
         );
 
-    if (filetype == "designngigitext")
-        forms.designngigitext = data.data.data.select_file;
-    if (filetype == "fotoodontogram")
-        forms.fotoodontogram = data.data.data.select_file;
+    if (filetype == "foto")
+        forms.foto = data.data.data.select_file;
+    
 };
 
 onMounted(async () => {
@@ -161,6 +146,22 @@ onMounted(async () => {
                         <v-row>
                             <v-col cols="12" md="3">
                                 <v-text-field
+                                    v-model="forms.noregistrasi"
+                                    label="No Registrasi"
+                                    variant="outlined"
+                                    readonly></v-text-field>
+                            </v-col>
+                            <v-col cols="12" md="3">
+                                <v-text-field
+                                    v-model="forms.noepisode"
+                                    label="No Episode"
+                                    variant="outlined"
+                                    readonly></v-text-field>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col cols="12" md="3">
+                                <v-text-field
                                     v-model="forms.nomr"
                                     label="No. RM"
                                     variant="outlined"
@@ -171,6 +172,15 @@ onMounted(async () => {
                                 <v-text-field
                                     v-model="forms.tglpotret"
                                     label="Tanggal Pemotretan"
+                                    hide-details
+                                    required
+                                    variant="outlined"
+                                    readonly></v-text-field>
+                            </v-col>
+                            <v-col cols="12" md="3">
+                                <v-text-field
+                                    v-model="forms.namadokter"
+                                    label="Nama Dokter"
                                     hide-details
                                     required
                                     variant="outlined"
@@ -241,8 +251,8 @@ onMounted(async () => {
                                             @change="
                                                 setUploadFile(
                                                     $event,
-                                                    'designngigitext',
-                                                    '/v1/emr/prostodonti/create/uploadgigi',
+                                                    'foto',
+                                                    '/v1/emr/radiologi/foto/uploadfoto',
                                                     forms.id,
                                                     forms.keterangan
                                                 )
@@ -336,7 +346,7 @@ onMounted(async () => {
                         <v-row>
                             <v-col rows="2" cols="12">
                                 <v-textarea
-                                    v-model="forms.panoramik_kondisi_alveolar"
+                                    v-model="forms.panoramik_kondisi_alveoral"
                                     label="Kondisi Alveolar Crest -Furkasi"
                                     variant="outlined"></v-textarea>
                             </v-col>
@@ -345,7 +355,7 @@ onMounted(async () => {
                         <v-row>
                             <v-col rows="2" cols="12">
                                 <v-textarea
-                                    v-model="forms.panoramik_kondisi_alveolar"
+                                    v-model="forms.panoramik_kondisi_periaprikal"
                                     label="Kondisi Periapikal"
                                     variant="outlined"></v-textarea>
                             </v-col>
@@ -358,7 +368,7 @@ onMounted(async () => {
                             <v-col rows="2" cols="12">
                                 <v-textarea
                                     v-model="forms.panoramik_area_dua"
-                                    label="DBN"
+                                    label="Area dua"
                                     variant="outlined"></v-textarea>
                             </v-col>
                         </v-row>

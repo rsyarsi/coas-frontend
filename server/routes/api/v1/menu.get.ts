@@ -136,7 +136,7 @@ export default defineEventHandler ((event) => [
                 for: [ "admin", "dosen", "mahasiswa", ],
                 title: "Radiologi",
                 icon: "mdi-account-injury",
-                to: "/master/coas/patient",
+                to: "/master/coas/mahasiswapatient/radiologipatient",
             },
         ],
     },
