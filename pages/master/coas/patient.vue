@@ -12,6 +12,8 @@ const router = useRouter ();
 
 const tableComponent = ref (null);
 
+const isType = ref (false), type = ref ("active");
+
 const USER_ROLE = ref (null);
 
 const COMPONENT_BADGE = ref ([ "Master", "Mahasiswa/i", ]);
@@ -184,16 +186,44 @@ const updateDateTime = async () =>
     if (idunit) {
 
         COMPONENT_APIS.getAllItems = url_api
-        + "?idunit=" + idunit
+        + "?type=" + type.value
+        + "&idunit=" + idunit
         + "&start=" + start
         + "&to=" + to;
 
     } else {
 
         COMPONENT_APIS.getAllItems = url_api
-        + "?start=" + start
+        + "?type=" + type.value
+        + "&start=" + start
         + "&to=" + to;
     }
+
+    await tableComponent.value.getItems ({ page: 1, });
+};
+
+const updateType = async () =>
+{
+    const
+
+    { idunit, } = router.currentRoute.value.query,
+
+    url_api = COMPONENT_APIS.getAllItems.split("?")[0];
+
+    if (idunit) {
+
+        COMPONENT_APIS.getAllItems = url_api
+        + "?type=" + type.value
+        + "&idunit=" + idunit;
+
+    } else {
+
+        COMPONENT_APIS.getAllItems = url_api
+        + "?type=" + type.value;
+    }
+
+    if (type.value == "active") tableComponent.value.datatableBody.colors.toolbar = "#BC1010";
+    else if (type.value == "history") tableComponent.value.datatableBody.colors.toolbar = "teal";
 
     await tableComponent.value.getItems ({ page: 1, });
 };
@@ -214,11 +244,16 @@ const fnUpdateItem = (async (item) =>
 
 onMounted (async () =>
 {
-    const { token: tokenData, getUser, } = await useAuth (), userData = await getUser (tokenData);
+    const
+
+    { token: tokenData, getUser, } = await useAuth (), userData = await getUser (tokenData),
+    { idunit, } = router.currentRoute.value.query, unitname = unit (idunit);
 
     USER_ROLE.value = userData.role;
 
     if (USER_ROLE.value == "dosen" || USER_ROLE.value == "mahasiswa") {
+
+        if (unitname != "radiologi") isType.value = true;
 
         COMPONENT_HEADER.push (
         {
@@ -230,12 +265,10 @@ onMounted (async () =>
         });
     }
 
-    const { idunit, } = router.currentRoute.value.query, unitname = unit (idunit);
-
     if (idunit) {
 
         COMPONENT_BADGE.value.push ("Pasien " + unitname[0].toUpperCase () + unitname.slice (1));
-        COMPONENT_APIS.getAllItems = COMPONENT_APIS.getAllItems + "?idunit=" + router.currentRoute.value.query.idunit;
+        COMPONENT_APIS.getAllItems = COMPONENT_APIS.getAllItems + "?type=" + type.value + "&idunit=" + router.currentRoute.value.query.idunit;
 
     } else {
 
@@ -246,6 +279,11 @@ onMounted (async () =>
 </script>
 
 <template>
+    <v-tabs v-if="isType" v-model="type" @update:modelValue="updateType" bg-color="warning" fixed-tabs>
+        <v-tab value="active">Aktif</v-tab>
+        <v-tab value="history">Riwayat</v-tab>
+    </v-tabs>
+    <v-divider v-if="isType"></v-divider>
     <TableComponent ref="tableComponent" :badge="COMPONENT_BADGE" :header="COMPONENT_HEADER" :apis="COMPONENT_APIS" :fnApiGetItem="fnApiGetItem" :fnUpdateItem="fnUpdateItem">
         <template v-slot:field>
             <v-dialog width="380" :return-value.sync="DATETIME_FROM">

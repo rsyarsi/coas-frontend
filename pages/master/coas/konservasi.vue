@@ -30,7 +30,8 @@ const forms = reactive({
 });
 
 const setItems = async (target) => {
-    const { token: tokenData } = await useAuth(),
+    const { token: tokenData, getUser, } = await useAuth(),
+        userData = await getUser(tokenData),
         { getItem, setItem } = useItem(tokenData),
         formTarget = {};
 
@@ -42,9 +43,19 @@ const setItems = async (target) => {
         "/v1/emr/konservasi/create/medicaldentalhistory",
         "",
         formTarget,
-        (success) => {
-            //console.log(success);
+        async (success) => {
+
             alert(success.message);
+
+            var statusRoute = useRouter().currentRoute.value.query;
+            statusRoute.id_emr = statusRoute.id_emr ?? success.data.id;
+
+            console.log (statusRoute);
+
+            if (userData.role == "mahasiswa") await updateStatusToWrite (statusRoute);
+
+
+
             //datatableBody.items.unshift (success);
 
             // clearForms ();
@@ -96,7 +107,7 @@ const getByID = async (noreg, nim) => {
         "/v1/emr/konservasi/viewemrbyRegOperator",
         "",
         formTarget,
-        async (success) => {
+        (success) => {
             if (success.code == 200) {
                 if (success.data.noepisode == null) {
                     forms.id = success.data.id;
@@ -109,8 +120,6 @@ const getByID = async (noreg, nim) => {
                     forms[`${key}`] = value;
                 }
                 ListComponent.value.getItems("");
-
-                if (userData.role == "mahasiswa") await updateStatusToWrite (useRouter().currentRoute.value.query);
             }
         },
         (error) => {

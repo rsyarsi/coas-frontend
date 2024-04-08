@@ -15,6 +15,7 @@ var forms = reactive({
 
 const setItems = async (target) => {
     const { token: tokenData } = await useAuth(),
+        userData = await getUser(tokenData),
         { getItem, setItem } = useItem(tokenData),
         formTarget = {};
 
@@ -30,7 +31,11 @@ const setItems = async (target) => {
             if (success.code == 200) {
                 alert(success.message);
 
-                if (userData.role == "mahasiswa") await updateStatusToWrite (useRouter().currentRoute.value.query);
+                var statusRoute = useRouter().currentRoute.value.query;
+                statusRoute.id_emr = statusRoute.id_emr ?? success.data.id;
+
+                if (userData.role == "mahasiswa") await updateStatusToWrite (statusRoute);
+
             } else {
                 alert(success.message);
             }

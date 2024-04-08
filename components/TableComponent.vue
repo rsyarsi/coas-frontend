@@ -16,6 +16,8 @@ const props = defineProps (
 
 const datatableBody = reactive (
 {
+    colors: Object,
+
     isLoaded: false,
     isAccessorDialog: false,
     isMutatorDialog: false,
@@ -276,7 +278,7 @@ defineExpose (
 
 <template>
     <v-layout v-if="! datatableBody.isLoaded && ! props?.apis?.getAllItems">
-        <v-toolbar color="#BC1010" class="mb-2">
+        <v-toolbar :color="datatableBody.colors.toolbar ?? '#BC1010'" class="mb-2">
             <v-breadcrumbs :items="badge">
                 <template v-slot:divider>
                     <v-icon icon="mdi-forward"></v-icon>
@@ -287,7 +289,7 @@ defineExpose (
     <v-layout v-else>
         <v-data-table-server v-if="props?.apis?.getAllItems" @update:options="getItems" :headers="datatableBody.headers" :items="datatableBody.items" :items-length="datatableBody.itemsLength" v-model:items-per-page="datatableBody.itemPerPage" :search="datatableBody.search" :loading="datatableBody.itemsIsLoading" hover>
             <template v-slot:top>
-                <v-toolbar color="#BC1010">
+                <v-toolbar :color="datatableBody.colors.toolbar ?? '#BC1010'">
                     <v-breadcrumbs :items="badge">
                         <template v-slot:prepend>
                             <v-icon :icon="datatableBody.icon"></v-icon>
