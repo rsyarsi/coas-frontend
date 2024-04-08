@@ -45,7 +45,16 @@ const COMPONENT_HEADER =
         sortable: true,
         align: "start",
         headerProps: { class: "font-weight-bold", },
-    }, 
+    },
+    {
+        key: "specialistid",
+        value: item => specialist_group (item.specialistid),
+        title: "Spesialis",
+        sortable: false,
+        searchable: false,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
+    },
     {
         key: "index_sub", 
         title: "Kode Sub Index",
@@ -105,9 +114,14 @@ const COMPONENT_APIS =
 const
 
 groups = ref ([]),
+specialist_groups = ref ([]),
 group = (target) =>
 {
     return groups?.value[groups.value.indexOf (groups.value.find (item => item.id == target))]?.assementgroupname;
+},
+specialist_group = (target) =>
+{
+    return specialist_groups?.value[specialist_groups.value.indexOf (specialist_groups.value.find (item => item.id == target))]?.specialistname;
 };
 
 onMounted (async () =>
@@ -115,9 +129,11 @@ onMounted (async () =>
     const
 
     { token: tokenData, } = await useAuth (),
-    { data: { data: { data: datas = [], } = {}, error, } = {}, } = await useCall ("/v1/masterdata/assesmentgroups/viewallwithotpaging", "get", "application/json", {}, tokenData);
+    { data: { data: { data: datas = [], } = {}, error, } = {}, } = await useCall ("/v1/masterdata/assesmentgroups/viewallwithotpaging", "get", "application/json", {}, tokenData),
+    { data: { data: { data: datasSpecialist = [], } = {}, error: errorSpecialist, } = {}, } = await useCall ("/v1/masterdata/specialists/viewallwithotpaging", "get", "application/json", {}, tokenData);
 
     groups.value = datas;
+    specialist_groups.value = datasSpecialist;
 });
 
 </script>
