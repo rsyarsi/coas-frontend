@@ -51,10 +51,12 @@ const setItems = async (target) =>
 
     await setItem ("/v1/emr/periodonti/create/medicaldentalhistory", "",
     formTarget,
-    (success) =>
+    async (success) =>
     {
         if (success.code == 200){
             alert(success.message);
+
+            if (userData.role == "mahasiswa") await updateStatusToWrite (useRouter().currentRoute.value.query);
         }else{
             alert(success.message);
         }

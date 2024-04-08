@@ -7,6 +7,7 @@ const props = defineProps (
     forms: Object,
     apis: Object,
 
+    fnOtherItem: Function,
     fnApiGetAllItems: Function,
     fnApiGetItem: Function,
     fnUpdateItem: Function,
@@ -352,6 +353,7 @@ defineExpose (
                 </v-dialog>
                 <v-btn v-if="props.apis.getItem" @click="fnApiGetItem (item)" :icon="props.apis.getItemIcon ?? 'mdi-eye'" :disabled="props.apis.fnGetItemIconIsDisabled ? props.apis.fnGetItemIconIsDisabled (item) : false" color="indigo-darken-4" class="mx-2" variant="text" density="compact"></v-btn>
                 <v-btn v-if="props.apis.updateItem" @click="fnUpdateItem (item)" :icon="props.apis.updateItemIcon ?? 'mdi-pencil'" :disabled="props.apis.fnUpdateItemIconIsDisabled ? props.apis.fnUpdateItemIconIsDisabled (item) : false" color="lime-darken-4" class="mx-2" variant="text" density="compact"></v-btn>
+                <v-btn v-if="props.apis.otherItem" @click="props.fnOtherItem (item)" :icon="props.apis.otherItemIcon" :disabled="props.apis.fnOtherItemIconIsDisabled ? props.apis.fnOtherItemIconIsDisabled (item) : false" color="lime-darken-4" class="mx-2" variant="text" density="compact"></v-btn>
             </template>
         </v-data-table-server>
     </v-layout>

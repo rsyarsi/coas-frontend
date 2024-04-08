@@ -31,9 +31,11 @@ const setItems = async (target) => {
         "/v1/emr/pedodointi/create/medicaldentalhistory",
         "",
         formTarget,
-        (success) => {
+        async (success) => {
             if (success.code == 200) {
                 alert(success.message);
+
+                if (userData.role == "mahasiswa") await updateStatusToWrite (useRouter().currentRoute.value.query);
             } else {
                 alert(success.message);
             }

@@ -96,7 +96,7 @@ const getByID = async (noreg, nim) => {
         "/v1/emr/konservasi/viewemrbyRegOperator",
         "",
         formTarget,
-        (success) => {
+        async (success) => {
             if (success.code == 200) {
                 if (success.data.noepisode == null) {
                     forms.id = success.data.id;
@@ -109,6 +109,8 @@ const getByID = async (noreg, nim) => {
                     forms[`${key}`] = value;
                 }
                 ListComponent.value.getItems("");
+
+                if (userData.role == "mahasiswa") await updateStatusToWrite (useRouter().currentRoute.value.query);
             }
         },
         (error) => {

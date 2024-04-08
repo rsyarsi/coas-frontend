@@ -110,7 +110,9 @@ const COMPONENT_APIS = reactive (
     updateItemIcon: "mdi-checkbox-marked-circle",
     fnUpdateItemIconIsDisabled: (item) =>
     {
-        if (USER_ROLE.value == "dosen" && (! item.status_penilaian || item.status_penilaian == "OPEN" || item.status_penilaian == "FINISH")) {
+        // if (USER_ROLE.value == "dosen" && (! item.status_penilaian || item.status_penilaian == "OPEN" || item.status_penilaian == "FINISH")) {
+
+        if (USER_ROLE.value == "dosen") {
 
             return true;
 
@@ -196,48 +198,18 @@ const updateDateTime = async () =>
     await tableComponent.value.getItems ({ page: 1, });
 };
 
-const updateStatus = (async (item, status, success, error) =>
-{
-    const
-
-    { token: tokenData, } = await useAuth (),
-    { getItem, setItem, } = useItem (tokenData),
-    formTarget =
-    {
-        idunit: String (item.idunit),
-        status,
-    };
-
-    await setItem (`/v1/transaction/patient/update_status`, item.id_emr,
-    formTarget,
-    success,
-    error);
-});
-
 const fnApiGetItem = (async (item) =>
 {
-    const { noregistrasi, idunit, } = item,
+    const { noregistrasi, idunit, id_emr, } = item,
 
-    routeTo = router.resolve ({ path: "/master/coas/" + unit (idunit), query: { noreg: noregistrasi, }, });
+    routeTo = router.resolve ({ path: "/master/coas/" + unit (idunit), query: { noreg: noregistrasi, idunit, id_emr, }, });
 
-    window.open (routeTo.href, "_blank");
+    await window.open (routeTo.href, "_blank");
 });
 
 const fnUpdateItem = (async (item) =>
 {
-    updateStatus (item, "FINISH",
-    (success) =>
-    {
-        if (USER_ROLE.value == "dosen") {
-
-            item.status_penilaian = "FINISH";
-
-        } else if (USER_ROLE.value == "mahasiswa") {
-
-            item.status_emr = "FINISH";
-        }
-    },
-    error => {});
+    await updateStatusToFinish (item);
 });
 
 onMounted (async () =>

@@ -1,161 +1,210 @@
 <script setup>
-import { useRouter } from 'vue-router'
-const router = useRouter()
+
+import { useRouter, } from "vue-router";
 
 definePageMeta (
 {
     layout: "dashboard",
-    title: "emrortodonsi",
+    title: "Assessment",
 });
 
-const forms = reactive({
-    id: "",     
-    assesmentgroupid: "",
-    studentid: "",
-    lectureid: "",
-    yearid: "",
-    semesterid: "",
-    specialistid: "",
-    grandotal: "0",
-    transactiondate: (new Date()).toISOString().split('T')[0],
-    active: "1"
+const router = useRouter ();
 
+const tableComponent = ref (null);
+
+const COMPONENT_BADGE = ref ([ "Master", "Dosen", "Penilaian Mahasiswa/i", ]);
+
+const COMPONENT_HEADER = reactive (
+[
+    {
+        key: "id",
+        title: "ID",
+        sortable: true,
+        align: " d-none",
+    },
+    {
+        key: "nomr",
+        title: "Nomor MR",
+        sortable: true,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
+    },
+    {
+        key: "patientname",
+        title: "Nama Pasien",
+        sortable: true,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
+    },
+    {
+        key: "noregistrasi",
+        title: "Nomor Registrasi",
+        sortable: true,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
+    },
+    {
+        key: "noepisode",
+        title: "Nomor Episode",
+        sortable: true,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
+    },
+    {
+        key: "namaunit",
+        title: "Poliklinik",
+        sortable: true,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
+    },
+    {
+        key: "namadokter",
+        title: "Dokter",
+        sortable: true,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
+    },
+    {
+        key: "namajaminan",
+        title: "Jaminan",
+        sortable: true,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
+    },
+    {
+        key: "visit_date",
+        title: "Kunjungan",
+        sortable: true,
+        searchable: false,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
+    },
+    {
+        key: "status_penilaian",
+        value: item => ! item.id_emr || ! item.status_penilaian ? "OPEN" : item.status_penilaian,
+        title: "Status Penilaian",
+        sortable: false,
+        searchable: true,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
+    },
+    {
+        key: "status_emr",
+        value: item => ! item.id_emr || ! item.status_emr ? "OPEN" : item.status_emr,
+        title: "Status EMR",
+        sortable: false,
+        searchable: true,
+        align: "start",
+        headerProps: { class: "font-weight-bold", },
+    },
+    {
+        key: "actions",
+        title: "Aksi",
+        sortable: false,
+        align: "center",
+        headerProps: { class: "font-weight-bold", },
+    },
+]);
+
+const COMPONENT_APIS = reactive (
+{
+    getAllItems: "/v1/transaction/patient/listksmgigi",
+    getItem: true,
+    getItemIcon: "mdi-eye",
+    updateItem: true,
+    updateItemIcon: "mdi-checkbox-marked-circle",
+    fnUpdateItemIconIsDisabled: (item) =>
+    {
+        if (! item.status_penilaian || item.status_penilaian == "OPEN" || item.status_penilaian == "FINISH") {
+
+            return true;
+        }
+
+        return false;
+    },
+    otherItem: true,
+    otherItemIcon: "mdi-account-box-edit-outline",
 });
 
 const
 
+form_yearid = ref (null),
+form_semesterid = ref (null),
+form_specialistid = ref (null),
+form_studentid = ref (null),
+form_assesmentgroupid = ref (null),
+
 groups_year = ref ([]),
 groups_semester = ref ([]),
+groups_specialist = ref ([]),
 groups_student = ref ([]),
 groups_assesmentgroup = ref ([]),
-groups_specialist = ref ([]);
 
-const setItems = async (target) =>
+getStudentbySpecialist = async (target) =>
 {
-    const
+    form_studentid.value = null;
+    form_assesmentgroupid.value = null;
 
-    { token: tokenData, } = await useAuth (),
-    { getItem, setItem, } = useItem (tokenData),
-    formTarget = {};
-
-    for (let form of Object.keys (forms)) {
-        formTarget[form] = forms[form];
-    }
-
-    await setItem ("v1/transaction/assesment/create", "",
-    formTarget,
-    (success) =>
-    {
-        if (success.code == 200){
-            alert(success.message); 
-           goTo(success.data.header.id,success.data.header.idspecialistsimrs,success.data.header.assesmenttype);
-        }else{
-            alert(success.message);
-        }
-    },
-    error => {});
-};
-const goTo = async (uuid,idunit,assesmenttype) =>
-{
-    if (idunit == 46){
-        if(assesmenttype == "6"){
-            var path = 'ortodonsi/control';
-        }else if(assesmenttype == "7"){
-            var path = 'ortodonsi/assesment';
-        }else{
-        var path = 'ortodonsi';
-        }
-        
-    }else if (idunit == 58){
-        var path = 'pedodonsi';
-    }else if (idunit == 59){
-        var path = 'periodonsi';
-    }else if (idunit == 60){
-        var path = 'prostodonsia';
-    }else if (idunit == 137){
-        var path = 'konservasi';
-    }else{
-        var path = '';
-    }
-    router.push({ path: '/master/lecturer/assesmentdetail/'+path, query: { uuid: uuid } })
-};
-
-const goToViewEmr = async (NoRegistrasi,idunit) =>
-{
-    if (idunit == 46){
-        var path = 'emrortodonsi';
-    }else if (idunit == 58){
-        var path = 'emrpedodonsi';
-    }else if (idunit == 59){
-        var path = 'emrperiodonsi';
-    }else if (idunit == 60){
-        var path = 'prostodonsia';
-    }else if (idunit == 137){
-        var path = 'konservasi';
-    }else{
-        var path = '';
-    }
-     //navigateTo('/master/coas/'+path, { id: NoRegistrasi });
-     
-     //router.push('/master/coas/'+path, params: {id: 123})
-     router.push({ path: '/master/coas/'+path, query: { noreg: NoRegistrasi } })
-};
-
-const getLecturer = async () =>
-{
-    const
-    { token: tokenData,getUser } = await useAuth (), userData = await getUser(tokenData),
-    { getItem,setItem } = useItem (tokenData);
-
-    await getItem ("/v1/masterdata/lectures/view/nim", userData.username,
-    success =>
-    {
-        forms.lectureid = success.id
-    },
-    error => {
-      console.log(error)
-    });
-};
-
-const getStudentbySpecialist = async (target) =>
-{
-    forms.studentid = null
-    const
-    { token: tokenData,getUser } = await useAuth (), userData = await getUser(tokenData),
-
-    response = await useCall ("/v1/masterdata/students/view/idspecialist/" + target, "get", "application/json", {}, tokenData);
-
-    groups_student.value = response.data.data.data
-}
-
-const getGroupPenilaianbySpecialist = async (target) =>
-{
-    forms.assesmentgroupid = null
-    const
-    { token: tokenData,getUser } = await useAuth (), userData = await getUser(tokenData),
-
-    response = await useCall ("/v1/masterdata/assesmentgroups/view/idspecialist/" + target, "get", "application/json", {}, tokenData);
-
-    groups_assesmentgroup.value = response.data.data.data
-}
-
-onMounted (async () =>
-{
-    await getLecturer();
     const { token: tokenData, } = await useAuth (),
 
-    datas_year = await useCall ("/v1/masterdata/years/viewallwithotpaging", "get", "application/json", {}, tokenData),
-    datas_semester = await useCall ("/v1/masterdata/semesters/viewallwithotpaging", "get", "application/json", {}, tokenData),
-    //datas_student = await useCall ("/v1/masterdata/students/viewallwithotpaging", "get", "application/json", {}, tokenData),
-    datas_specialist = await useCall ("/v1/masterdata/specialists/viewallwithotpaging", "get", "application/json", {}, tokenData);
-    //datas_assesmentgroup = await useCall ("/v1/masterdata/assesmentgroups/viewallwithotpaging", "get", "application/json", {}, tokenData);
- 
-    groups_year.value = datas_year.data.data.data;  
-    groups_semester.value = datas_semester.data.data.data; 
-    groups_specialist.value = datas_specialist.data.data.data; 
-    //groups_student.value = datas_student.data.data.data; 
-    //groups_assesmentgroup.value = datas_assesmentgroup.data.data.data; 
-});
+    datas_student = await useCall ("/v1/masterdata/students/view/idspecialist/" + target, "get", "application/json", {}, tokenData);
+
+    groups_student.value = datas_student.data.data.data;
+},
+
+getGroupAssessmentbySpecialist = async (target) =>
+{
+    const { token: tokenData, } = await useAuth (),
+
+    datas_assesmentgroup = await useCall ("/v1/masterdata/assesmentgroups/view/idspecialist/" + target, "get", "application/json", {}, tokenData);
+
+    groups_assesmentgroup.value = datas_assesmentgroup.data.data.data;
+};
+
+const
+
+DATETIME_FROM = ref (null),
+DATETIME_TO = ref (null);
+
+const unit = (idunit) =>
+{
+    if (idunit == 46) {
+
+        return "emrortodonsi";
+
+    } else if (idunit == 58) {
+
+        return "emrpedodonsi";
+
+    } else if (idunit == 59) {
+
+        return "emrperiodonsi";
+
+    } else if (idunit == 60) {
+
+        return "prostodonsia";
+
+    } else if (idunit == 137) {
+
+        return "konservasi";
+
+    } else if (idunit == 10) {
+
+        return "radiologi";
+    }
+};
+
+const
+
+format_datetime_start = (value) =>
+{
+    return useDateTime (value).ins.format ('YYYY-MM-DD') + " " + "00:00:00";
+},
+
+format_datetime_to = (value) =>
+{
+    return useDateTime (value).ins.format ('YYYY-MM-DD') + " " + "23:59:59";
+};
 
 const getItems = async (target) =>
 {
@@ -163,221 +212,251 @@ const getItems = async (target) =>
 
     { token: tokenData, } = await useAuth (),
     { getItemPostMethod, } = useItem (tokenData),
-    formTarget = {
-        "specialistid" : forms.specialistid,
-        "studentid" : forms.studentid
+
+    limitBy = () => "limit=" + tableComponent.value.datatableBody.itemPerPage + "&",
+    orderBy = () =>
+    {
+        let by = toRaw (target.sortBy) ?? [];
+
+        if (by.length) {
+
+            let { order, key, } = by[0];
+
+            if (order == "asc") {
+
+                return "order=" + key + "&";
+
+            } else if (order == "desc") {
+
+                return "order=-" + key + "&";
+            }
+
+        } else {
+
+            return "";
+        }
+    },
+    filterBy = () =>
+    {
+        if (tableComponent.value.datatableBody.searchables.length && tableComponent.value.datatableBody.searchBy && target.search) {
+
+            return "filter[" + tableComponent.value.datatableBody.searchBy + "]=" + target.search + "&";
+
+        } else {
+
+            return "";
+        }
     };
-    await getItemPostMethod ('/v1/transaction/patient/view/bystudent' + "?page=" + (typeof target === "object" ? target.page : target), "",formTarget,
+
+    let url = "/v1/transaction/patient/view/bystudent", to = (! String (url).includes ("?") ? url + "?" : url + "&"),
+        form =
+        {
+            "specialistid": form_specialistid.value,
+            "studentid": form_studentid.value,
+        };
+
+    if (DATETIME_FROM.value && DATETIME_TO) {
+
+        form.from = format_datetime_start (DATETIME_FROM.value ?? new Date);
+        form.to = format_datetime_to (DATETIME_TO.value ?? new Date);
+    }
+
+    await getItemPostMethod (to
+    + orderBy ()
+    + filterBy ()
+    + limitBy ()
+    + "current_page=" + (typeof target === "object" ? target.page : target),
+    "",
+    form,
     (success, total, per_page, next_page_url, prev_page_url, first_page_url, last_page_url) =>
     {
-        datatableBody.items = success;
-        datatableBody.itemsLength = total;
-        datatableBody.itemPerPage = per_page;
-        datatableBody.itemNextPageUrl = next_page_url;
-        datatableBody.itemPreviousPageUrl = prev_page_url;
-        datatableBody.isLoaded = true;
-        closeDialog ();
+        tableComponent.value.datatableBody.items = success;
+        tableComponent.value.datatableBody.itemsLength = total;
+        tableComponent.value.datatableBody.itemPerPage = per_page;
+        tableComponent.value.datatableBody.itemNextPageUrl = next_page_url;
+        tableComponent.value.datatableBody.itemPreviousPageUrl = prev_page_url;
+        tableComponent.value.datatableBody.isLoaded = true;
     },
     error => {});
 };
 
-const datatableBody = reactive (
+const fnApiGetItem = (async (item) =>
 {
-    isLoaded: false,
-    isAccessorDialog: false,
-    isMutatorDialog: false,
+    const { noregistrasi, idunit, } = item,
 
-    search: "",
+    routeTo = router.resolve ({ path: "/master/coas/" + unit (idunit), query: { noreg: noregistrasi, }, });
 
-    icon: "mdi-tooth-outline",
-
-    headers: [
-    {
-        key: "nomr",
-        title: "no mr",
-        sortable: false,
-    },
-    {
-        key: "patientname",
-        title: "nama pasien",
-        sortable: false,
-    },
-    {
-        key: "visit_date",
-        title: "tgl kunjungan",
-        sortable: false,
-    },
-    {
-        key: "noepisode",
-        title: "no episode",
-        sortable: false,
-    },
-    {
-        key: "noregistrasi",
-        title: "no registrasi",
-        sortable: false,
-    },
-    {
-        key: "namaunit",
-        title: "poliklinik",
-        sortable: false,
-    },
-    {
-        key: "namadokter",
-        title: "dokter",
-        sortable: false,
-    },
-    {
-        key: "namajaminan",
-        title: "jaminan",
-        sortable: false,
-    },
-    {
-        key: "actions",
-        title: "Aksi",
-        sortable: false,
-    },
-],
-
-    itemsIsLoading: false,
-    itemsLength: 0,
-    itemPerPage: 0,
-    itemNextPageUrl: "",
-    itemPreviousPageUrl: "",
-    item: {},
-    items: [],
-
-    forms: '',
+    await window.open (routeTo.href, "_blank");
 });
 
-const showDialog = () =>
+const fnUpdateItem = (async (item) =>
 {
-    datatableBody.isMutatorDialog = true;
-};
+    await updateStatusToFinish (item);
+});
 
-const closeDialog = () =>
+const fnOtherItem = (async (item) =>
 {
-    datatableBody.isMutatorDialog = false;
-};
+    const
 
-const clearForms = async () =>
+    { token: tokenData, getUser, } = await useAuth (),
+    userData = await getUser (tokenData),
+    { getItem, setItem, } = useItem (tokenData),
+    formTarget =
+    {
+        lectureid: null,
+        studentid: form_studentid.value,
+        assesmentgroupid: form_assesmentgroupid.value,
+        yearid: form_yearid.value,
+        semesterid: form_semesterid.value,
+        specialistid: form_specialistid.value,
+        grandotal: "0",
+        transactiondate: (new Date()).toISOString().split('T')[0],
+        active: "1"
+    };
+
+    await getItem ("/v1/masterdata/lectures/view/nim",
+    userData.username,
+    (success) =>
+    {
+        formTarget.lectureid = success.id;
+    },
+    error => {});
+
+    await setItem ("v1/transaction/assesment/create", "",
+    formTarget,
+    async (success) =>
+    {
+        let
+
+        { noregistrasi, id_emr, } = item,
+        { id: uuid, idspecialistsimrs: idunit, assesmenttype, } = success.data.header;
+
+        var path = "";
+
+        if (idunit == 46) {
+
+            if (assesmenttype == "6") path = "ortodonsi/control";
+            else if (assesmenttype == "6") path = "ortodonsi/assesment";
+            else path = "ortodonsi"
+
+        } else if (idunit == 58) {
+
+            path = "pedodonsi";
+
+        } else if (idunit == 59) {
+
+            path = "periodonsi";
+
+        } else if (idunit == 60) {
+
+            path = "prostodonsia";
+
+        } else if (idunit == 137) {
+
+            path = "konservasi";
+
+        } else if (idunit == 10) {
+
+            path = "radiologi";
+        }
+
+        const routeTo = router.resolve ({ path: "/master/lecturer/assesmentdetail/" + path, query: { uuid, noreg: noregistrasi, idunit, id_emr, }, });
+
+        await updateStatusToWrite ({ idunit, id_emr, });
+
+        item.status_penilaian = "WRITE";
+
+        alert (success.message); 
+        window.open (routeTo.href, "_blank");
+    },
+    error => {});
+});
+
+onMounted (async () =>
 {
-    datatableBody.forms = props.forms;
-    datatableBody.item = {};
+    const { token: tokenData, } = await useAuth (),
 
-    await nextTick ();
-};
+    datas_year = await useCall ("/v1/masterdata/years/viewallwithotpaging", "get", "application/json", {}, tokenData),
+    datas_semester = await useCall ("/v1/masterdata/semesters/viewallwithotpaging", "get", "application/json", {}, tokenData),
+    datas_specialist = await useCall ("/v1/masterdata/specialists/viewallwithotpaging", "get", "application/json", {}, tokenData);
 
+    groups_year.value = datas_year.data.data.data;
+    groups_semester.value = datas_semester.data.data.data;
+    groups_specialist.value = datas_specialist.data.data.data;
+});
 
 </script>
-<template v-slot:form="{ forms, }">
-    <v-container>
-         <h4>Form Penilaian Mahasiswa </h4> <br>
-         <v-alert
-            type="error"
-            title="Informasi"
-            text="Silahkan Pilih Tahun, Semester, Spesialisasi, dan Nama Mahasiswa sebelum melakukan Proses entri Penilaian."
-        ></v-alert> 
+
+<template>
+    <template v-if="true">
+        <v-alert type="warning" title="Informasi" class="multi-line" style="white-space: pre-line;" text="
+        Silahkan Pilih Tahun, Semester, Spesialisasi, dan Nama Mahasiswa sebelum melakukan Proses entri Penilaian!" closable></v-alert>
         <br>
-                <v-row>
-                    <v-col cols="12" md="3">
-                        <v-select
-                            v-model="forms.yearid"  
-                            :items="groups_year"
-                            item-value="id" item-title="name"
-                            label="Tahun"
-                            variant="outlined"
-                            required
-                        ></v-select>
 
-                    </v-col>
-                    <v-col cols="12" md="3"> 
-                         <v-select
-                            v-model="forms.semesterid"  
-                            :items="groups_semester"
-                            item-value="id" item-title="semestername"
-                            label="Semester"
-                            variant="outlined"
-                            required
-                        ></v-select> 
-                    </v-col>
-                    <v-col cols="12" md="5">
-                        <v-select
-                            v-model="forms.specialistid"  
-                            :items="groups_specialist"
-                            item-value="id" item-title="specialistname"
-                            label="Spesialis"
-                            variant="outlined"
-                            required
-                            @update:modelValue="getStudentbySpecialist(forms.specialistid);getGroupPenilaianbySpecialist(forms.specialistid)"
-                        ></v-select> 
-                        
-                      
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col cols="12" md="3">
-                        <v-select
-                            v-model="forms.studentid"
-                            :items="groups_student"
-                            item-value="id" item-title="name"
-                            label="Mahasiswa"
-                            variant="outlined"
-                            required
-                        ></v-select>
-                    </v-col>
-                    <v-col cols="12" md="3">
-                        <v-select
-                            v-model="forms.assesmentgroupid"
-                            :items="groups_assesmentgroup" 
-                            item-value="id" item-title="assementgroupname"
-                            label="Group Penilaian"
-                            variant="outlined"
-                            required
-                        ></v-select>
-                    </v-col>
-                    <v-col cols="12" md="5">
-                        <v-btn
-                        color="success"
-                        class="mt-4"
-                        block
-                        @click="getItems"
-                        >
-                        LOAD DATA
-                        </v-btn>
-
-                        
-
-                    </v-col>
-                </v-row>
-
-                
-    <v-layout v-if="datatableBody.isLoaded">
-        <v-data-table-server item-value="id" @update:options="getItems" :headers="datatableBody.headers" :items="datatableBody.items" :items-length="datatableBody.itemsLength" v-model:items-per-page="datatableBody.itemPerPage" :loading="datatableBody.itemsIsLoading">
-            <template v-slot:top>
-                <v-toolbar color="#D3D3D3">
-                </v-toolbar>
-            </template>
-            <template v-slot:item.actions="{ item, index, }">
-                <!-- <v-dialog v-model="datatableBody.isAccessorDialog" transition="dialog-bottom-transition" fullscreen>
-                    <template v-slot:default="{ isActive, }">
-                        <v-card>
-                            <v-card-title>
-                                <v-toolbar color="#800000">
-                                    <v-btn @click="datatableBody.isAccessorDialog = false; clearForms ();" icon><v-icon>mdi-close</v-icon></v-btn>
-                                </v-toolbar>
-                            </v-card-title>
-                        </v-card>
+        <v-layout>
+            <v-toolbar color="#BC1010" class="mb-2">
+                <v-breadcrumbs :items="COMPONENT_BADGE">
+                    <template v-slot:divider>
+                        <v-icon icon="mdi-forward"></v-icon>
                     </template>
-                </v-dialog> -->
-                <v-btn @click="goToViewEmr(item.noregistrasi,item.idunit);" icon="mdi-eye" color="light-green-darken-4" class="mx-2" variant="text" density="compact"></v-btn>
-                <v-btn @click="setItems" icon="mdi mdi-account-box-edit-outline" color="light-red-darken-4" class="mx-2" variant="text" density="compact"></v-btn>
-            </template>
-        </v-data-table-server>
-    </v-layout>
-
-</v-container>
-
-
-
+                </v-breadcrumbs>
+            </v-toolbar>
+        </v-layout>
+        <v-layout>
+            <v-form class="w-100 ma-2">
+                <v-row>
+                    <v-col>
+                        <v-select v-model="form_yearid" :items="groups_year" item-value="id" item-title="name" label="Tahun" variant="outlined" required></v-select>
+                    </v-col>
+                    <v-col>
+                        <v-select v-model="form_semesterid" :items="groups_semester" item-value="id" item-title="semestername" label="Semester" variant="outlined" required></v-select>
+                    </v-col>
+                    <v-col>
+                        <v-select v-model="form_specialistid" @update:modelValue="getStudentbySpecialist (form_specialistid); getGroupAssessmentbySpecialist (form_specialistid)" :items="groups_specialist" item-value="id" item-title="specialistname" label="Spesialis" variant="outlined" required></v-select>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
+                        <v-select v-model="form_studentid" :items="groups_student" item-value="id" item-title="name" label="Mahasiswa/i" variant="outlined" required></v-select>
+                    </v-col>
+                    <v-col>
+                        <v-select v-model="form_assesmentgroupid" :items="groups_assesmentgroup" item-value="id" item-title="assementgroupname" label="Grup Penilaian" variant="outlined" required></v-select>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
+                        <v-btn @click="getItems ({ page: 1, })" variant="flat" color="primary">Menilai</v-btn>
+                    </v-col>
+                </v-row>
+            </v-form>
+        </v-layout>
+    </template>
+    <TableComponent ref="tableComponent" :header="COMPONENT_HEADER" :apis="COMPONENT_APIS" :fnApiGetItem="fnApiGetItem" :fnUpdateItem="fnUpdateItem" :fnOtherItem="fnOtherItem">
+        <template v-slot:field>
+            <v-dialog width="380" :return-value.sync="DATETIME_FROM">
+                <template v-slot:activator="{ props: activatorProps, }">
+                    <v-btn v-bind="activatorProps" placeholder="DATETIME_FROM" density="compact" variant="outlined" class="ma-1">{{ format_datetime_start (DATETIME_FROM).split (" ")[0] }}</v-btn>
+                </template>
+                <template v-slot:default="{ isActive, }">
+                    <v-card>
+                        <v-card-actions class="justify-center">
+                            <v-date-picker v-model="DATETIME_FROM" @update:modelValue="DATETIME_FROM.value = format_datetime_start (DATETIME_FROM.value); isActive.value = false" title="Filter Kunjungan Dari" color="primary" show-adjacent-months></v-date-picker>
+                        </v-card-actions>
+                    </v-card>
+                </template>
+            </v-dialog>
+            <v-dialog width="380" :return-value.sync="DATETIME_TO">
+                <template v-slot:activator="{ props: activatorProps, }">
+                    <v-btn v-bind="activatorProps" placeholder="DATETIME_TO" density="compact" variant="outlined" class="ma-1">{{ format_datetime_to (DATETIME_TO).split (" ")[0] }}</v-btn>
+                </template>
+                <template v-slot:default="{ isActive, }">
+                    <v-card>
+                        <v-card-actions class="justify-center">
+                            <v-date-picker v-model="DATETIME_TO" @update:modelValue="DATETIME_TO.value = format_datetime_to (DATETIME_TO.value); isActive.value = false" title="Filter Kunjungan Sampai" color="primary" show-adjacent-months></v-date-picker>
+                        </v-card-actions>
+                    </v-card>
+                </template>
+            </v-dialog>
+        </template>
+    </TableComponent>
 </template>

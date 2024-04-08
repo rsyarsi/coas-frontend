@@ -191,30 +191,35 @@ export default defineEventHandler ((event) => [
         to: "/master/coas/patient?idunit=10",
     },
     {
-        for: [ "admin", "dosen", ],
+        for: [ "admin", ],
         title: "Dosen",
         icon: "mdi-account-tie",
         to: [
 
             {
-                for: [ "admin", "dosen", ],
+                for: [ "dosen", ],
                 title: "Input Penilaian",
                 icon: "mdi-import",
                 to: "/master/lecturer/assesment",
             },
-        ],
-    },
-    {
-        for: [ "admin", "dosen", ],
-        title: "Rekapitulasi Penilaian",
-        icon: "mdi-account-tie",
-        to: [
             {
-                for: [ "admin", "dosen", ],
-                title: "Data Rekapitulasi Penilaian",
-                icon: "mdi-import",
+                for: [ "dosen", ],
+                title: "Rekapitulasi Penilaian",
+                icon: "mdi-account-tie",
                 to: "/master/lecturer/rekapitulasi",
             },
         ],
+    },
+    {
+        for: [ "dosen", ],
+        title: "Input Penilaian",
+        icon: "mdi-import",
+        to: "/master/lecturer/assesment",
+    },
+    {
+        for: [ "dosen", ],
+        title: "Rekapitulasi Penilaian",
+        icon: "mdi-account-tie",
+        to: "/master/lecturer/rekapitulasi",
     },
 ]);

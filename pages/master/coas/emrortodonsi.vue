@@ -38,12 +38,14 @@ const setItems = async (target) =>
 
     await setItem ("/v1/emr/ortodonsi/create/medicalwaktuperawatan", "",
     formTarget,
-    (success) =>
+    async (success) =>
     {
         if (success.code == 200){
             sb.snackbar = true
             sb.text = success.message
             sb.color = "green"
+
+            if (userData.role == "mahasiswa") await updateStatusToWrite (useRouter().currentRoute.value.query);
         }else{
             sb.snackbar = true
             sb.text = success.message
