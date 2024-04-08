@@ -1,216 +1,128 @@
 <script setup>
-import { useRouter } from "vue-router";
-const router = useRouter();
 
-definePageMeta({
-    layout: "dashboard",
-    title: "Rekapitulasi Penilai",
-});
+import { useRouter, } from "vue-router";
 
-const forms = reactive({
-    id: "",
-    // assesmentgroupid: "",
-    // studentid: "",
-    // lectureid: "",
-    yearid: "",
-    semesterid: "",
-    specialistid: "",
-    transactiondate: new Date().toISOString().split("T")[0],
-    active: "1",
-});
-
-const groups_year = ref([]),
-    groups_semester = ref([]),
-    groups_student = ref([]),
-    groups_assesmentgroup = ref([]),
-    groups_specialist = ref([]);
-
-    const getAnItem = async (target) =>
+definePageMeta (
 {
-    //validasi
-    if (forms.yearid == ""){
-        alert('Tahun masih kosong !')
-        return false;
-    }
+    layout: "dashboard",
+    title: "Recapitulation",
+});
 
-    if (forms.specialistid == ""){
-        alert('Spesialis masih kosong !')
-        return false;
-    }
-    
-    if (forms.semesterid == ""){
-        alert('Semester masih kosong !')
-        return false;
-    }
-    //#END validasi
+const router = useRouter ();
+
+const tableComponent = ref (null);
+
+const COMPONENT_BADGE = ref ([ "Master", "Dosen", "Rekapitulasi Mahasiswa/i", ]);
+
+const
+
+form_yearid = ref (null),
+form_semesterid = ref (null),
+form_specialistid = ref (null),
+
+groups_year = ref ([]),
+groups_semester = ref ([]),
+groups_specialist = ref ([]);
+
+const getAnItem = async (target) =>
+{
     const
 
     { token: tokenData, } = await useAuth (),
     { getItem, } = useItem (tokenData);
 
-    await getItem ('/v1/masterdata/specialists/view/id', target,
-    success =>
+    await getItem ("/v1/masterdata/specialists/view/id",
+    target,
+    (success) =>
     {
-        goTo(success.simrsid,forms.yearid,forms.semesterid);
+        let { simrsid: idunit, } = success;
+        var path = "";
+
+        if (idunit == 46) {
+
+            path = "ortodonsi";
+
+        } else if (idunit == 58) {
+
+            path = "pedodonsi";
+
+        } else if (idunit == 59) {
+
+            path = "periodonsi";
+
+        } else if (idunit == 60) {
+
+            path = "prostodonsia";
+
+        } else if (idunit == 137) {
+
+            path = "konservasi";
+
+        } else if (idunit == 10) {
+
+            path = "radiologi";
+        }
+
+        const routeTo = router.resolve ({ path: "/master/lecturer/rekap/" + path, query: { yearid: form_yearid.value, semesterid: form_semesterid.value, }, });
+
+        window.open (routeTo.href, "_blank");
     },
     error => {});
-}
-
-const goTo = async (idunit,yearid,semesterid) => {
-    if (idunit == 46) {
-        var path = "ortodonsi";
-    } else if (idunit == 58) {
-        var path = "pedodonsi";
-    } else if (idunit == 59) {
-        var path = "periodonsi";
-    } else if (idunit == 60) {
-        var path = "prostodonsia";
-    } else if (idunit == 137) {
-        var path = "konservasi";
-    } else {
-        var path = "";
-    }
-    router.push({
-        path: "/master/lecturer/rekap/" + path,
-        query: { 
-            yearid: yearid ,
-            semesterid: semesterid ,
-        },
-    });
 };
 
-const getLecturer = async () => {
-    const { token: tokenData, getUser } = await useAuth(),
-        userData = await getUser(tokenData),
-        { getItem, setItem } = useItem(tokenData);
+onMounted (async () =>
+{
+    const { token: tokenData, } = await useAuth (),
 
-    await getItem(
-        "/v1/masterdata/lectures/view/nim",
-        userData.username,
-        (success) => {
-            forms.lectureid = success.id;
-        },
-        (error) => {
-            console.log(error);
-        }
-    );
-};
-
-const getStudentbySpecialist = async (target) => {
-    forms.studentid = null;
-    const { token: tokenData, getUser } = await useAuth(),
-        userData = await getUser(tokenData),
-        response = await useCall(
-            "/v1/masterdata/students/view/idspecialist/" + target,
-            "get",
-            "application/json",
-            {},
-            tokenData
-        );
-
-    groups_student.value = response.data.data.data;
-};
-
-const getGroupPenilaianbySpecialist = async (target) => {
-    forms.assesmentgroupid = null;
-    const { token: tokenData, getUser } = await useAuth(),
-        userData = await getUser(tokenData),
-        response = await useCall(
-            "/v1/masterdata/assesmentgroups/view/idspecialist/" + target,
-            "get",
-            "application/json",
-            {},
-            tokenData
-        );
-
-    groups_assesmentgroup.value = response.data.data.data;
-};
-
-onMounted(async () => {
-    await getLecturer();
-    const { token: tokenData } = await useAuth(),
-        datas_year = await useCall(
-            "/v1/masterdata/years/viewallwithotpaging",
-            "get",
-            "application/json",
-            {},
-            tokenData
-        ),
-        datas_semester = await useCall(
-            "/v1/masterdata/semesters/viewallwithotpaging",
-            "get",
-            "application/json",
-            {},
-            tokenData
-        ),
-        //datas_student = await useCall ("/v1/masterdata/students/viewallwithotpaging", "get", "application/json", {}, tokenData),
-        datas_specialist = await useCall(
-            "/v1/masterdata/specialists/viewallwithotpaging",
-            "get",
-            "application/json",
-            {},
-            tokenData
-        );
-    //datas_assesmentgroup = await useCall ("/v1/masterdata/assesmentgroups/viewallwithotpaging", "get", "application/json", {}, tokenData);
+    datas_year = await useCall ("/v1/masterdata/years/viewallwithotpaging", "get", "application/json", {}, tokenData),
+    datas_semester = await useCall ("/v1/masterdata/semesters/viewallwithotpaging", "get", "application/json", {}, tokenData),
+    datas_specialist = await useCall ("/v1/masterdata/specialists/viewallwithotpaging", "get", "application/json", {}, tokenData);
 
     groups_year.value = datas_year.data.data.data;
     groups_semester.value = datas_semester.data.data.data;
     groups_specialist.value = datas_specialist.data.data.data;
-    //groups_student.value = datas_student.data.data.data;
-    //groups_assesmentgroup.value = datas_assesmentgroup.data.data.data;
 });
+
 </script>
-<template v-slot:form="{ forms }">
-    <v-container>
-        <h4>Form Penilaian Mahasiswa</h4>
-        <br />
-        <v-alert
-            type="error"
-            title="Informasi"
-            text="Silahkan Pilih Tahun, Semester, Spesialisasi, dan Nama Mahasiswa sebelum melakukan Proses entri Penilaian."></v-alert>
-        <br />
-        <v-row>
-            <v-col cols="12" md="3">
-                <v-select
-                    v-model="forms.yearid"
-                    :items="groups_year"
-                    item-value="id"
-                    item-title="name"
-                    label="Tahun"
-                    variant="outlined"
-                    required></v-select>
-            </v-col>
-            <v-col cols="12" md="5">
-                <v-select
-                    v-model="forms.specialistid"
-                    :items="groups_specialist"
-                    item-value="id"
-                    item-title="specialistname"
-                    label="Spesialis"
-                    variant="outlined"
-                    required
-                    @update:modelValue="
-                        getStudentbySpecialist(forms.specialistid);
-                        getGroupPenilaianbySpecialist(forms.specialistid);
-                    "></v-select>
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col cols="12" md="3">
-                <v-select
-                    v-model="forms.semesterid"
-                    :items="groups_semester"
-                    item-value="id"
-                    item-title="semestername"
-                    label="Semester"
-                    variant="outlined"
-                    required></v-select>
-            </v-col>
-            <v-col cols="12" md="5">
-                <v-btn color="success" class="mt-4" block @click="getAnItem(forms.specialistid)">
-                    Load
-                </v-btn>
-            </v-col>
-        </v-row>
-    </v-container>
+
+<template>
+    <template v-if="true">
+        <v-alert type="warning" title="Informasi" class="multi-line" style="white-space: pre-line;" text="
+        Silahkan Pilih Tahun, Semester, Spesialisasi sebelum melakukan Proses entri Rekapitulasi!" closable></v-alert>
+        <br>
+
+        <v-layout>
+            <v-toolbar color="#BC1010" class="mb-2">
+                <v-breadcrumbs :items="COMPONENT_BADGE">
+                    <template v-slot:divider>
+                        <v-icon icon="mdi-forward"></v-icon>
+                    </template>
+                </v-breadcrumbs>
+            </v-toolbar>
+        </v-layout>
+        <v-layout>
+            <v-form class="w-100 ma-2">
+                <v-row>
+                    <v-col>
+                        <v-select v-model="form_yearid" :items="groups_year" item-value="id" item-title="name" label="Tahun" variant="outlined" required></v-select>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
+                        <v-select v-model="form_semesterid" :items="groups_semester" item-value="id" item-title="semestername" label="Semester" variant="outlined" required></v-select>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
+                        <v-select v-model="form_specialistid" :items="groups_specialist" item-value="id" item-title="specialistname" label="Spesialis" variant="outlined" required></v-select>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
+                        <v-btn @click="getAnItem (form_specialistid)" variant="flat" color="primary">Merekap</v-btn>
+                    </v-col>
+                </v-row>
+            </v-form>
+        </v-layout>
+    </template>
 </template>
