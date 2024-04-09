@@ -103,9 +103,11 @@ const COMPONENT_HEADER = reactive (
     },
 ]);
 
+const COMPONENT_FORMS = reactive ({});
+
 const COMPONENT_APIS = reactive (
 {
-    getAllItems: "/v1/transaction/patient/listksmgigi",
+    getAllItems: "",
     getItem: true,
     getItemIcon: "mdi-eye",
     updateItem: true,
@@ -253,7 +255,42 @@ onMounted (async () =>
 
     if (USER_ROLE.value == "dosen" || USER_ROLE.value == "mahasiswa") {
 
-        if (unitname != "radiologi") isType.value = true;
+        if (unitname != "radiologi") {
+
+            isType.value = true;
+
+        } else {
+
+            COMPONENT_APIS.createItem = "/v1/emr/radiologi";
+
+            COMPONENT_FORMS.noepisode = "";
+            COMPONENT_FORMS.noregistrasi = "";
+            COMPONENT_FORMS.nomr = "";
+            COMPONENT_FORMS.patientname = "";
+            COMPONENT_FORMS.namajaminan = "";
+            COMPONENT_FORMS.noantrianall = "";
+            COMPONENT_FORMS.gander = "";
+            COMPONENT_FORMS.date_of_birth = useDateTime (new Date).ins.format ('YYYY-MM-DD');
+            COMPONENT_FORMS.address = "";
+            COMPONENT_FORMS.idunit = "10";
+            COMPONENT_FORMS.visit_date = useDateTime (new Date).ins.format ('YYYY-MM-DD HH:mm:ss');
+            COMPONENT_FORMS.namaunit = "Radiologi";
+            COMPONENT_FORMS.iddokter = "";
+            COMPONENT_FORMS.namadokter = "";
+            COMPONENT_FORMS.patienttype = "";
+            COMPONENT_FORMS.jenis_radiologi = "";
+            COMPONENT_FORMS.statusid = "";
+
+            COMPONENT_HEADER.push (
+            {
+                key: "jenis_radiologi",
+                title: "Jenis Radiologi",
+                sortable: true,
+                searchable: true,
+                align: "center",
+                headerProps: { class: "font-weight-bold", },
+            });
+        }
 
         COMPONENT_HEADER.push (
         {
@@ -268,9 +305,29 @@ onMounted (async () =>
     if (idunit) {
 
         COMPONENT_BADGE.value.push ("Pasien " + unitname[0].toUpperCase () + unitname.slice (1));
-        COMPONENT_APIS.getAllItems = COMPONENT_APIS.getAllItems + "?type=" + type.value + "&idunit=" + router.currentRoute.value.query.idunit;
+
+        let url_api = "/v1/transaction/patient/listksmgigi";
+
+        if (unitname != "radiologi") {
+
+            COMPONENT_APIS.getAllItems = url_api
+            + "?type=" + type.value
+            + "&idunit=" + router.currentRoute.value.query.idunit;
+
+        } else {
+
+            COMPONENT_APIS.getAllItems = url_api
+            + "?idunit=" + router.currentRoute.value.query.idunit;
+        }
 
     } else {
+
+        isType.value = true;
+
+        let url_api = "/v1/transaction/patient/listksmgigi";
+
+        COMPONENT_APIS.getAllItems = url_api
+        + "?type=" + type.value;
 
         COMPONENT_BADGE.value.push ("Pasien");
     }
@@ -284,7 +341,7 @@ onMounted (async () =>
         <v-tab value="history">Riwayat</v-tab>
     </v-tabs>
     <v-divider v-if="isType"></v-divider>
-    <TableComponent ref="tableComponent" :badge="COMPONENT_BADGE" :header="COMPONENT_HEADER" :apis="COMPONENT_APIS" :fnApiGetItem="fnApiGetItem" :fnUpdateItem="fnUpdateItem">
+    <TableComponent ref="tableComponent" :badge="COMPONENT_BADGE" :header="COMPONENT_HEADER" :forms="COMPONENT_FORMS" :apis="COMPONENT_APIS" :fnApiGetItem="fnApiGetItem" :fnUpdateItem="fnUpdateItem">
         <template v-slot:field>
             <v-dialog width="380" :return-value.sync="DATETIME_FROM">
                 <template v-slot:activator="{ props: activatorProps, }">
@@ -310,6 +367,90 @@ onMounted (async () =>
                     </v-card>
                 </template>
             </v-dialog>
+        </template>
+        <template v-slot:form="{ forms, }">
+            <v-form>
+                <v-container>
+                    <v-row>
+                        <v-col>
+                            <v-row><v-text-field type="text" v-model="forms.noregistrasi" label="Nomor Registrasi"></v-text-field></v-row>
+                        </v-col>
+                        <v-spacer></v-spacer>
+                        <v-col>
+                            <v-row><v-text-field type="text" v-model="forms.noepisode" label="Nomor Episode" autocomplete></v-text-field></v-row>
+                        </v-col>
+                        <v-spacer></v-spacer>
+                        <v-col>
+                            <v-row><v-text-field type="text" v-model="forms.nomr" label="Nomor MR" autocomplete></v-text-field></v-row>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col>
+                            <v-row><v-text-field type="text" v-model="forms.noantrianall" label="Nomor Antrian"></v-text-field></v-row>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col>
+                            <v-row><v-text-field type="text" v-model="forms.namajaminan" label="Nama Jaminan" autocomplete></v-text-field></v-row>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col>
+                            <v-row><v-text-field type="text" v-model="forms.patientname" label="Nama Pasien" autocomplete></v-text-field></v-row>
+                        </v-col>
+                        <v-spacer></v-spacer>
+                        <v-col>
+                            <v-row><v-select v-model="forms.gander" :items="[ { id: 'M', name: 'Pria', }, { id: 'F', name: 'Wanita', }, ]" item-value="id" item-title="name" label="Jenis Kelamin"></v-select></v-row>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col>
+                            <v-row><v-text-field @input="forms.date_of_birth = useDateTime (forms.date_of_birth).ins.format ('YYYY-MM-DD')" type="date" v-model="forms.date_of_birth" label="Tanggal Lahir"></v-text-field></v-row>
+                        </v-col>
+                        <v-spacer></v-spacer>
+                        <v-col>
+                            <v-row><v-textarea type="text" v-model="forms.address" label="Alamat"></v-textarea></v-row>
+                        </v-col>
+                    </v-row>
+                    <v-row v-if="false">
+                        <v-col>
+                            <v-row><v-text-field type="text" v-model="forms.idunit" label="ID Unit" autocomplete></v-text-field></v-row>
+                        </v-col>
+                        <v-spacer></v-spacer>
+                        <v-col>
+                            <v-row><v-text-field type="text" v-model="forms.namaunit" label="Nama Unit" autocomplete></v-text-field></v-row>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col>
+                            <v-row><v-text-field type="text" v-model="forms.iddokter" label="ID Dokter" autocomplete></v-text-field></v-row>
+                        </v-col>
+                        <v-spacer></v-spacer>
+                        <v-col>
+                            <v-row><v-text-field type="text" v-model="forms.namadokter" label="Nama Dokter" autocomplete></v-text-field></v-row>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col>
+                            <v-row><v-text-field type="text" v-model="forms.patienttype" label="Tipe Pasien" autocomplete></v-text-field></v-row>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col>
+                            <v-row><v-text-field @input="forms.visit_date = useDateTime (forms.visit_date).ins.format ('YYYY-MM-DD HH:mm:ss')" type="datetime-local" v-model="forms.visit_date" label="Kunjungan"></v-text-field></v-row>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col>
+                            <v-row><v-select v-model="forms.jenis_radiologi" :items="[ { id: 'PERIAPRIKAL', name: 'Periaprikal', }, { id: 'PANORAMIK', name: 'Panoramik', }, { id: 'OKLUSI', name: 'Oklusi', }, ]" item-value="id" item-title="name" label="Jenis Radiologi"></v-select></v-row>
+                        </v-col>
+                        <v-spacer></v-spacer>
+                        <v-col>
+                            <v-row><v-select v-model="forms.statusid" :items="[ { id: '0', name: '0', }, { id: '1', name: '1', }, { id: '2', name: '2', }, { id: '3', name: '3', }, { id: '4', name: '4', }, ]" item-value="id" item-title="name" label="Status"></v-select></v-row>
+                        </v-col>
+                    </v-row>
+                </v-container>
+            </v-form>
         </template>
     </TableComponent>
 </template>

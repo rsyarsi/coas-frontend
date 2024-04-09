@@ -97,21 +97,7 @@ export default defineEventHandler ((event) => [
         ],
     },
     {
-        for: [ "admin", ],
-        title: "Mahasiswa/i",
-        icon: "mdi-account-school",
-        to: [
-
-            {
-                for: [ "admin", ],
-                title: "Pasien",
-                icon: "mdi-account-injury",
-                to: "/master/coas/patient",
-            },
-        ],
-    },
-    {
-        for: [ "dosen", ],
+        for: [ "admin", "dosen", ],
         title: "Mahasiswa/i",
         icon: "mdi-account-school",
         to: [
