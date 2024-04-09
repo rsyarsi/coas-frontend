@@ -30,6 +30,7 @@ const COMPONENT_HEADER = reactive (
         key: "nomr",
         title: "Nomor MR",
         sortable: true,
+        searchable: true,
         align: "start",
         headerProps: { class: "font-weight-bold", },
     },
@@ -37,6 +38,7 @@ const COMPONENT_HEADER = reactive (
         key: "patientname",
         title: "Nama Pasien",
         sortable: true,
+        searchable: true,
         align: "start",
         headerProps: { class: "font-weight-bold", },
     },
@@ -44,6 +46,7 @@ const COMPONENT_HEADER = reactive (
         key: "noregistrasi",
         title: "Nomor Registrasi",
         sortable: true,
+        searchable: true,
         align: "start",
         headerProps: { class: "font-weight-bold", },
     },
@@ -51,6 +54,7 @@ const COMPONENT_HEADER = reactive (
         key: "noepisode",
         title: "Nomor Episode",
         sortable: true,
+        searchable: true,
         align: "start",
         headerProps: { class: "font-weight-bold", },
     },
@@ -65,6 +69,7 @@ const COMPONENT_HEADER = reactive (
         key: "namadokter",
         title: "Dokter",
         sortable: true,
+        searchable: true,
         align: "start",
         headerProps: { class: "font-weight-bold", },
     },
@@ -72,6 +77,7 @@ const COMPONENT_HEADER = reactive (
         key: "namajaminan",
         title: "Jaminan",
         sortable: true,
+        searchable: true,
         align: "start",
         headerProps: { class: "font-weight-bold", },
     },
@@ -232,9 +238,15 @@ const updateType = async () =>
 
 const fnApiGetItem = (async (item) =>
 {
-    const { noregistrasi, idunit, id_emr, } = item,
+    const { noregistrasi, idunit, id_emr, } = item;
+    var unitname = unit (idunit);
 
-    routeTo = router.resolve ({ path: "/master/coas/" + unit (idunit), query: { noreg: noregistrasi, idunit, id_emr, }, });
+    if (unitname == "radiologi") {
+
+        unitname = unitname + "/" + String (item.jenis_radiologi).toLowerCase ();
+    }
+
+    const routeTo = router.resolve ({ path: "/master/coas/" + unitname, query: { noreg: noregistrasi, idunit, id_emr, }, });
 
     await window.open (routeTo.href, "_blank");
 });
@@ -243,6 +255,12 @@ const fnUpdateItem = (async (item) =>
 {
     await updateStatusToFinish (item);
 });
+
+const
+
+groups_student = ref ([]),
+
+group_student = (target) => groups_student?.value[groups_student.value.indexOf (groups_student.value.find (item => item.id == target))]?.name;
 
 onMounted (async () =>
 {
@@ -261,25 +279,33 @@ onMounted (async () =>
 
         } else {
 
-            COMPONENT_APIS.createItem = "/v1/emr/radiologi";
+            if (USER_ROLE.value == "dosen") {
 
-            COMPONENT_FORMS.noepisode = "";
-            COMPONENT_FORMS.noregistrasi = "";
-            COMPONENT_FORMS.nomr = "";
-            COMPONENT_FORMS.patientname = "";
-            COMPONENT_FORMS.namajaminan = "";
-            COMPONENT_FORMS.noantrianall = "";
-            COMPONENT_FORMS.gander = "";
-            COMPONENT_FORMS.date_of_birth = useDateTime (new Date).ins.format ('YYYY-MM-DD');
-            COMPONENT_FORMS.address = "";
-            COMPONENT_FORMS.idunit = "10";
-            COMPONENT_FORMS.visit_date = useDateTime (new Date).ins.format ('YYYY-MM-DD HH:mm:ss');
-            COMPONENT_FORMS.namaunit = "Radiologi";
-            COMPONENT_FORMS.iddokter = "";
-            COMPONENT_FORMS.namadokter = "";
-            COMPONENT_FORMS.patienttype = "";
-            COMPONENT_FORMS.jenis_radiologi = "";
-            COMPONENT_FORMS.statusid = "";
+                let datas_student = await useCall ("/v1/masterdata/students/viewallwithotpaging", "get", "application/json", {}, tokenData);
+
+                groups_student.value = datas_student.data.data.data;
+
+                COMPONENT_APIS.createItem = "/v1/emr/radiologi";
+
+                COMPONENT_FORMS.nim = "";
+                COMPONENT_FORMS.noepisode = "";
+                COMPONENT_FORMS.noregistrasi = "";
+                COMPONENT_FORMS.nomr = "";
+                COMPONENT_FORMS.patientname = "";
+                COMPONENT_FORMS.namajaminan = "";
+                COMPONENT_FORMS.noantrianall = "";
+                COMPONENT_FORMS.gander = "";
+                COMPONENT_FORMS.date_of_birth = useDateTime (new Date).ins.format ('YYYY-MM-DD');
+                COMPONENT_FORMS.address = "";
+                COMPONENT_FORMS.idunit = "10";
+                COMPONENT_FORMS.visit_date = useDateTime (new Date).ins.format ('YYYY-MM-DD HH:mm:ss');
+                COMPONENT_FORMS.namaunit = "Radiologi";
+                COMPONENT_FORMS.iddokter = "";
+                COMPONENT_FORMS.namadokter = "";
+                COMPONENT_FORMS.patienttype = "";
+                COMPONENT_FORMS.jenis_radiologi = "";
+                COMPONENT_FORMS.statusid = 0;
+            }
 
             COMPONENT_HEADER.push (
             {
@@ -373,6 +399,11 @@ onMounted (async () =>
                 <v-container>
                     <v-row>
                         <v-col>
+                            <v-row><v-select type="text" v-model="forms.nim" :items="groups_student" item-value="nim" item-title="name" label="Mahasiswa/i"></v-select></v-row>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col>
                             <v-row><v-text-field type="text" v-model="forms.noregistrasi" label="Nomor Registrasi"></v-text-field></v-row>
                         </v-col>
                         <v-spacer></v-spacer>
@@ -444,8 +475,8 @@ onMounted (async () =>
                         <v-col>
                             <v-row><v-select v-model="forms.jenis_radiologi" :items="[ { id: 'PERIAPRIKAL', name: 'Periaprikal', }, { id: 'PANORAMIK', name: 'Panoramik', }, { id: 'OKLUSI', name: 'Oklusi', }, ]" item-value="id" item-title="name" label="Jenis Radiologi"></v-select></v-row>
                         </v-col>
-                        <v-spacer></v-spacer>
-                        <v-col>
+                        <v-spacer v-if="false"></v-spacer>
+                        <v-col v-if="false">
                             <v-row><v-select v-model="forms.statusid" :items="[ { id: '0', name: '0', }, { id: '1', name: '1', }, { id: '2', name: '2', }, { id: '3', name: '3', }, { id: '4', name: '4', }, ]" item-value="id" item-title="name" label="Status"></v-select></v-row>
                         </v-col>
                     </v-row>

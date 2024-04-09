@@ -140,6 +140,10 @@ const getItems = props.fnApiGetAllItems ?? (async (target) =>
     "",
     (success, total, per_page, next_page_url, prev_page_url, first_page_url, last_page_url) =>
     {
+        datatableBody.searchables = props.header.filter (header => header.key != "id" && (header.searchable ?? header.sortable) === true);
+
+        if (datatableBody.searchables.length) datatableBody.searchBy = datatableBody.searchables[0].key;
+
         datatableBody.items = success;
         datatableBody.itemsLength = total;
         datatableBody.itemPerPage = per_page;
@@ -238,10 +242,6 @@ onBeforeMount (async () =>
 onMounted (async () =>
 {
     if (props?.apis?.getAllItems) {
-
-        datatableBody.searchables = props.header.filter (header => header.key != "id" && (header.searchable ?? header.sortable) === true);
-
-        if (datatableBody.searchables.length) datatableBody.searchBy = datatableBody.searchables[0].key;
 
         await getItems ({ page: 1, });
     }

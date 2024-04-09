@@ -108,7 +108,7 @@ const COMPONENT_HEADER = reactive (
 
 const COMPONENT_APIS = reactive (
 {
-    getAllItems: "/v1/transaction/patient/listksmgigi",
+    getAllItems: true,
     getItem: true,
     getItemIcon: "mdi-eye",
     updateItem: true,
@@ -431,7 +431,7 @@ onMounted (async () =>
             </v-form>
         </v-layout>
     </template>
-    <TableComponent ref="tableComponent" :header="COMPONENT_HEADER" :apis="COMPONENT_APIS" :fnApiGetItem="fnApiGetItem" :fnUpdateItem="fnUpdateItem" :fnOtherItem="fnOtherItem">
+    <TableComponent ref="tableComponent" :header="COMPONENT_HEADER" :apis="COMPONENT_APIS" :fnApiGetAllItems="getItems" :fnApiGetItem="fnApiGetItem" :fnUpdateItem="fnUpdateItem" :fnOtherItem="fnOtherItem">
         <template v-slot:field>
             <v-dialog width="380" :return-value.sync="DATETIME_FROM">
                 <template v-slot:activator="{ props: activatorProps, }">
