@@ -10,11 +10,7 @@ const COMPONENT_BADGE = [ "Radiologi", "/", ];
 
 const COMPONENT_HEADER =
 [
-{
-        key: "no",
-        title: "No",
-        sortable: false,
-    },
+
     {
         key: "patientname",
         title: "nama pasien",
@@ -36,7 +32,7 @@ const COMPONENT_HEADER =
         sortable: false,
     },
     {
-        key: "tgl",
+        key: "visit_date",
         title: "tgl kunjungan",
         sortable: false,
     },
@@ -56,17 +52,17 @@ const COMPONENT_HEADER =
         sortable: false,
     },
     {
-        key: "emr",
+        key: "status_emr",
         title: "EMR",
         sortable: false,
     },
     {
-        key: "penilaian",
+        key: "status_penilaian",
         title: "penilaian",
         sortable: false,
     },
     {
-        key: "jenisradiologi",
+        key: "jenis_radiologi",
         title: "Jenis Radiologi",
         sortable: false,
     },
@@ -97,13 +93,13 @@ const COMPONENT_APIS =
     <ItemComponent :badge="COMPONENT_BADGE" :header="COMPONENT_HEADER" :forms="COMPONENT_FORMS" :apis="COMPONENT_APIS">
         <template v-slot:form="{ forms, }">
             <v-form>
-                <v-text-field v-model="forms.name" label="Nama"></v-text-field>
-                <v-text-field v-model="forms.name" label="No. MR"></v-text-field>
-                <v-text-field v-model="forms.name" label="Tanggal Pasien"></v-text-field>
-                <v-text-field v-model="forms.name" label="Tanggal Potret"></v-text-field>
-                <v-text-field v-model="forms.name" label="Usia"></v-text-field>
-                <v-text-field v-model="forms.name" label="Alamat"></v-text-field>
-                <v-select v-model="forms.name" label="Jenis Radiologi" :items="['Oklusi','Panoramik','Periapikal']"></v-select>
+                <v-text-field v-model="forms.patientname" label="Nama"></v-text-field>
+                <v-text-field v-model="forms.nomr" label="No. MR"></v-text-field>
+                <v-text-field v-model="forms.visit_date" label="Tanggal Pasien"></v-text-field>
+                <!-- <v-text-field v-model="forms.tglpotret" label="Tanggal Potret"></v-text-field> -->
+                <v-text-field v-model="forms.date_of_birth" label="Usia"></v-text-field>
+                <v-text-field v-model="forms.address" label="Alamat"></v-text-field>
+                <v-select v-model="forms.jenis_radiologi" label="Jenis Radiologi" :items="['Oklusi','Panoramik','Periapikal']"></v-select>
                 <v-radio-group v-model="forms.active">
                     <template v-slot:label>
                         <div><strong>{{ $t ("action.state") }}</strong></div>
