@@ -164,7 +164,7 @@ const unit = (idunit) =>
 
     } else if (idunit == 10) {
 
-        return "radiologi";
+        return "emr/radiologi";
     }
 };
 
@@ -241,7 +241,7 @@ const fnApiGetItem = (async (item) =>
     const { noregistrasi, idunit, id_emr, } = item;
     var unitname = unit (idunit);
 
-    if (unitname == "radiologi") {
+    if (unitname == "emr/radiologi") {
 
         unitname = unitname + "/" + String (item.jenis_radiologi).toLowerCase ();
     }
@@ -273,7 +273,7 @@ onMounted (async () =>
 
     if (USER_ROLE.value == "dosen" || USER_ROLE.value == "mahasiswa") {
 
-        if (unitname != "radiologi") {
+        if (unitname != "emr/radiologi") {
 
             isType.value = true;
 
@@ -281,11 +281,11 @@ onMounted (async () =>
 
             if (USER_ROLE.value == "dosen") {
 
-                let datas_student = await useCall ("/v1/masterdata/students/viewallwithotpaging", "get", "application/json", {}, tokenData);
+                let datas_student = await useCall ("/v1/emr/radiologi/students", "get", "application/json", {}, tokenData);
 
                 groups_student.value = datas_student.data.data.data;
 
-                COMPONENT_APIS.createItem = "/v1/emr/radiologi";
+                COMPONENT_APIS.createItem = "/v1/emr/radiologi/store";
 
                 COMPONENT_FORMS.nim = "";
                 COMPONENT_FORMS.noepisode = "";
@@ -328,11 +328,11 @@ onMounted (async () =>
         });
     }
 
+    let url_api = "/v1/transaction/patient/listksmgigi";
+
     if (idunit) {
 
         COMPONENT_BADGE.value.push ("Pasien " + unitname[0].toUpperCase () + unitname.slice (1));
-
-        let url_api = "/v1/transaction/patient/listksmgigi";
 
         if (unitname != "radiologi") {
 
@@ -349,8 +349,6 @@ onMounted (async () =>
     } else {
 
         isType.value = true;
-
-        let url_api = "/v1/transaction/patient/listksmgigi";
 
         COMPONENT_APIS.getAllItems = url_api
         + "?type=" + type.value;
@@ -454,7 +452,7 @@ onMounted (async () =>
                     </v-row>
                     <v-row>
                         <v-col>
-                            <v-row><v-text-field type="text" v-model="forms.iddokter" label="ID Dokter" autocomplete></v-text-field></v-row>
+                            <v-row><v-text-field type="number" v-model="forms.iddokter" label="ID Dokter" autocomplete></v-text-field></v-row>
                         </v-col>
                         <v-spacer></v-spacer>
                         <v-col>
