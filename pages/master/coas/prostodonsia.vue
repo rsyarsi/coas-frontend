@@ -28,16 +28,14 @@ const setItems = async (target) => {
         "",
         formTarget,
         async (success) => {
-            if (success.code == 200) {
-                alert(success.message);
+            var statusRoute = useRouter().currentRoute.value.query;
+            statusRoute.id_emr = statusRoute.id_emr ?? success.data.id;
 
-                var statusRoute = useRouter().currentRoute.value.query;
-                statusRoute.id_emr = statusRoute.id_emr ?? success.data.id;
+            if (userData.role == "mahasiswa") {
 
-                if (userData.role == "mahasiswa") await updateStatusToWrite (statusRoute);
+                await updateStatusToWrite (statusRoute);
 
-            } else {
-                alert(success.message);
+                alert (success.message);
             }
         },
         (error) => {

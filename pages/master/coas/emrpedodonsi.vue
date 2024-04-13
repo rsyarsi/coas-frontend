@@ -34,12 +34,15 @@ const setItems = async (target) => {
         formTarget,
         async (success) => {
             if (success.code == 200) {
-                alert(success.message);
-
                 var statusRoute = useRouter().currentRoute.value.query;
                 statusRoute.id_emr = statusRoute.id_emr ?? success.data.id;
 
-                if (userData.role == "mahasiswa") await updateStatusToWrite (statusRoute);
+                if (userData.role == "mahasiswa") {
+
+                    await updateStatusToWrite (statusRoute);
+
+                    alert (success.message);
+                }
 
             } else {
                 alert(success.message);

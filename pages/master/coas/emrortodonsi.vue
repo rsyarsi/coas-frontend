@@ -49,7 +49,12 @@ const setItems = async (target) =>
             var statusRoute = useRouter().currentRoute.value.query;
             statusRoute.id_emr = statusRoute.id_emr ?? success.data.id;
 
-            if (userData.role == "mahasiswa") await updateStatusToWrite (statusRoute);
+            if (userData.role == "mahasiswa") {
+
+                await updateStatusToWrite (statusRoute);
+
+                alert (success.message);
+            }
 
         }else{
             sb.snackbar = true

@@ -25,11 +25,21 @@ updateEmr = async () =>
     { token: tokenData, } = await useAuth (),
     { getItem, setItem, } = useItem (tokenData);
 
+    var userData = USER.value;
+
     await setItem ("/v1/emr/radiologi/update", form.value.id,
     form.value,
-    (success) =>
+    async (success) =>
     {
-        alert ("Data berhasil diupdate!");
+        var statusRoute = router.currentRoute.value.query;
+        statusRoute.id_emr = statusRoute.id_emr ?? success.data.id;
+
+        if (userData.role == "mahasiswa") {
+
+            await updateStatusToWrite (statusRoute);
+
+            alert ("Data berhasil diupdate!");
+        }
     },
     error => {});
 },

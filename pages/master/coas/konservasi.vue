@@ -45,21 +45,15 @@ const setItems = async (target) => {
         formTarget,
         async (success) => {
 
-            alert(success.message);
-
             var statusRoute = useRouter().currentRoute.value.query;
             statusRoute.id_emr = statusRoute.id_emr ?? success.data.id;
 
-            console.log (statusRoute);
+            if (userData.role == "mahasiswa") {
 
-            if (userData.role == "mahasiswa") await updateStatusToWrite (statusRoute);
+                await updateStatusToWrite (statusRoute);
 
-
-
-            //datatableBody.items.unshift (success);
-
-            // clearForms ();
-            // closeDialog ();
+                alert (success.message);
+            }
         },
         (error) => {
             alert(error.data.message);
