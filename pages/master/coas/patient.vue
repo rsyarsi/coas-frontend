@@ -256,10 +256,17 @@ const fnUpdateItem = (async (item) =>
     await updateStatusToFinish (item);
 });
 
+const fnOnShowDialog = () =>
+{
+    COMPONENT_FORMS.noregistrasi = "RKG" + useDateTime (new Date).ins.format ('DDMMYY') + '-' + String (Math.floor (100000 + Math.random () * 900000)).substring (0, 4);
+};
+
 const
 
+groups_lecturer = ref ([]),
 groups_student = ref ([]),
 
+group_lecturer = (target) => groups_lecturer?.value[groups_lecturer.value.indexOf (groups_lecturer.value.find (item => item.doctotidsimrs == target))]?.name,
 group_student = (target) => groups_student?.value[groups_student.value.indexOf (groups_student.value.find (item => item.id == target))]?.name;
 
 onMounted (async () =>
@@ -281,8 +288,12 @@ onMounted (async () =>
 
             if (USER_ROLE.value == "dosen") {
 
-                let datas_student = await useCall ("/v1/emr/radiologi/students", "get", "application/json", {}, tokenData);
+                let
 
+                datas_lecturer = await useCall ("/v1/masterdata/lectures/viewallwithotpaging", "get", "application/json", {}, tokenData),
+                datas_student = await useCall ("/v1/emr/radiologi/students", "get", "application/json", {}, tokenData);
+
+                groups_lecturer.value = datas_lecturer.data.data.data;
                 groups_student.value = datas_student.data.data.data;
 
                 COMPONENT_APIS.createItem = "/v1/emr/radiologi/store";
@@ -292,7 +303,7 @@ onMounted (async () =>
                 COMPONENT_FORMS.noregistrasi = "";
                 COMPONENT_FORMS.nomr = "";
                 COMPONENT_FORMS.patientname = "";
-                COMPONENT_FORMS.namajaminan = "";
+                COMPONENT_FORMS.namajaminan = "KEPANITERAAN FKG";
                 COMPONENT_FORMS.noantrianall = "";
                 COMPONENT_FORMS.gander = "";
                 COMPONENT_FORMS.date_of_birth = useDateTime (new Date).ins.format ('YYYY-MM-DD');
@@ -302,7 +313,7 @@ onMounted (async () =>
                 COMPONENT_FORMS.namaunit = "Radiologi";
                 COMPONENT_FORMS.iddokter = "";
                 COMPONENT_FORMS.namadokter = "";
-                COMPONENT_FORMS.patienttype = "";
+                COMPONENT_FORMS.patienttype = "PERUSAHAAN";
                 COMPONENT_FORMS.jenis_radiologi = "";
                 COMPONENT_FORMS.statusid = 0;
             }
@@ -360,12 +371,12 @@ onMounted (async () =>
 </script>
 
 <template>
-    <v-tabs v-if="isType" v-model="type" @update:modelValue="updateType" bg-color="warning" fixed-tabs>
+    <v-tabs v-if="isType" @update:modelValue="updateType" v-model="type" bg-color="warning" fixed-tabs>
         <v-tab value="active">Aktif</v-tab>
         <v-tab value="history">Riwayat</v-tab>
     </v-tabs>
     <v-divider v-if="isType"></v-divider>
-    <TableComponent ref="tableComponent" :badge="COMPONENT_BADGE" :header="COMPONENT_HEADER" :forms="COMPONENT_FORMS" :apis="COMPONENT_APIS" :fnApiGetItem="fnApiGetItem" :fnUpdateItem="fnUpdateItem">
+    <TableComponent ref="tableComponent" :badge="COMPONENT_BADGE" :header="COMPONENT_HEADER" :forms="COMPONENT_FORMS" :apis="COMPONENT_APIS" :fnApiGetItem="fnApiGetItem" :fnUpdateItem="fnUpdateItem" :fnOnShowDialog="fnOnShowDialog">
         <template v-slot:field>
             <v-dialog width="380" :return-value.sync="DATETIME_FROM">
                 <template v-slot:activator="{ props: activatorProps, }">
@@ -397,85 +408,81 @@ onMounted (async () =>
                 <v-container>
                     <v-row>
                         <v-col>
-                            <v-row><v-select type="text" v-model="forms.nim" :items="groups_student" item-value="nim" item-title="name" label="Mahasiswa/i"></v-select></v-row>
+                            <v-row><v-select v-model="forms.nim" :rules="['Required']" :items="groups_student" item-value="nim" item-title="name" label="Mahasiswa/i"></v-select></v-row>
                         </v-col>
                     </v-row>
                     <v-row>
                         <v-col>
-                            <v-row><v-text-field type="text" v-model="forms.noregistrasi" label="Nomor Registrasi"></v-text-field></v-row>
+                            <v-row><v-text-field type="text" v-model="forms.noregistrasi" :rules="['Required']" label="Nomor Registrasi" disabled></v-text-field></v-row>
                         </v-col>
                         <v-spacer></v-spacer>
                         <v-col>
-                            <v-row><v-text-field type="text" v-model="forms.noepisode" label="Nomor Episode" autocomplete></v-text-field></v-row>
+                            <v-row><v-text-field type="text" v-model="forms.noepisode" :rules="['Required']" label="Nomor Episode" autocomplete></v-text-field></v-row>
                         </v-col>
                         <v-spacer></v-spacer>
                         <v-col>
-                            <v-row><v-text-field type="text" v-model="forms.nomr" label="Nomor MR" autocomplete></v-text-field></v-row>
+                            <v-row><v-text-field type="text" v-model="forms.nomr" :rules="['Required']" label="Nomor MR" autocomplete></v-text-field></v-row>
                         </v-col>
                     </v-row>
                     <v-row>
                         <v-col>
-                            <v-row><v-text-field type="text" v-model="forms.noantrianall" label="Nomor Antrian"></v-text-field></v-row>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col>
-                            <v-row><v-text-field type="text" v-model="forms.namajaminan" label="Nama Jaminan" autocomplete></v-text-field></v-row>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col>
-                            <v-row><v-text-field type="text" v-model="forms.patientname" label="Nama Pasien" autocomplete></v-text-field></v-row>
-                        </v-col>
-                        <v-spacer></v-spacer>
-                        <v-col>
-                            <v-row><v-select v-model="forms.gander" :items="[ { id: 'M', name: 'Pria', }, { id: 'F', name: 'Wanita', }, ]" item-value="id" item-title="name" label="Jenis Kelamin"></v-select></v-row>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col>
-                            <v-row><v-text-field @input="forms.date_of_birth = useDateTime (forms.date_of_birth).ins.format ('YYYY-MM-DD')" type="date" v-model="forms.date_of_birth" label="Tanggal Lahir"></v-text-field></v-row>
-                        </v-col>
-                        <v-spacer></v-spacer>
-                        <v-col>
-                            <v-row><v-textarea type="text" v-model="forms.address" label="Alamat"></v-textarea></v-row>
+                            <v-row><v-text-field type="text" v-model="forms.noantrianall" :rules="['Required']" label="Nomor Antrian"></v-text-field></v-row>
                         </v-col>
                     </v-row>
                     <v-row v-if="false">
                         <v-col>
-                            <v-row><v-text-field type="text" v-model="forms.idunit" label="ID Unit" autocomplete></v-text-field></v-row>
+                            <v-row><v-text-field type="text" v-model="forms.namajaminan" :rules="['Required']" label="Nama Jaminan" autocomplete></v-text-field></v-row>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col>
+                            <v-row><v-text-field type="text" v-model="forms.patientname" :rules="['Required']" label="Nama Pasien" autocomplete></v-text-field></v-row>
                         </v-col>
                         <v-spacer></v-spacer>
                         <v-col>
-                            <v-row><v-text-field type="text" v-model="forms.namaunit" label="Nama Unit" autocomplete></v-text-field></v-row>
+                            <v-row><v-select v-model="forms.gander" :rules="['Required']" :items="[ { id: 'M', name: 'Pria', }, { id: 'F', name: 'Wanita', }, ]" item-value="id" item-title="name" label="Jenis Kelamin"></v-select></v-row>
                         </v-col>
                     </v-row>
                     <v-row>
                         <v-col>
-                            <v-row><v-text-field type="number" v-model="forms.iddokter" label="ID Dokter" autocomplete></v-text-field></v-row>
+                            <v-row><v-text-field @input="forms.date_of_birth = useDateTime (forms.date_of_birth).ins.format ('YYYY-MM-DD')" type="date" v-model="forms.date_of_birth" :rules="['Required']" label="Tanggal Lahir"></v-text-field></v-row>
                         </v-col>
                         <v-spacer></v-spacer>
                         <v-col>
-                            <v-row><v-text-field type="text" v-model="forms.namadokter" label="Nama Dokter" autocomplete></v-text-field></v-row>
+                            <v-row><v-textarea type="text" v-model="forms.address" :rules="['Required']" label="Alamat"></v-textarea></v-row>
+                        </v-col>
+                    </v-row>
+                    <v-row v-if="false">
+                        <v-col>
+                            <v-row><v-text-field type="text" v-model="forms.idunit" :rules="['Required']" label="ID Unit" autocomplete></v-text-field></v-row>
+                        </v-col>
+                        <v-spacer></v-spacer>
+                        <v-col>
+                            <v-row><v-text-field type="text" v-model="forms.namaunit" :rules="['Required']" label="Nama Unit" autocomplete></v-text-field></v-row>
                         </v-col>
                     </v-row>
                     <v-row>
                         <v-col>
-                            <v-row><v-text-field type="text" v-model="forms.patienttype" label="Tipe Pasien" autocomplete></v-text-field></v-row>
+                            <v-row><v-text-field @input="forms.visit_date = useDateTime (forms.visit_date).ins.format ('YYYY-MM-DD HH:mm:ss')" type="datetime-local" v-model="forms.visit_date" :rules="['Required']" label="Kunjungan"></v-text-field></v-row>
                         </v-col>
                     </v-row>
                     <v-row>
                         <v-col>
-                            <v-row><v-text-field @input="forms.visit_date = useDateTime (forms.visit_date).ins.format ('YYYY-MM-DD HH:mm:ss')" type="datetime-local" v-model="forms.visit_date" label="Kunjungan"></v-text-field></v-row>
+                            <v-row><v-select @update:modelValue="forms.namadokter = group_lecturer (forms.iddokter)" v-model="forms.iddokter" :rules="['Required']" :items="groups_lecturer" item-value="doctotidsimrs" item-title="name" label="Dokter"></v-select></v-row>
+                        </v-col>
+                    </v-row>
+                    <v-row v-if="false">
+                        <v-col>
+                            <v-row><v-text-field type="text" v-model="forms.patienttype" :rules="['Required']" label="Tipe Pasien" autocomplete></v-text-field></v-row>
                         </v-col>
                     </v-row>
                     <v-row>
                         <v-col>
-                            <v-row><v-select v-model="forms.jenis_radiologi" :items="[ { id: 'PERIAPRIKAL', name: 'Periaprikal', }, { id: 'PANORAMIK', name: 'Panoramik', }, { id: 'OKLUSI', name: 'Oklusi', }, ]" item-value="id" item-title="name" label="Jenis Radiologi"></v-select></v-row>
+                            <v-row><v-select v-model="forms.jenis_radiologi" :rules="['Required']" :items="[ { id: 'PERIAPIKAL', name: 'Periapikal', }, { id: 'PANORAMIK', name: 'Panoramik', }, { id: 'OKLUSI', name: 'Oklusi', }, ]" item-value="id" item-title="name" label="Jenis Radiologi"></v-select></v-row>
                         </v-col>
                         <v-spacer v-if="false"></v-spacer>
                         <v-col v-if="false">
-                            <v-row><v-select v-model="forms.statusid" :items="[ { id: '0', name: '0', }, { id: '1', name: '1', }, { id: '2', name: '2', }, { id: '3', name: '3', }, { id: '4', name: '4', }, ]" item-value="id" item-title="name" label="Status"></v-select></v-row>
+                            <v-row><v-select v-model="forms.statusid" :rules="['Required']" :items="[ { id: '0', name: '0', }, { id: '1', name: '1', }, { id: '2', name: '2', }, { id: '3', name: '3', }, { id: '4', name: '4', }, ]" item-value="id" item-title="name" label="Status"></v-select></v-row>
                         </v-col>
                     </v-row>
                 </v-container>

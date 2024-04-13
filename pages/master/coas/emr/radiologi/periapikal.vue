@@ -83,39 +83,39 @@ onMounted (async () =>
             <v-container fluid>
                 <v-row>
                     <v-col>
-                        <v-text-field v-model="form.noregistrasi" type="text" label="NOMOR REGISTRASI EMR/EHR" variant="outlined" disabled></v-text-field>
+                        <v-text-field type="text" v-model="form.noregistrasi" :rules="['Required']" label="NOMOR REGISTRASI EMR/EHR" variant="outlined" disabled></v-text-field>
                     </v-col>
                     <v-col>
-                        <v-text-field v-model="form.nim" type="text" label="MAHASISWA/I" variant="outlined" disabled></v-text-field>
+                        <v-text-field type="text" v-model="form.nim" :rules="['Required']" label="MAHASISWA/I" variant="outlined" disabled></v-text-field>
                     </v-col>
                 </v-row>
                 <v-row><v-col><v-divider></v-divider></v-col></v-row>
                 <v-row><v-col><h3>Identitas Pasien</h3></v-col></v-row>
                 <v-row>
                     <v-col>
-                        <v-text-field v-model="form.namapasien" type="text" label="Nama" variant="outlined"></v-text-field>
+                        <v-text-field type="text" v-model="form.namapasien" :rules="['Required']" label="Nama" variant="outlined"></v-text-field>
                     </v-col>
                     <v-col>
-                        <v-text-field v-model="form.usia" type="text" label="Usia" variant="outlined"></v-text-field>
+                        <v-text-field type="text" v-model="form.usia" :rules="['Required']" label="Usia" variant="outlined"></v-text-field>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col>
-                        <v-textarea v-model="form.alamat" type="text" label="Alamat" variant="outlined"></v-textarea>
+                        <v-textarea type="text" v-model="form.alamat" :rules="['Required']" label="Alamat" variant="outlined"></v-textarea>
                     </v-col>
                 </v-row>
                 <v-row><v-col><h3>Diagnosa Klinis</h3></v-col></v-row>
                 <v-row>
                     <v-col>
-                        <v-text-field v-model="form.namadokter" type="text" label="Nama Dokter" variant="outlined"></v-text-field>
+                        <v-text-field type="text" v-model="form.namadokter" :rules="['Required']" label="Nama Dokter" variant="outlined"></v-text-field>
                     </v-col>
                     <v-col>
-                        <v-text-field v-model="form.namaoperator" type="text" label="Nama Operator" variant="outlined"></v-text-field>
+                        <v-text-field type="text" v-model="form.namaoperator" :rules="['Required']" label="Nama Operator" variant="outlined"></v-text-field>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col v-if="form.foto">
-                        <v-text-field v-model="form.tglpotret" type="date" label="Pemotretan" variant="outlined" disabled></v-text-field>
+                        <v-text-field type="date" v-model="form.tglpotret" :rules="['Required']" label="Pemotretan" variant="outlined" disabled></v-text-field>
                     </v-col>
                     <v-col v-if="USER">
                         <v-file-input v-if="USER.role == 'mahasiswa'" @change="uploadFile" label="Upload Foto Diagnosa" variant="outlined" density="compact"></v-file-input>
@@ -128,58 +128,58 @@ onMounted (async () =>
                 </v-row>
                 <v-row>
                     <v-col>
-                        <v-textarea v-model="form.diagnosaklinik" type="text" label="Deskripsi Diagnosa" variant="outlined"></v-textarea>
+                        <v-textarea type="text" v-model="form.diagnosaklinik" :rules="['Required']" label="Deskripsi Diagnosa" variant="outlined"></v-textarea>
                     </v-col>
                 </v-row>
                 <v-row><v-col><h3>Data Interpretasi</h3></v-col></v-row>
                 <v-row>
                     <v-col>
-                        <v-textarea v-model="form.periaprikal_int_kondisi_periaprikal" type="text" label="Kondisi Periapikal" variant="outlined"></v-textarea>
+                        <v-textarea type="text" v-model="form.periaprikal_int_kondisi_periaprikal" :rules="['Required']" label="Kondisi Periapikal" variant="outlined"></v-textarea>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col>
-                        <v-textarea v-model="form.periaprikal_int_akar" type="text" label="Akar" variant="outlined"></v-textarea>
+                        <v-textarea type="text" v-model="form.periaprikal_int_akar" :rules="['Required']" label="Akar" variant="outlined"></v-textarea>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col>
-                        <v-textarea v-model="form.periaprikal_int_alveoral" type="text" label="Alveolar" variant="outlined"></v-textarea>
+                        <v-textarea type="text" v-model="form.periaprikal_int_alveoral" :rules="['Required']" label="Alveolar" variant="outlined"></v-textarea>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col>
-                        <v-textarea v-model="form.periaprikal_int_furkasi" type="text" label="Furkasi" variant="outlined"></v-textarea>
+                        <v-textarea type="text" v-model="form.periaprikal_int_furkasi" :rules="['Required']" label="Furkasi" variant="outlined"></v-textarea>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col>
-                        <v-textarea v-model="form.periaprikal_int_kesan" type="text" label="Kesan" variant="outlined"></v-textarea>
+                        <v-textarea type="text" v-model="form.periaprikal_int_kesan" :rules="['Required']" label="Kesan" variant="outlined"></v-textarea>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col>
-                        <v-textarea v-model="form.periaprikal_int_lamina_dura" type="text" label="Lamina Dura" variant="outlined"></v-textarea>
+                        <v-textarea type="text" v-model="form.periaprikal_int_lamina_dura" :rules="['Required']" label="Lamina Dura" variant="outlined"></v-textarea>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col>
-                        <v-textarea v-model="form.periaprikal_int_lesigigi" type="text" label="Lesi Gigi" variant="outlined"></v-textarea>
+                        <v-textarea type="text" v-model="form.periaprikal_int_lesigigi" :rules="['Required']" label="Lesi Gigi" variant="outlined"></v-textarea>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col>
-                        <v-textarea v-model="form.periaprikal_int_mahkota" type="text" label="Mahkota" variant="outlined"></v-textarea>
+                        <v-textarea type="text" v-model="form.periaprikal_int_mahkota" :rules="['Required']" label="Mahkota" variant="outlined"></v-textarea>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col>
-                        <v-textarea v-model="form.periaprikal_int_membran" type="text" label="Membran" variant="outlined"></v-textarea>
+                        <v-textarea type="text" v-model="form.periaprikal_int_membran" :rules="['Required']" label="Membran" variant="outlined"></v-textarea>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col>
-                        <v-textarea v-model="form.periaprikal_int_suspek" type="text" label="Suspek" variant="outlined"></v-textarea>
+                        <v-textarea type="text" v-model="form.periaprikal_int_suspek" :rules="['Required']" label="Suspek" variant="outlined"></v-textarea>
                     </v-col>
                 </v-row>
                 <v-row><v-col><v-divider></v-divider></v-col></v-row>

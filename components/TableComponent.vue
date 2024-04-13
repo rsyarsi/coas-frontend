@@ -7,10 +7,14 @@ const props = defineProps (
     forms: Object,
     apis: Object,
 
+    fnOnShowDialog: Function,
+    fnOnCloseDialog: Function,
+
+    fnUpdateItem: Function,
     fnOtherItem: Function,
+
     fnApiGetAllItems: Function,
     fnApiGetItem: Function,
-    fnUpdateItem: Function,
     fnApiExportItems: Function,
 });
 
@@ -44,19 +48,49 @@ const datatableBody = reactive (
 const showDialog = () =>
 {
     datatableBody.isMutatorDialog = true;
+
+    if (props.fnOnShowDialog) props.fnOnShowDialog ();
 };
 
 const closeDialog = () =>
 {
     datatableBody.isMutatorDialog = false;
+
+    if (props.fnOnCloseDialog) props.fnOnCloseDialog ();
 };
+
+const
+
+cleanedForms = ref ({}),
+cleanedItem = ref ({});
 
 const clearForms = async () =>
 {
-    datatableBody.forms = props.forms;
-    datatableBody.item = {};
+    var
 
-    await nextTick ();
+    form = Object.entries (toRaw (cleanedForms.value ?? {})),
+    item = Object.entries (toRaw (cleanedItem.value ?? {}));
+
+    if (form.length) {
+
+        for (let [ key, value, ] of form) {
+
+            datatableBody.forms[key] = value;
+        }
+    }
+
+    if (item.length) {
+
+        for (let [ key, value, ] of item) {
+
+            datatableBody.item[key] = value;
+        }
+    }
+
+    document.querySelectorAll ("form").forEach (form =>
+    {
+        form.reset ();
+    });
 };
 
 //
@@ -76,7 +110,7 @@ const getAnItem = async (target) =>
     { getItem, } = useItem (tokenData);
 
     await getItem (props.apis.getItem, target,
-    success =>
+    (success) =>
     {
         datatableBody.item = success;
 
@@ -177,7 +211,13 @@ const setAnItem = async (target) =>
         clearForms ();
         closeDialog ();
     },
-    error => {});
+    error => {
+
+        if (error.status == 422) {
+
+            alert (error.data.message ?? "Field not filled !");
+        }
+    });
 };
 
 const setItems = async (target) =>
@@ -202,7 +242,13 @@ const setItems = async (target) =>
         clearForms ();
         closeDialog ();
     },
-    error => {});
+    error => {
+
+        if (error.status == 422) {
+
+            alert (error.data.message ?? "Field not filled !");
+        }
+    });
 };
 
 
@@ -236,6 +282,9 @@ const fnApiExportItems = props.fnApiExportItems ?? (async (extension) =>
 
 onBeforeMount (async () =>
 {
+    cleanedForms.value = datatableBody.forms;
+    cleanedItem.value = datatableBody.item;
+
     clearForms ();
 });
 
