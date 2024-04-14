@@ -263,11 +263,24 @@ const fnOnShowDialog = () =>
 
 const
 
+form_doctor = ref (null),
+
 groups_lecturer = ref ([]),
 groups_student = ref ([]),
 
 group_lecturer = (target) => groups_lecturer?.value[groups_lecturer.value.indexOf (groups_lecturer.value.find (item => item.doctotidsimrs == target))]?.name,
 group_student = (target) => groups_student?.value[groups_student.value.indexOf (groups_student.value.find (item => item.id == target))]?.name;
+
+watch (type, (value) =>
+{
+    updateType ();
+});
+
+watch (form_doctor, (idsimrs) =>
+{
+    COMPONENT_FORMS.iddokter = idsimrs;
+    COMPONENT_FORMS.namadokter = group_lecturer (idsimrs);
+});
 
 onMounted (async () =>
 {
@@ -310,7 +323,7 @@ onMounted (async () =>
                 COMPONENT_FORMS.address = "";
                 COMPONENT_FORMS.idunit = "10";
                 COMPONENT_FORMS.visit_date = useDateTime (new Date).ins.format ('YYYY-MM-DD HH:mm:ss');
-                COMPONENT_FORMS.namaunit = "Radiologi";
+                COMPONENT_FORMS.namaunit = "Poli Gigi Spesialis Radiologi";
                 COMPONENT_FORMS.iddokter = "";
                 COMPONENT_FORMS.namadokter = "";
                 COMPONENT_FORMS.patienttype = "PERUSAHAAN";
@@ -343,7 +356,10 @@ onMounted (async () =>
 
     if (idunit) {
 
-        COMPONENT_BADGE.value.push ("Pasien " + unitname[0].toUpperCase () + unitname.slice (1));
+        let componentname = unitname.replace("emr", "").match (/\w+$/)[0];
+            componentname = componentname[0].toUpperCase () + componentname.slice (1);
+
+        COMPONENT_BADGE.value.push ("Pasien " + componentname);
 
         if (unitname != "radiologi") {
 
@@ -371,7 +387,7 @@ onMounted (async () =>
 </script>
 
 <template>
-    <v-tabs v-if="isType" @update:modelValue="updateType" v-model="type" bg-color="warning" fixed-tabs>
+    <v-tabs v-if="isType" v-model="type" bg-color="warning" fixed-tabs>
         <v-tab value="active">Aktif</v-tab>
         <v-tab value="history">Riwayat</v-tab>
     </v-tabs>
@@ -468,7 +484,7 @@ onMounted (async () =>
                     </v-row>
                     <v-row>
                         <v-col>
-                            <v-row><v-select @update:modelValue="forms.namadokter = group_lecturer (forms.iddokter)" v-model="forms.iddokter" :rules="['Required']" :items="groups_lecturer" item-value="doctotidsimrs" item-title="name" label="Dokter"></v-select></v-row>
+                            <v-row><v-select v-model="form_doctor" :rules="['Required']" :items="groups_lecturer" item-value="doctotidsimrs" item-title="name" label="Dokter"></v-select></v-row>
                         </v-col>
                     </v-row>
                     <v-row v-if="false">

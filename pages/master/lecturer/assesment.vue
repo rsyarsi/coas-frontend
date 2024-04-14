@@ -362,7 +362,7 @@ const fnOtherItem = (async (item) =>
 
         const routeTo = router.resolve ({ path: "/master/lecturer/assesmentdetail/" + path, query: { uuid, noreg: noregistrasi, idunit, id_emr, }, });
 
-        await updateStatusToWrite ({ idunit, id_emr, });
+        await updateStatusToWrite ({ ...item, idunit, id_emr, });
 
         item.status_penilaian = "WRITE";
 
@@ -378,11 +378,13 @@ onMounted (async () =>
 
     datas_year = await useCall ("/v1/masterdata/years/viewallwithotpaging", "get", "application/json", {}, tokenData),
     datas_semester = await useCall ("/v1/masterdata/semesters/viewallwithotpaging", "get", "application/json", {}, tokenData),
-    datas_specialist = await useCall ("/v1/masterdata/specialists/viewallwithotpaging", "get", "application/json", {}, tokenData);
+    datas_specialist = await useCall ("/v1/masterdata/specialists/viewallwithotpaging", "get", "application/json", {}, tokenData),
+    datas_student = await useCall ("/v1/masterdata/students/viewallwithotpaging", "get", "application/json", {}, tokenData);
 
     groups_year.value = datas_year.data.data.data;
     groups_semester.value = datas_semester.data.data.data;
     groups_specialist.value = datas_specialist.data.data.data;
+    groups_student.value = datas_student.data.data.data;
 });
 
 </script>
@@ -412,7 +414,7 @@ onMounted (async () =>
                         <v-select v-model="form_semesterid" :items="groups_semester" item-value="id" item-title="semestername" label="Semester" variant="outlined" required></v-select>
                     </v-col>
                     <v-col>
-                        <v-select v-model="form_specialistid" @update:modelValue="getStudentbySpecialist (form_specialistid); getGroupAssessmentbySpecialist (form_specialistid)" :items="groups_specialist" item-value="id" item-title="specialistname" label="Spesialis" variant="outlined" required></v-select>
+                        <v-select v-model="form_specialistid" @update:modelValue="getGroupAssessmentbySpecialist (form_specialistid)" :items="groups_specialist" item-value="id" item-title="specialistname" label="Spesialis" variant="outlined" required></v-select>
                     </v-col>
                 </v-row>
                 <v-row>

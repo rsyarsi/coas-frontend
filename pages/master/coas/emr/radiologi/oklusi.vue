@@ -22,7 +22,7 @@ updateEmr = async () =>
 {
     const
 
-    { token: tokenData, } = await useAuth (),
+    { token: tokenData, getUser, } = await useAuth (),
     { getItem, setItem, } = useItem (tokenData);
 
     var userData = USER.value;

@@ -8,6 +8,8 @@ definePageMeta({
     title: "emrpedodonsi",
 });
 
+const router = useRouter ();
+
 const tab = ref(null);
 const tab2 = ref(null);
 const tab3 = ref(null);
@@ -15,11 +17,11 @@ const tab3 = ref(null);
 // const ListComponent2 = ref(null);
 
 const forms = reactive({
-    noregister: useRouter().currentRoute.value.query.noreg,
+    noregister: router.currentRoute.value.query.noreg,
 });
 
 const setItems = async (target) => {
-    const { token: tokenData } = await useAuth(),
+    const { token: tokenData, getUser, } = await useAuth (),
         userData = await getUser(tokenData),
         { getItem, setItem } = useItem(tokenData),
         formTarget = {};
@@ -34,7 +36,7 @@ const setItems = async (target) => {
         formTarget,
         async (success) => {
             if (success.code == 200) {
-                var statusRoute = useRouter().currentRoute.value.query;
+                var statusRoute = router.currentRoute.value.query;
                 statusRoute.id_emr = statusRoute.id_emr ?? success.data.id;
 
                 if (userData.role == "mahasiswa") {
@@ -146,7 +148,7 @@ const setUploadFile = async (event, filetype, fileurl, fileid, deskripsi) => {
 };
 
 onMounted(async () => {
-    await getByID(useRouter().currentRoute.value.query.noreg);
+    await getByID(router.currentRoute.value.query.noreg);
 });
 
 const COMPONENT_TITLE = "TREATMENT PLANNING";

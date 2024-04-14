@@ -12,7 +12,7 @@ export default async (item: any = {}, status: string = "", fnSuccess: Function, 
         status,
     };
 
-    await setItem (`/v1/transaction/patient/update_status`, item.id_emr,
+    await setItem (`/v1/transaction/patient/update_status`, item.noreg ?? item.noregister ?? item.noregistrasi,
     formTarget,
     fnSuccess,
     fnError);

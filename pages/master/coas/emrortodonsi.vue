@@ -7,6 +7,7 @@ definePageMeta (
     title: "emrortodonsi",
 });
   
+const router = useRouter ();
 
 const tab  = ref(null);
 const showSnackbar = ref(false)
@@ -21,14 +22,14 @@ const sb = reactive (
 
 const forms = reactive (
 {
-    noregister:useRouter().currentRoute.value.query.noreg,
+    noregister:router.currentRoute.value.query.noreg,
 });
 
 const setItems = async (target) =>
 {
     const
 
-    { token: tokenData, } = await useAuth (),
+    { token: tokenData, getUser, } = await useAuth (),
     userData = await getUser(tokenData),
     { getItem, setItem, } = useItem (tokenData),
     formTarget = {};
@@ -46,7 +47,7 @@ const setItems = async (target) =>
             sb.text = success.message
             sb.color = "green"
 
-            var statusRoute = useRouter().currentRoute.value.query;
+            var statusRoute = router.currentRoute.value.query;
             statusRoute.id_emr = statusRoute.id_emr ?? success.data.id;
 
             if (userData.role == "mahasiswa") {
@@ -142,7 +143,7 @@ const setUploadFile = async (event, filetype, fileurl, fileid, deskripsi) =>
 
 onMounted (async () =>
 {
-    await getByID (useRouter().currentRoute.value.query.noreg);
+    await getByID (router.currentRoute.value.query.noreg);
 });
 
 </script>

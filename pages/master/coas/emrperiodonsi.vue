@@ -6,7 +6,9 @@ definePageMeta({
     layout: "dashboard",
     title: "emrperiodonsi",
 });
- 
+
+const router = useRouter ();
+
 const tab  = ref(null);
 const tab2  = ref(null);
 const tab3  = ref(null);
@@ -18,7 +20,7 @@ const forms = reactive({
     npm: "",
     tahun_klinik: "",
     opsi_imagemahasiswa: "",
-    noregister:  useRouter().currentRoute.value.query.noreg,
+    noregister:  router.currentRoute.value.query.noreg,
     noepisode: "",
     no_rekammedik: "",
     kasus_pasien: "",
@@ -41,7 +43,7 @@ const setItems = async (target) =>
 {
     const
 
-    { token: tokenData, } = await useAuth (),
+    { token: tokenData, getUser, } = await useAuth (),
     userData = await getUser(tokenData),
     { getItem, setItem, } = useItem (tokenData),
     formTarget = {};
@@ -55,7 +57,7 @@ const setItems = async (target) =>
     async (success) =>
     {
         if (success.code == 200){
-            var statusRoute = useRouter().currentRoute.value.query;
+            var statusRoute = router.currentRoute.value.query;
             statusRoute.id_emr = statusRoute.id_emr ?? success.data.id;
 
             if (userData.role == "mahasiswa") {
@@ -259,8 +261,8 @@ const COMPONENT_APIS =
 
 onMounted (async () =>
 {
-    await getByID (useRouter().currentRoute.value.query.noreg);
-    //await getAnItem ( useRouter().currentRoute.value.query.noreg );
+    await getByID (router.currentRoute.value.query.noreg);
+    //await getAnItem ( router.currentRoute.value.query.noreg );
     image.uploadfotoklinisokulasidarikiri.push(forms.foto_klinis_oklusi_arah_kiri);
     image.uploadfotoklinisokulasidarikanan.push(forms.foto_klinis_oklusi_arah_kanan);
     image.uploadfotoklinisokulasidarianterior.push(forms.foto_klinis_oklusi_arah_anterior);

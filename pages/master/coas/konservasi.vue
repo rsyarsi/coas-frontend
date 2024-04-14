@@ -4,6 +4,8 @@ definePageMeta({
     title: "Konservasi",
 });
 
+const router = useRouter ();
+
 const tab = ref(null);
 const tab2 = ref(null);
 const tab3 = ref(null);
@@ -11,7 +13,7 @@ const ListComponent = ref(null);
 
 const forms = reactive({
     id: "",
-    noregister: useRouter().currentRoute.value.query.noreg,
+    noregister: router.currentRoute.value.query.noreg,
     noepisode: "",
     nomorrekammedik: "",
     tanggal: "",
@@ -30,7 +32,7 @@ const forms = reactive({
 });
 
 const setItems = async (target) => {
-    const { token: tokenData, getUser, } = await useAuth(),
+    const { token: tokenData, getUser, } = await useAuth (),
         userData = await getUser(tokenData),
         { getItem, setItem } = useItem(tokenData),
         formTarget = {};
@@ -45,7 +47,7 @@ const setItems = async (target) => {
         formTarget,
         async (success) => {
 
-            var statusRoute = useRouter().currentRoute.value.query;
+            var statusRoute = router.currentRoute.value.query;
             statusRoute.id_emr = statusRoute.id_emr ?? success.data.id;
 
             if (userData.role == "mahasiswa") {
@@ -153,8 +155,8 @@ const setUploadFile = async (event, filetype, fileurl, fileid, deskripsi) => {
 };
 
 onMounted(async () => {
-    await getByID(useRouter().currentRoute.value.query.noreg);
-    //await getAnItem ( useRouter().currentRoute.value.query.noreg );
+    await getByID(router.currentRoute.value.query.noreg);
+    //await getAnItem ( router.currentRoute.value.query.noreg );
 
     // image.designgigi.push(forms.designgigi);
 });
