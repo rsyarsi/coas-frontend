@@ -5,7 +5,7 @@ import { useRouter, } from "vue-router";
 definePageMeta (
 {
     layout: "dashboard",
-    title: "EMR/EHR Radiologi",
+    title: "EMR/EHR Radiologi Periapikal",
 });
 
 const router = useRouter ();
@@ -27,12 +27,11 @@ updateEmr = async () =>
 
     var userData = USER.value;
 
-    await setItem ("/v1/emr/radiologi/update", form.value.id,
+    await setItem ("/v1/emr/radiologi/update", null,
     form.value,
     async (success) =>
     {
         var statusRoute = router.currentRoute.value.query;
-        statusRoute.id_emr = statusRoute.id_emr ?? success.data.id;
 
         if (userData.role == "mahasiswa") {
 
@@ -64,9 +63,9 @@ onMounted (async () =>
     const
 
     { token: tokenData, getUser, } = await useAuth (), userData = await getUser (tokenData),
-    { id_emr, } = router.currentRoute.value.query,
+    { noreg, } = router.currentRoute.value.query,
 
-    data_form = await useCall ("/v1/emr/radiologi/show/" + id_emr, "get", "application/json", {}, tokenData);
+    data_form = await useCall ("/v1/emr/radiologi/show/" + noreg, "get", "application/json", {}, tokenData);
 
     USER.value = userData;
     form.value = data_form.data.data.data;
@@ -107,7 +106,7 @@ onMounted (async () =>
                 <v-row><v-col><h3>Diagnosa Klinis</h3></v-col></v-row>
                 <v-row>
                     <v-col>
-                        <v-text-field type="text" v-model="form.namadokter" :rules="['Required']" label="Nama Dokter" variant="outlined"></v-text-field>
+                        <v-text-field type="text" v-model="form.namadokter" label="Nama Dokter" variant="outlined" disabled></v-text-field>
                     </v-col>
                     <v-col>
                         <v-text-field type="text" v-model="form.namaoperator" :rules="['Required']" label="Nama Operator" variant="outlined"></v-text-field>
@@ -118,7 +117,7 @@ onMounted (async () =>
                         <v-text-field type="date" v-model="form.tglpotret" :rules="['Required']" label="Pemotretan" variant="outlined" disabled></v-text-field>
                     </v-col>
                     <v-col v-if="USER">
-                        <v-file-input v-if="USER.role == 'mahasiswa'" @change="uploadFile" label="Upload Foto Diagnosa" variant="outlined" density="compact"></v-file-input>
+                        <v-file-input v-if="USER.role == 'mahasiswa'" @change="uploadFile" :rules="['Required']" label="Upload Foto Diagnosa" variant="outlined" density="compact"></v-file-input>
                     </v-col>
                 </v-row>
                 <v-row v-if="form.foto">
@@ -186,6 +185,9 @@ onMounted (async () =>
                 <v-row v-if="USER">
                     <v-col v-if="USER.role == 'mahasiswa'">
                         <v-btn @click="updateEmr" color="primary" variant="flat">Simpan</v-btn>
+                    </v-col>
+                    <v-col v-else-if="USER.role == 'dosen'">
+                        <v-btn color="green" variant="flat">Buat Laporan</v-btn>
                     </v-col>
                 </v-row>
             </v-container>

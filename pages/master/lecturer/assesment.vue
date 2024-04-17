@@ -81,7 +81,7 @@ const COMPONENT_HEADER = reactive (
     },
     {
         key: "status_penilaian",
-        value: item => ! item.id_emr || ! item.status_penilaian ? "OPEN" : item.status_penilaian,
+        value: item => ! item.noreg || ! item.status_penilaian ? "OPEN" : item.status_penilaian,
         title: "Status Penilaian",
         sortable: false,
         searchable: true,
@@ -90,7 +90,7 @@ const COMPONENT_HEADER = reactive (
     },
     {
         key: "status_emr",
-        value: item => ! item.id_emr || ! item.status_emr ? "OPEN" : item.status_emr,
+        value: item => ! item.noreg || ! item.status_emr ? "OPEN" : item.status_emr,
         title: "Status EMR",
         sortable: false,
         searchable: true,
@@ -328,7 +328,7 @@ const fnOtherItem = (async (item) =>
     {
         let
 
-        { noregistrasi, id_emr, } = item,
+        { noregistrasi, } = item,
         { id: uuid, idspecialistsimrs: idunit, assesmenttype, } = success.data.header;
 
         var path = "";
@@ -360,9 +360,9 @@ const fnOtherItem = (async (item) =>
             path = "radiologi";
         }
 
-        const routeTo = router.resolve ({ path: "/master/lecturer/assesmentdetail/" + path, query: { uuid, noreg: noregistrasi, idunit, id_emr, }, });
+        const routeTo = router.resolve ({ path: "/master/lecturer/assesmentdetail/" + path, query: { uuid, noreg: noregistrasi, idunit, }, });
 
-        await updateStatusToWrite ({ ...item, idunit, id_emr, });
+        await updateStatusToWrite ({ ...item, idunit, });
 
         item.status_penilaian = "WRITE";
 

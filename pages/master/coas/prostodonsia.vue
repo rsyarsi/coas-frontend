@@ -31,7 +31,6 @@ const setItems = async (target) => {
         formTarget,
         async (success) => {
             var statusRoute = router.currentRoute.value.query;
-            statusRoute.id_emr = statusRoute.id_emr ?? success.data.id;
 
             if (userData.role == "mahasiswa") {
 

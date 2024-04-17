@@ -91,7 +91,7 @@ const COMPONENT_HEADER = reactive (
     },
     {
         key: "status_penilaian",
-        value: item => ! item.id_emr || ! item.status_penilaian ? "OPEN" : item.status_penilaian,
+        value: item => ! item.noreg || ! item.status_penilaian ? "OPEN" : item.status_penilaian,
         title: "Status Penilaian",
         sortable: false,
         searchable: true,
@@ -100,7 +100,7 @@ const COMPONENT_HEADER = reactive (
     },
     {
         key: "status_emr",
-        value: item => ! item.id_emr || ! item.status_emr ? "OPEN" : item.status_emr,
+        value: item => ! item.noreg || ! item.status_emr ? "OPEN" : item.status_emr,
         title: "Status EMR",
         sortable: false,
         searchable: true,
@@ -238,7 +238,7 @@ const updateType = async () =>
 
 const fnApiGetItem = (async (item) =>
 {
-    const { noregistrasi, idunit, id_emr, } = item;
+    const { noregistrasi, idunit, } = item;
     var unitname = unit (idunit);
 
     if (unitname == "emr/radiologi") {
@@ -246,7 +246,7 @@ const fnApiGetItem = (async (item) =>
         unitname = unitname + "/" + String (item.jenis_radiologi).toLowerCase ();
     }
 
-    const routeTo = router.resolve ({ path: "/master/coas/" + unitname, query: { noreg: noregistrasi, idunit, id_emr, }, });
+    const routeTo = router.resolve ({ path: "/master/coas/" + unitname, query: { noreg: noregistrasi, idunit, }, });
 
     await window.open (routeTo.href, "_blank");
 });
