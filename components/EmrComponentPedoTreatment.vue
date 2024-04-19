@@ -87,7 +87,7 @@ const getItems = async (target) =>
     await getItemPostMethod (props.apis.getAllItems + "?page=" + (typeof target === "object" ? target.page : target), "",formTarget,
     (success, total, per_page, next_page_url, prev_page_url, first_page_url, last_page_url) =>
     {
-        console.log(success)
+        //console.log(success)
         datatableBody.items = success;
         datatableBody.itemsLength = total;
         datatableBody.itemPerPage = per_page;

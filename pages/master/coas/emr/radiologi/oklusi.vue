@@ -60,12 +60,14 @@ uploadFile = async (event) =>
 
 onMounted (async () =>
 {
+    var query = router.currentRoute.value.query.nim ? "?nim=" + router.currentRoute.value.query.nim : null;
+
     const
 
     { token: tokenData, getUser, } = await useAuth (), userData = await getUser (tokenData),
     { noreg, } = router.currentRoute.value.query,
 
-    data_form = await useCall ("/v1/emr/radiologi/show/" + noreg, "get", "application/json", {}, tokenData);
+    data_form = await useCall ("/v1/emr/radiologi/show/" + noreg + query, "get", "application/json", {}, tokenData);
 
     USER.value = userData;
     form.value = data_form.data.data.data;
@@ -146,7 +148,7 @@ onMounted (async () =>
                     <v-col v-if="USER.role == 'mahasiswa'">
                         <v-btn @click="updateEmr" color="primary" variant="flat">Simpan</v-btn>
                     </v-col>
-                    <v-col v-else-if="USER.role == 'dosen'">
+                    <v-col if="USER.role == 'dosen'">
                         <v-btn color="green" variant="flat">Buat Laporan</v-btn>
                     </v-col>
                 </v-row>

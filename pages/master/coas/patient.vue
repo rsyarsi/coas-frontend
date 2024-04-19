@@ -12,7 +12,11 @@ const router = useRouter ();
 
 const tableComponent = ref (null);
 
-const isType = ref (false), type = ref ("active");
+const
+
+isType = ref (false),
+isStudent = ref (false),
+type = ref ("active");
 
 const USER_ROLE = ref (null);
 
@@ -236,6 +240,25 @@ const updateType = async () =>
     await tableComponent.value.getItems ({ page: 1, });
 };
 
+const fnApiGetItemWithStudent = (async (nim) =>
+{
+    var unitname = unit (COMPONENT_FORMS.idunit);
+
+    if (unitname == "emr/radiologi") {
+
+        unitname = unitname + "/" + String (COMPONENT_FORMS.jenis_radiologi).toLowerCase ();
+    }
+
+    const routeTo = router.resolve ({ path: "/master/coas/" + unitname, query:
+    {
+        noreg: COMPONENT_FORMS.noregistrasi,
+        idunit: COMPONENT_FORMS.idunit,
+        nim,
+    }, });
+
+    await window.open (routeTo.href, "_blank");
+});
+
 const fnApiGetItem = (async (item) =>
 {
     const { noregistrasi, idunit, } = item;
@@ -246,9 +269,20 @@ const fnApiGetItem = (async (item) =>
         unitname = unitname + "/" + String (item.jenis_radiologi).toLowerCase ();
     }
 
-    const routeTo = router.resolve ({ path: "/master/coas/" + unitname, query: { noreg: noregistrasi, idunit, }, });
+    if (USER_ROLE.value == "mahasiswa") {
 
-    await window.open (routeTo.href, "_blank");
+        const routeTo = router.resolve ({ path: "/master/coas/" + unitname, query: { noreg: noregistrasi, idunit, }, });
+
+        await window.open (routeTo.href, "_blank");
+
+    } else if (USER_ROLE.value == "dosen") {
+
+        COMPONENT_FORMS.noregistrasi = noregistrasi;
+        COMPONENT_FORMS.idunit = idunit;
+        COMPONENT_FORMS.jenis_radiologi = item.jenis_radiologi;
+
+        isStudent.value = true;
+    }
 });
 
 const fnUpdateItem = (async (item) =>
@@ -291,6 +325,12 @@ onMounted (async () =>
 
     USER_ROLE.value = userData.role;
 
+    let
+
+    datas_student = await useCall ("/v1/masterdata/students/viewallwithotpaging", "get", "application/json", {}, tokenData);
+
+    groups_student.value = datas_student.data.data.data;
+
     if (USER_ROLE.value == "dosen" || USER_ROLE.value == "mahasiswa") {
 
         if (unitname != "emr/radiologi") {
@@ -303,11 +343,9 @@ onMounted (async () =>
 
                 let
 
-                datas_lecturer = await useCall ("/v1/masterdata/lectures/viewallwithotpaging", "get", "application/json", {}, tokenData),
-                datas_student = await useCall ("/v1/masterdata/students/viewallwithotpaging", "get", "application/json", {}, tokenData);
+                datas_lecturer = await useCall ("/v1/masterdata/lectures/viewallwithotpaging", "get", "application/json", {}, tokenData);
 
                 groups_lecturer.value = datas_lecturer.data.data.data;
-                groups_student.value = datas_student.data.data.data;
 
                 COMPONENT_APIS.createItem = "/v1/emr/radiologi/store";
 
@@ -391,6 +429,23 @@ onMounted (async () =>
         <v-tab value="active">Aktif</v-tab>
         <v-tab value="history">Riwayat</v-tab>
     </v-tabs>
+    <v-dialog v-model="isStudent" width="auto" scrollable>
+        <template v-slot:default="{ isActive, }">
+            <v-card>
+                <v-card-title>Mahasiswa/i</v-card-title>
+                <v-card-text style="height: 250px;">
+                    <v-radio-group v-model="COMPONENT_FORMS.nim">
+                        <v-radio v-for="(item, index) in groups_student" :value="item.nim" :label="item.name"></v-radio>
+                    </v-radio-group>
+                </v-card-text>
+                <v-card-actions class="justify-center">
+                    <v-btn @click="isStudent = false" icon="mdi-backspace" color="warning" variant="text" density="compact"></v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn @click="fnApiGetItemWithStudent (COMPONENT_FORMS.nim); isStudent = false" icon="mdi-eye" color="indigo-darken-4" variant="text" density="compact"></v-btn>
+                </v-card-actions>
+            </v-card>
+        </template>
+    </v-dialog>
     <v-divider v-if="isType"></v-divider>
     <TableComponent ref="tableComponent" :badge="COMPONENT_BADGE" :header="COMPONENT_HEADER" :forms="COMPONENT_FORMS" :apis="COMPONENT_APIS" :fnApiGetItem="fnApiGetItem" :fnUpdateItem="fnUpdateItem" :fnOnShowDialog="fnOnShowDialog">
         <template v-slot:field>

@@ -10,6 +10,8 @@ definePageMeta({
 
 const router = useRouter ();
 
+const USER = ref (null);
+
 const tab = ref(null);
 const tab2 = ref(null);
 const tab3 = ref(null);
@@ -97,7 +99,7 @@ const getByID = async (noreg) => {
     const { token: tokenData, getUser } = await useAuth(),
         userData = await getUser(tokenData),
         { getItem, setItem } = useItem(tokenData),
-        formTarget = { nim: userData.username, noregister: noreg };
+        formTarget = { nim: router.currentRoute.value.query.nim ?? userData.username, noregister: noreg };
 
     await setItem(
         "/v1/emr/pedodointi/viewemrbyRegOperator",
@@ -115,7 +117,7 @@ const getByID = async (noreg) => {
                 for (const [key, value] of Object.entries(success.data)) {
                     forms[`${key}`] = value;
                 }
-                 ListComponent.value.getItems();
+                 //ListComponent.value.getItems();
                 // ListComponent2.value.getItems('');
             }
         },
@@ -147,6 +149,13 @@ const setUploadFile = async (event, filetype, fileurl, fileid, deskripsi) => {
 };
 
 onMounted(async () => {
+
+    const
+
+    { token: tokenData, getUser, } = await useAuth (), userData = await getUser (tokenData);
+
+    USER.value = userData;
+
     await getByID(router.currentRoute.value.query.noreg);
 });
 
@@ -2300,9 +2309,9 @@ const COMPONENT_APIS2 = {
                 </v-window>
             </v-card>
         </v-container>
-        <v-card-actions>
+        <v-card-actions v-if="USER">
             <v-spacer></v-spacer>
-            <v-btn @click="setItems" color="primary" variant="outlined">{{
+            <v-btn  v-if="USER.role == 'mahasiswa'" @click="setItems" color="primary" variant="outlined">{{
                 $t("action.button.save")
             }}</v-btn>
         </v-card-actions>

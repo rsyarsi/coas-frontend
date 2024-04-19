@@ -9,6 +9,8 @@ definePageMeta({
 
 const router = useRouter ();
 
+const USER = ref (null);
+
 const tab  = ref(null);
 const tab2  = ref(null);
 const tab3  = ref(null);
@@ -107,7 +109,7 @@ const getByID = async (noreg) =>
 
     { token: tokenData,getUser } = await useAuth (), userData = await getUser(tokenData),
     { getItem,setItem } = useItem (tokenData),
-    formTarget = {"nim" : userData.username,"noregister" : noreg};
+    formTarget = { nim: router.currentRoute.value.query.nim ?? userData.username,"noregister" : noreg};
 
     await setItem ("/v1/emr/periodonti/viewemrbyRegOperator", "",
     formTarget,
@@ -260,6 +262,12 @@ const COMPONENT_APIS =
 
 onMounted (async () =>
 {
+    const
+
+    { token: tokenData, getUser, } = await useAuth (), userData = await getUser (tokenData);
+
+    USER.value = userData;
+
     await getByID (router.currentRoute.value.query.noreg);
     //await getAnItem ( router.currentRoute.value.query.noreg );
     image.uploadfotoklinisokulasidarikiri.push(forms.foto_klinis_oklusi_arah_kiri);
@@ -4100,9 +4108,9 @@ onMounted (async () =>
   </v-card>
            
         </v-container>
-        <v-card-actions>
+        <v-card-actions v-if="USER">
             <v-spacer></v-spacer>
-            <v-btn @click="setItems" color="primary" variant="outlined">{{
+            <v-btn  v-if="USER.role == 'mahasiswa'" @click="setItems" color="primary" variant="outlined">{{
                 $t("action.button.save")
             }}</v-btn>
                                 </v-card-actions>
