@@ -299,12 +299,12 @@ onMounted (async () =>
 
         } else {
 
-            if (USER_ROLE.value == "dosen") {
+            if (true) {
 
                 let
 
                 datas_lecturer = await useCall ("/v1/masterdata/lectures/viewallwithotpaging", "get", "application/json", {}, tokenData),
-                datas_student = await useCall ("/v1/emr/radiologi/students", "get", "application/json", {}, tokenData);
+                datas_student = await useCall ("/v1/masterdata/students/viewallwithotpaging", "get", "application/json", {}, tokenData);
 
                 groups_lecturer.value = datas_lecturer.data.data.data;
                 groups_student.value = datas_student.data.data.data;
