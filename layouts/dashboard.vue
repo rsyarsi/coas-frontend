@@ -26,6 +26,8 @@ const dashboardSidebar = reactive (
 
     icon: "/logo.jpg",
 
+    version: "1.0.4",
+
     items: [],
 });
 
@@ -83,6 +85,7 @@ onMounted (async () =>
             </v-list>
             <template v-slot:append>
                 <v-list-item class="text-center">
+                    <div v-text="dashboardSidebar.version"></div>
                     <v-btn :ripple="false" icon flat><v-icon><v-img :src="dashboardSidebar.icon"></v-img></v-icon></v-btn>
                 </v-list-item>
             </template>
