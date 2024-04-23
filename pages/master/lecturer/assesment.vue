@@ -140,6 +140,11 @@ groups_specialist = ref ([]),
 groups_student = ref ([]),
 groups_assesmentgroup = ref ([]),
 
+student_group = (target) =>
+{
+    return groups_student?.value[groups_student.value.indexOf (groups_student.value.find (item => item.id == target))]?.nim;
+},
+
 getStudentbySpecialist = async (target) =>
 {
     form_studentid.value = null;
@@ -255,11 +260,8 @@ const getItems = async (target) =>
             "studentid": form_studentid.value,
         };
 
-    if (DATETIME_FROM.value && DATETIME_TO) {
-
-        form.from = format_datetime_start (DATETIME_FROM.value ?? new Date);
-        form.to = format_datetime_to (DATETIME_TO.value ?? new Date);
-    }
+    form.from = format_datetime_start (DATETIME_FROM.value ?? new Date);
+    form.to = format_datetime_to (DATETIME_TO.value ?? new Date);
 
     await getItemPostMethod (to
     + orderBy ()
@@ -282,15 +284,33 @@ const getItems = async (target) =>
 
 const fnApiGetItem = (async (item) =>
 {
-    const { noregistrasi, idunit, } = item,
+    const { noregistrasi, idunit, } = item;
 
-    routeTo = router.resolve ({ path: "/master/coas/" + unit (idunit), query: { noreg: noregistrasi, }, });
+    var nim = student_group (form_studentid.value);
+
+    var unitname = unit (idunit);
+
+    if (unitname == "radiologi") {
+
+        unitname = "emr/" + unitname + "/" + String (item.jenis_radiologi).toLowerCase ();
+    }
+
+    const routeTo = router.resolve ({ path: "/master/coas/" + unitname, query:
+    {
+        noreg: noregistrasi,
+        idunit: idunit,
+        nim,
+    }, });
 
     await window.open (routeTo.href, "_blank");
 });
 
 const fnUpdateItem = (async (item) =>
 {
+    var nim = student_group (form_studentid.value);
+
+    item.nim = nim;
+
     await updateStatusToFinish (item);
 });
 
@@ -360,7 +380,11 @@ const fnOtherItem = (async (item) =>
             path = "radiologi";
         }
 
+        var nim = student_group (form_studentid.value);
+
         const routeTo = router.resolve ({ path: "/master/lecturer/assesmentdetail/" + path, query: { uuid, noreg: noregistrasi, idunit, }, });
+
+        item.nim = nim;
 
         await updateStatusToWrite ({ ...item, idunit, });
 
