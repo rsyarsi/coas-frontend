@@ -367,6 +367,8 @@ onMounted (async () =>
                 COMPONENT_FORMS.patienttype = "PERUSAHAAN";
                 COMPONENT_FORMS.jenis_radiologi = "";
                 COMPONENT_FORMS.statusid = 0;
+
+                if (USER_ROLE.value == "mahasiswa") COMPONENT_FORMS.nim = userData.username;
             }
 
             COMPONENT_HEADER.push (
@@ -479,7 +481,7 @@ onMounted (async () =>
                 <v-container>
                     <v-row>
                         <v-col>
-                            <v-row><v-select v-model="forms.nim" :rules="['Required']" :items="groups_student" item-value="nim" item-title="name" label="Mahasiswa/i"></v-select></v-row>
+                            <v-row><v-select v-model="forms.nim" :rules="['Required']" :items="groups_student" item-value="nim" item-title="name" label="Mahasiswa/i" :disabled="USER_ROLE == 'mahasiswa'"></v-select></v-row>
                         </v-col>
                     </v-row>
                     <v-row>
