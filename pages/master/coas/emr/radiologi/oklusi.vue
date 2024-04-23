@@ -60,17 +60,19 @@ uploadFile = async (event) =>
 
 onMounted (async () =>
 {
-    var query = router.currentRoute.value.query.nim ? "?nim=" + router.currentRoute.value.query.nim : null;
-
     const
 
-    { token: tokenData, getUser, } = await useAuth (), userData = await getUser (tokenData),
+    { token: tokenData, getUser, } = await useAuth (), userData = await getUser (tokenData);
+
+    var
+
     { noreg, } = router.currentRoute.value.query,
+    query = "?nim=" + (router.currentRoute.value.query.nim ? router.currentRoute.value.query.nim : userData.username),
 
     data_form = await useCall ("/v1/emr/radiologi/show/" + noreg + query, "get", "application/json", {}, tokenData);
 
     USER.value = userData;
-    form.value = data_form.data.data.data;
+    form.value = data_form?.data?.data?.data;
 });
 
 </script>
@@ -143,12 +145,19 @@ onMounted (async () =>
                         <v-textarea type="text" v-model="form.oklusal_kesan" :rules="['Required']" label="Kesan" variant="outlined"></v-textarea>
                     </v-col>
                 </v-row>
+                <v-row v-if="USER">
+                    <v-col>
+                        <v-text-field v-if="USER.role == 'mahasiswa'" type="url" v-model="form.url" label="Video" variant="outlined"></v-text-field>
+                        <v-btn v-else-if="USER.role == 'dosen'" :href="form.url" target="_blank" variant="outlined">Video</v-btn>
+                    </v-col>
+                </v-row>
                 <v-row><v-col><v-divider></v-divider></v-col></v-row>
                 <v-row v-if="USER">
                     <v-col v-if="USER.role == 'mahasiswa'">
                         <v-btn @click="updateEmr" color="primary" variant="flat">Simpan</v-btn>
                     </v-col>
-                    <v-col if="USER.role == 'dosen'">
+                    <v-spacer v-if="USER.role == 'mahasiswa'"></v-spacer>
+                    <v-col v-if="USER.role == 'dosen'">
                         <v-btn color="green" variant="flat">Buat Laporan</v-btn>
                     </v-col>
                 </v-row>

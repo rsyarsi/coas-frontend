@@ -4881,6 +4881,8 @@ const getModifAfter = async (target) => {
             <v-btn  v-if="USER.role == 'mahasiswa'" @click="setItems" color="primary" variant="outlined">{{
                 $t("action.button.save")
             }}</v-btn>
+            <v-spacer v-if="USER.role == 'mahasiswa'"></v-spacer>
+            <v-btn v-if="USER.role == 'dosen'" color="green" variant="flat">Buat Laporan</v-btn>
         </v-card-actions>
     </v-form>
 </template>

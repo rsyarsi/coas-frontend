@@ -290,8 +290,33 @@ const fnUpdateItem = (async (item) =>
     await updateStatusToFinish (item);
 });
 
-const fnOnShowDialog = () =>
+const fnOnShowDialog = async () =>
 {
+    const
+
+    { token: tokenData, getUser, } = await useAuth (), userData = await getUser (tokenData);
+
+    COMPONENT_FORMS.nim = "";
+    COMPONENT_FORMS.noepisode = "";
+    COMPONENT_FORMS.noregistrasi = "";
+    COMPONENT_FORMS.nomr = "";
+    COMPONENT_FORMS.patientname = "";
+    COMPONENT_FORMS.namajaminan = "KEPANITERAAN FKG";
+    COMPONENT_FORMS.noantrianall = "";
+    COMPONENT_FORMS.gander = "";
+    COMPONENT_FORMS.date_of_birth = useDateTime (new Date).ins.format ('YYYY-MM-DD');
+    COMPONENT_FORMS.address = "";
+    COMPONENT_FORMS.idunit = "10";
+    COMPONENT_FORMS.visit_date = useDateTime (new Date).ins.format ('YYYY-MM-DD HH:mm:ss');
+    COMPONENT_FORMS.namaunit = "Poli Gigi Spesialis Radiologi";
+    COMPONENT_FORMS.iddokter = "";
+    COMPONENT_FORMS.namadokter = "";
+    COMPONENT_FORMS.patienttype = "PERUSAHAAN";
+    COMPONENT_FORMS.jenis_radiologi = "";
+    COMPONENT_FORMS.statusid = 0;
+
+    if (USER_ROLE.value == "mahasiswa") COMPONENT_FORMS.nim = userData.username;
+
     COMPONENT_FORMS.noregistrasi = "RKG" + useDateTime (new Date).ins.format ('DDMMYY') + '-' + String (Math.floor (100000 + Math.random () * 900000)).substring (0, 4);
 };
 
@@ -349,24 +374,7 @@ onMounted (async () =>
 
                 COMPONENT_APIS.createItem = "/v1/emr/radiologi/store";
 
-                COMPONENT_FORMS.nim = "";
-                COMPONENT_FORMS.noepisode = "";
-                COMPONENT_FORMS.noregistrasi = "";
-                COMPONENT_FORMS.nomr = "";
-                COMPONENT_FORMS.patientname = "";
-                COMPONENT_FORMS.namajaminan = "KEPANITERAAN FKG";
-                COMPONENT_FORMS.noantrianall = "";
-                COMPONENT_FORMS.gander = "";
-                COMPONENT_FORMS.date_of_birth = useDateTime (new Date).ins.format ('YYYY-MM-DD');
-                COMPONENT_FORMS.address = "";
-                COMPONENT_FORMS.idunit = "10";
-                COMPONENT_FORMS.visit_date = useDateTime (new Date).ins.format ('YYYY-MM-DD HH:mm:ss');
-                COMPONENT_FORMS.namaunit = "Poli Gigi Spesialis Radiologi";
-                COMPONENT_FORMS.iddokter = "";
-                COMPONENT_FORMS.namadokter = "";
-                COMPONENT_FORMS.patienttype = "PERUSAHAAN";
-                COMPONENT_FORMS.jenis_radiologi = "";
-                COMPONENT_FORMS.statusid = 0;
+                await fnOnShowDialog ();
             }
 
             COMPONENT_HEADER.push (
@@ -479,7 +487,7 @@ onMounted (async () =>
                 <v-container>
                     <v-row>
                         <v-col>
-                            <v-row><v-select v-model="forms.nim" :rules="['Required']" :items="groups_student" item-value="nim" item-title="name" label="Mahasiswa/i"></v-select></v-row>
+                            <v-row><v-select v-model="forms.nim" :rules="['Required']" :items="groups_student" item-value="nim" item-title="name" label="Mahasiswa/i" :disabled="USER_ROLE == 'mahasiswa'"></v-select></v-row>
                         </v-col>
                     </v-row>
                     <v-row>
