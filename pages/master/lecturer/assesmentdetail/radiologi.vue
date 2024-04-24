@@ -200,14 +200,14 @@ onMounted (async () =>
                 <v-col cols="12" md="6">
                     <v-text-field 
                         label="Nama Mahasiswa"
-                        readonly
+                        
                         v-model="forms2.studentname"
                         hide-details
                         variant="outlined"></v-text-field>
 
                         <!-- <v-text-field 
                         label="Nama Mahasiswa"
-                        readonly
+                        
                         v-model="forms2.assesmenttype"
                         hide-details
                         variant="outlined"></v-text-field> -->
@@ -215,7 +215,7 @@ onMounted (async () =>
                 <v-col cols="12" md="6">
                     <v-text-field 
                         label="NIM Mahasiswa"
-                        readonly
+                        
                         v-model="forms2.nim"
                         hide-details
                         variant="outlined"></v-text-field>
@@ -225,7 +225,7 @@ onMounted (async () =>
                 <v-col cols="12" md="6">
                     <v-text-field 
                         label="Dosen Pembimbing"
-                        readonly
+                        
                         v-model="forms2.lecturename"
                         hide-details
                         variant="outlined"></v-text-field>
@@ -233,7 +233,7 @@ onMounted (async () =>
                 <v-col cols="12" md="3">
                     <v-text-field 
                         label="Tahun"
-                        readonly
+                        
                         v-model="forms2.yearname"
                         hide-details
                         variant="outlined"></v-text-field>
@@ -241,7 +241,7 @@ onMounted (async () =>
                 <v-col cols="12" md="3">
                     <v-text-field 
                         label="Semester"
-                        readonly
+                        
                         v-model="forms2.semestername"
                         hide-details
                         variant="outlined"></v-text-field>
@@ -252,7 +252,7 @@ onMounted (async () =>
                 <v-col cols="12" md="6">
                     <v-text-field 
                         label="Spesialisasi"
-                        readonly
+                        
                         v-model="forms2.specialistname"
                         hide-details
                         variant="outlined"></v-text-field>
@@ -260,7 +260,7 @@ onMounted (async () =>
                 <v-col cols="12" md="6">
                     <v-text-field 
                         label="Group"
-                        readonly
+                        
                         v-model="forms2.assementgroupname"
                         hide-details
                         variant="outlined"></v-text-field>
@@ -272,14 +272,14 @@ onMounted (async () =>
                             <v-form>
                             <v-row>
                                 <v-col cols="12" md="12">
-                                    <v-textarea v-model="forms.assesmentdescription" variant="outlined" readonly label="Deskripsi Penilaian"></v-textarea> 
+                                    <v-textarea v-model="forms.assesmentdescription" variant="outlined" label="Deskripsi Penilaian"></v-textarea> 
                                 </v-col> 
                             </v-row>
                             <!-- <v-row>
                                 <v-col cols="12" md="12">
                                     <v-text-field 
                                     label="Assesmenttype"
-                                    readonly 
+                                     
                                     v-model="forms.assesmenttype"
                                     hide-details
                                     variant="outlined"></v-text-field>
@@ -289,7 +289,7 @@ onMounted (async () =>
                                 <v-col cols="12" md="12">
                                     <v-text-field 
                                     label="Kode Sub"
-                                    readonly 
+                                     
                                     v-model="forms.kodesub"
                                     hide-details
                                     variant="outlined"></v-text-field>
@@ -299,7 +299,7 @@ onMounted (async () =>
                                 <v-col cols="12" md="12">
                                     <v-text-field 
                                     label="Index Sub"
-                                    readonly 
+                                     
                                     v-model="forms.index_sub"
                                     hide-details
                                     variant="outlined"></v-text-field>
@@ -343,7 +343,7 @@ onMounted (async () =>
                         <v-col cols="12" md="6">
                             <v-text-field 
                                 label="Total Bobot"
-                                readonly
+                                
                                 v-model="forms2.totalbobot"
                                 hide-details
                                 variant="outlined"></v-text-field>
@@ -351,7 +351,7 @@ onMounted (async () =>
                         <v-col cols="12" md="6">
                             <v-text-field 
                                 label="Total Penilaian"
-                                readonly
+                                
                                 v-model="COMPONENT_FORMS.grandotal"
                                 hide-details
                                 variant="outlined"></v-text-field>
