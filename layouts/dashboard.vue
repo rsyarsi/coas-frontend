@@ -26,7 +26,7 @@ const dashboardSidebar = reactive (
 
     icon: "/logo.jpg",
 
-    version: "1.0.5",
+    version: "1.0.6",
 
     items: [],
 });
