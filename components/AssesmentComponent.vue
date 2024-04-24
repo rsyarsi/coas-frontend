@@ -66,7 +66,7 @@ const getAnItem = async (target) =>
     await getItemPostMethod (props.apis.getDetailPenilaian, "-",formTarget,
     success =>
     {
-        datatableBody.item = success.data;
+        datatableBody.item = success.data ?? success[0];
 
           for (let form of Object.keys (props.forms)) {
             datatableBody.forms[form] = datatableBody.item[form];
